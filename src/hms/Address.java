@@ -33,6 +33,10 @@ public class Address {
         this.zip = zip;
         this.country = country;
     }
+    
+    public Address() {
+        this("","","","","","");
+    }
 
     /**
      * @return the street

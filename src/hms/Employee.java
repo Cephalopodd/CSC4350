@@ -15,15 +15,19 @@ public class Employee {
     private final int employeeID;
     private final String firstName;
     private final String lastName;
-    private Address address;
     private String phoneNumber;
-    private String email;
-    private Double salary;
-    private int accessLevel;
+    private String email;    
+    private Address address;
+    private EmployeeAccessLevel accessLevel;
+    private String password;
+    private final String login;
+
+    
     
     /**
+     * @param login
+     * @param password
      * @Contructor creates Employee
-     * @param salary
      * @param firstName
      * @param lastName
      * @param address
@@ -31,17 +35,18 @@ public class Employee {
      * @param email
      * @param accessLevel 
      */
-    public Employee(String firstName, String lastName, 
-            Address address, String phoneNumber, String email, 
-            double salary, int accessLevel) {
+    public Employee(String login, String password, EmployeeAccessLevel accessLevel,
+            String firstName, String lastName, String phoneNumber, String email,
+            Address address) {
         this.employeeID = generateEmployeeID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.login = login;
+        this.password = "";       
         this.accessLevel = accessLevel;
-        this.salary = salary;
     }
 
      /**
@@ -122,29 +127,23 @@ public class Employee {
     /**
      * @return the accessLevel
      */
-    public int getAccessLevel() {
+    public EmployeeAccessLevel getAccessLevel() {
         return accessLevel;
     }
 
     /**
      * @param accessLevel the accessLevel to set
      */
-    public void setAccessLevel(int accessLevel) {
+    public void setAccessLevel(EmployeeAccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 
-    /**
-     * @return the salary
-     */
-    public Double getSalary() {
-        return salary;
+    public String getPassword() {
+        return password;
     }
 
-    /**
-     * @param salary the salary to set
-     */
-    public void setSalary(Double salary) {
-        this.salary = salary;
+    public void setPassword(String password) {
+        this.password = password;
     }
     
 }
