@@ -26,8 +26,8 @@
       <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#onClickLogin" text="Login" GridPane.columnIndex="2" GridPane.rowIndex="3" />
       <Label alignment="CENTER" text="Username : " textAlignment="RIGHT" GridPane.rowIndex="1" />
       <Label text="Password:" GridPane.rowIndex="2" />
-      <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="199.0" promptText="Enter Password" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
-      <TextField fx:id="txtUserName" promptText="Enter User Name" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+      <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="199.0" promptText="Enter &quot;password&quot;" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+      <TextField fx:id="txtUserName" promptText="Enter Reservations, Admin, ..." GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
       <Label alignment="CENTER" prefHeight="30.0" prefWidth="288.0" text="HMS Login" GridPane.columnSpan="2147483647">
          <font>
             <Font size="24.0" />

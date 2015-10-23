@@ -6,6 +6,8 @@
  */
 package hms;
 
+import java.util.List;
+
 /**
  *
  * @author Team SLAM
@@ -18,7 +20,7 @@ public class Employee {
     private String phoneNumber;
     private String email;    
     private Address address;
-    private EmployeeAccessLevel accessLevel;
+    private AccessLevel accessLevel;
     private String password;
     private final String login;
 
@@ -35,7 +37,7 @@ public class Employee {
      * @param email
      * @param accessLevel 
      */
-    public Employee(String login, String password, EmployeeAccessLevel accessLevel,
+    public Employee(String login, String password, AccessLevel accessLevel,
             String firstName, String lastName, String phoneNumber, String email,
             Address address) {
         this.employeeID = generateEmployeeID();
@@ -127,14 +129,14 @@ public class Employee {
     /**
      * @return the accessLevel
      */
-    public EmployeeAccessLevel getAccessLevel() {
+    public AccessLevel getAccessLevel() {
         return accessLevel;
     }
 
-    /**
+   /**
      * @param accessLevel the accessLevel to set
      */
-    public void setAccessLevel(EmployeeAccessLevel accessLevel) {
+    public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 
