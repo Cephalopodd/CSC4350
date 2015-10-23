@@ -10,8 +10,8 @@ package hms;
  * @author jgreene
  */
 public class AccessLevel {
-    
-    private boolean roomAccess;
+
+    private boolean roomsAccess;
     private boolean frontDeskAccess;
     private boolean adminAccess;
     private boolean reservationsAccess;
@@ -19,15 +19,15 @@ public class AccessLevel {
 
     /**
      *
-     * @param roomAccess
+     * @param roomsAccess
      * @param frontDeskAccess
      * @param adminAccess
      * @param reservationsAccess
      * @param billingAccess
      */
-    public AccessLevel(boolean roomAccess, boolean frontDeskAccess, boolean adminAccess,
+    public AccessLevel(boolean roomsAccess, boolean frontDeskAccess, boolean adminAccess,
             boolean reservationsAccess, boolean billingAccess) {
-        this.roomAccess = roomAccess;
+        this.roomsAccess = roomsAccess;
         this.frontDeskAccess = frontDeskAccess;
         this.adminAccess = adminAccess;
         this.reservationsAccess = reservationsAccess;
@@ -37,21 +37,21 @@ public class AccessLevel {
     /**
      * @return the roomAccess
      */
-    public boolean isRoomAccess() {
-        return roomAccess;
+    public boolean hasRoomsAccess() {
+        return roomsAccess;
     }
 
     /**
      * @param roomAccess the roomAccess to set
      */
-    public void setRoomAccess(boolean roomAccess) {
-        this.roomAccess = roomAccess;
+    public void setRoomsAccess(boolean roomAccess) {
+        this.roomsAccess = roomAccess;
     }
 
     /**
      * @return the frontDeskAccess
      */
-    public boolean isFrontDeskAccess() {
+    public boolean hasFrontDeskAccess() {
         return frontDeskAccess;
     }
 
@@ -65,7 +65,7 @@ public class AccessLevel {
     /**
      * @return the adminAccess
      */
-    public boolean isAdminAccess() {
+    public boolean hasAdminAccess() {
         return adminAccess;
     }
 
@@ -79,7 +79,7 @@ public class AccessLevel {
     /**
      * @return the reservationsAccess
      */
-    public boolean isReservationsAccess() {
+    public boolean hasReservationsAccess() {
         return reservationsAccess;
     }
 
@@ -93,7 +93,7 @@ public class AccessLevel {
     /**
      * @return the billingAccess
      */
-    public boolean isBillingAccess() {
+    public boolean hasBillingAccess() {
         return billingAccess;
     }
 

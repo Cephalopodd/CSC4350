@@ -9,8 +9,9 @@ package hms;
  *
  * @author jgreene
  */
-public interface ControlledMenu {
+public interface SubMenu {
     
-    public void setMenuParent(MenuController mc);
-    
+    public void setParentMenu(MenuMainController main);
+    public void setUser(User e);
+  
 }
