@@ -22,7 +22,7 @@ import javafx.scene.layout.*;
  *
  * @author Team SLAM
  */
-public class MenuBillingController implements Initializable {
+public class MenuBillingController_OLD implements Initializable {
     
     private Parent root;  
     private GridPane billingMenuPane;

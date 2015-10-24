@@ -23,7 +23,7 @@ import javafx.scene.layout.*;
  *
  * @author Team SLAM
  */
-public class MenuFrontDeskController implements Initializable {
+public class MenuFrontDeskController_OLD implements Initializable {
     
     private Parent root;  
     private GridPane frontDeskMenuPane;

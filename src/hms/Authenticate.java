@@ -5,8 +5,8 @@
  */
 package hms;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,46 +14,43 @@ import java.util.Map;
  */
 public class Authenticate {
     
-    //Fake Database lookup
-    private static final Map<String, String> USERS = new HashMap<>();
-    private static final Map<String, AccessLevel> ACCESS = new HashMap<>();
+    //Generate Fake Users Database
+    private static final List<User> users= new ArrayList<>();
     
     static {
-        USERS.put("Reservations", "password");
-        USERS.put("Admin", "password");
-        USERS.put("Billing", "password");
-        USERS.put("Rooms", "password");
-        USERS.put("FrontDesk", "password");
-        
-        ACCESS.put("Reservations", new AccessLevelBuilder()
-                .addReservationsAccess().create());
-        ACCESS.put("Billing", new AccessLevelBuilder()
-                .addBillingAccess().create());
-        ACCESS.put("Rooms", new AccessLevelBuilder()
-                .addRoomsAccess().create());
-        ACCESS.put("Frontdesk", new AccessLevelBuilder()
-                .addFrontDeskAccess().create());
-        ACCESS.put("Admin", new AccessLevelBuilder()
-                .addFrontDeskAccess()
-                .addRoomsAccess()
-                .addBillingAccess()
-                .addReservationsAccess()
-                .addAdminAccess()
-                .create());
+        users.add( new User("Reservations", "password", 
+                new AccessLevelBuilder().addReservationsAccess().create(), 
+                MenuType.RESERVATIONS));
+        users.add( new User("FrontDesk", "password", 
+                new AccessLevelBuilder().addFrontDeskAccess().create(), 
+                MenuType.FRONTDESK));
+        users.add( new User("Billing", "password", 
+                new AccessLevelBuilder().addBillingAccess().create(), 
+                MenuType.BILLING));
+        users.add( new User("Rooms", "password", 
+                new AccessLevelBuilder().addRoomsAccess().create(), 
+                MenuType.ROOMS));
+        users.add( new User("Admin", "password", 
+                new AccessLevelBuilder()
+                        .addReservationsAccess()
+                        .addFrontDeskAccess()
+                        .addBillingAccess()
+                        .addRoomsAccess()
+                        .addAdminAccess()
+                        .create(), 
+                MenuType.ADMIN));
     }
     
-    public static boolean validate(String user, String password){
-        String validUserPassword = USERS.get(user);
-        return validUserPassword != null && validUserPassword.equals(password);
-    }
-    
-    public static AccessLevel getAccessLevel(String user){
-        AccessLevel currentAccessLevel = ACCESS.get(user);
-        if ( currentAccessLevel == null) {
-            return new AccessLevelBuilder().create();
-        } else {
-            return currentAccessLevel;  
+    public static User validateUser(String login, String password){
+        System.out.println("Testing login, pass: " + login + password);
+        User validatedUser = null;
+        for ( User u : users ){
+            System.out.println(u.getLogin() + " " + u.getPassword());
+            if ( u.getLogin().equals(login) && u.getPassword().equals(password) ) {
+                validatedUser = u;
+            }
         }
+        return validatedUser;
     }
     
 }

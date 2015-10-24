@@ -21,7 +21,7 @@ import javafx.scene.layout.*;
  *
  * @author HMS Team
  */
-public class MenuAdminController implements Initializable {
+public class MenuAdminController_OLD implements Initializable {
     
     private Parent root;  
     private GridPane adminPane;

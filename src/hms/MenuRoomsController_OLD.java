@@ -18,11 +18,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 /**
- * MenuRoomsController class
+ * MenuRoomsController_OLD class
  *
  * @author HMS Team
  */
-public class MenuRoomsController implements Initializable {
+public class MenuRoomsController_OLD implements Initializable {
     
     private Parent root;  
     private GridPane menuRoomsControllerPane;

@@ -9,6 +9,6 @@ package hms;
  *
  * @author jgreene
  */
-public class MenuController {
-    
+public enum MenuType {
+    ROOMS,BILLING,ADMIN,FRONTDESK,RESERVATIONS,NONE
 }

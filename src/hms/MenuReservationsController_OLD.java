@@ -21,7 +21,7 @@ import javafx.scene.layout.*;
 
  * @author HMS Team
  */
-public class MenuReservationsController implements Initializable {
+public class MenuReservationsController_OLD implements Initializable {
     
     private Parent root;  
     private GridPane reservationsPane;
