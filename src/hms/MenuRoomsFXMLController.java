@@ -7,14 +7,27 @@ package hms;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 
 /**
  * FXML Controller class
  *
- * @author jgreene
+ * @author fpatel
  */
-public class MenuRoomsFXMLController implements Initializable, SubMenu {
+public class MenuRoomsFXMLController implements Initializable,SubMenu {
+    @FXML
+    private TableView<?> table0;
+    @FXML
+    private Button button1;
+    @FXML
+    private DatePicker datePiceker0;
+    
+    
 
     /**
      * Initializes the controller class.
@@ -24,14 +37,18 @@ public class MenuRoomsFXMLController implements Initializable, SubMenu {
         // TODO
     }    
 
+    @FXML
+    private void onClickButton1(ActionEvent event) {
+    }
+
     @Override
     public void setSubMenuParent(MenuMainController main) {
-        //
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void setUser(User e) {
-        //
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
