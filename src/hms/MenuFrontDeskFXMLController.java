@@ -10,10 +10,13 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
@@ -51,6 +54,9 @@ public class MenuFrontDeskFXMLController implements Initializable,SubMenu {
     private Button btnWalkIn;
     @FXML
     private Button btnCheckIn;
+    @FXML
+    private BorderPane frontDeskPane;
+    private MenuMainController menuMainController;
 
     /**
      * Initializes the controller class.
@@ -82,10 +88,14 @@ public class MenuFrontDeskFXMLController implements Initializable,SubMenu {
 
     @FXML
     private void onClickCheckIn(ActionEvent event) {
+        frontDeskPane.setOpacity(.3);
+        FormCheckInController.display(menuMainController);
+        frontDeskPane.setOpacity(1.0);
     }
 
     @Override
     public void setSubMenuParent(MenuMainController main) {
+        menuMainController = main;
      //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
