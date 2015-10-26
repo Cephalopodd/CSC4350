@@ -22,6 +22,8 @@ public class ReservationBuilder {
     private int roomNumber, numAdults, numChildren, numRooms;
     private double rate;
     private String comments;
+    private String firstName;
+    private String lastName;
 
     public ReservationBuilder() {
     }
@@ -34,7 +36,7 @@ public class ReservationBuilder {
     public Reservation createReservation() {
         return new Reservation(guest, paymentType, creditCard, checkinDate,
                 checkoutDate, roomType, rateCode, roomNumber, numAdults, 
-                numChildren, numRooms, rate, comments);
+                numChildren, numRooms, rate, comments, firstName, lastName);
     }
     
 
@@ -100,6 +102,16 @@ public class ReservationBuilder {
 
     public ReservationBuilder setComments(String comments) {
         this.comments = comments;
+        return this;
+    }
+    
+    public ReservationBuilder setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+    
+    public ReservationBuilder setLastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 

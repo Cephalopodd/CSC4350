@@ -27,6 +27,8 @@ public class Reservation {
     private int roomNumber, numAdults, numChildren,numRooms;
     private int confirmationNumber;
     private String comments;
+    private String firstName;
+    private String lastName;
     
     /**
      * This constructor creates a reservation. Due to the large number
@@ -46,13 +48,16 @@ public class Reservation {
      * @param numRooms
      * @param rate
      * @param comments
+     * @param firstName
+     * @param lastName
      * @Contructor to create a reservation
      */
     public Reservation(Profile guest, PaymentTypeCode paymentType, 
             CreditCard creditCard, LocalDate checkinDate, 
             LocalDate checkoutDate, RoomTypeCode roomType,
             RoomRateCode rateCode, int roomNumber, int numAdults,
-            int numChildren, int numRooms, double rate, String comments) {
+            int numChildren, int numRooms, double rate, String comments,
+            String firstName, String lastName) {
         
         this.guest = guest;
         this.paymentType = paymentType;
@@ -67,6 +72,8 @@ public class Reservation {
         this.numRooms = numRooms;
         this.rate = rate;
         this.comments = comments;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     /**
@@ -270,6 +277,34 @@ public class Reservation {
      */
     public void setConfirmationNumber(int confirmationNumber) {
         this.confirmationNumber = confirmationNumber;
+    }
+
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
 }

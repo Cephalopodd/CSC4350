@@ -87,10 +87,9 @@ public class FormCheckInController implements Initializable {
     }
    
     public static void display(MenuMainController p) {
-        System.out.println("a");
+        
         stage = new Stage();
         Parent root = null;
-        System.out.println("a");
         
         try {
             root = FXMLLoader.load(p.getClass()
@@ -98,20 +97,18 @@ public class FormCheckInController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(FormCheckInController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("a");
         
         Scene scene = new Scene(root);
-System.out.println("a");
         
         stage.setResizable(false);
         stage.setAlwaysOnTop(true);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.initModality(Modality.APPLICATION_MODAL);
-        System.out.println("a");
+        
+        //This should fix fullscreen but I need link to hmsApp in subMenu.
+        //  stage.initOwner(hmsApp);
         
         stage.setScene(scene);
         stage.showAndWait();
-    System.out.println("a");
-        
     }
 }

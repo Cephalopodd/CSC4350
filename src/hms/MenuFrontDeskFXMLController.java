@@ -6,17 +6,19 @@
 package hms;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
@@ -43,9 +45,9 @@ public class MenuFrontDeskFXMLController implements Initializable,SubMenu {
     @FXML
     private TextField txtConfirmation;
     @FXML
-    private TextField btnPhone;
+    private TextField txtPhone;
     @FXML
-    private TableView<?> tblFrontDesk;
+    private TableView<Reservation> tblFrontDesk;
     @FXML
     private Button btnSearch;
     @FXML
@@ -53,17 +55,34 @@ public class MenuFrontDeskFXMLController implements Initializable,SubMenu {
     @FXML
     private Button btnWalkIn;
     @FXML
+    private Button btnEdit;
+    @FXML
+    private Button btnCancel;
+    @FXML
     private Button btnCheckIn;
     @FXML
     private BorderPane frontDeskPane;
-    private MenuMainController menuMainController;
+    @FXML
+    private TableColumn<Reservation,String> colFirst, colLast,colComments;
+    @FXML
+    private TableColumn<Reservation, LocalDate> colArrival,colDeparture;
+    @FXML
+    private TableColumn<Reservation, Integer> colRoom;
+    @FXML
+    private TableColumn<Reservation, RoomTypeCode> colRoomType;
 
+    
+    private MenuMainController menuMainController;
+    private ObservableList<Reservation> frontDeskTableData;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        dateArrival.setValue(LocalDate.now());
+        setupTableColumns();
+        loadInitialData();
     }    
 
     @FXML
@@ -85,6 +104,14 @@ public class MenuFrontDeskFXMLController implements Initializable,SubMenu {
     @FXML
     private void onClickWalkIn(ActionEvent event) {
     }
+    
+    @FXML
+        private void onClickEdit(ActionEvent event) {
+    }
+        
+    @FXML
+        private void onClickCancel(ActionEvent event) {
+    }
 
     @FXML
     private void onClickCheckIn(ActionEvent event) {
@@ -102,6 +129,28 @@ public class MenuFrontDeskFXMLController implements Initializable,SubMenu {
     @Override
     public void setUser(User e) {
      //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void loadInitialData() {
+        tblFrontDesk.setItems(DB.queryArrivals());
+    }
+
+    private void setupTableColumns() {
+        colFirst.setCellValueFactory(
+            new PropertyValueFactory<>("FirstName"));
+        colLast.setCellValueFactory(
+            new PropertyValueFactory<>("LastName"));
+        colArrival.setCellValueFactory(
+            new PropertyValueFactory<>("CheckinDate"));
+        colDeparture.setCellValueFactory(
+            new PropertyValueFactory<>("CheckoutDate"));
+        colRoom.setCellValueFactory(
+            new PropertyValueFactory<>("RoomNumber"));
+        colRoomType.setCellValueFactory(
+            new PropertyValueFactory<>("RoomType"));
+        colComments.setCellValueFactory(
+            new PropertyValueFactory<>("Comments"));
+        
     }
     
 }
