@@ -6,7 +6,9 @@
  * guest folios, and contain billable charges to the room.
  * 
  */
-package hms;
+package junk;
+
+import hms.FolioBillingCode;
 
 /**
  * 

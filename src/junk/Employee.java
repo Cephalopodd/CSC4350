@@ -4,8 +4,10 @@
  * This data type contains information related to an employee. 
  * 
  */
-package hms;
+package junk;
 
+import hms.AccessLevel;
+import hms.Address;
 import java.util.List;
 
 /**

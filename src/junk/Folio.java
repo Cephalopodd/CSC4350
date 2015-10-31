@@ -6,8 +6,11 @@
  * guest's stay, and billable charges to the room.
  * 
  */
-package hms;
+package junk;
 
+import hms.CreditCard;
+import hms.Profile;
+import hms.Room;
 import javafx.collections.ObservableList;
 
 /**
