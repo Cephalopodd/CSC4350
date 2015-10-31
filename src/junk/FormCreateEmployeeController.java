@@ -4,7 +4,7 @@
  * CreateEmployeeController is the controller for the createEmployee GUI
  * which is used to create Employees. 
  */
-package hms;
+package junk;
 
 import java.net.URL;
 import java.util.ResourceBundle;

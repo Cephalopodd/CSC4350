@@ -6,8 +6,10 @@
  * modifying employees.
  * 
  */
-package hms;
+package junk;
 
+import hms.Employee;
+import hms.Reservation;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;

@@ -6,8 +6,9 @@
  * to create new reservations and to modify existing ones.
  * 
  */
-package hms;
+package junk;
 
+import hms.Reservation;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;

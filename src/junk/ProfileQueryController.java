@@ -6,8 +6,9 @@
  * located, then a new profile can be generated.
 
  */
-package hms;
+package junk;
 
+import hms.Profile;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;

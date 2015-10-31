@@ -6,8 +6,9 @@
  * and engineering to set the condition of the room.
  * 
  */
-package hms;
+package junk;
 
+import hms.Room;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;

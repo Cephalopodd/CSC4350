@@ -5,7 +5,7 @@
  * which is used to create guest profiles. 
  * 
  */
-package hms;
+package junk;
 
 import java.net.URL;
 import java.util.ResourceBundle;

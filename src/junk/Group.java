@@ -5,7 +5,9 @@
  * encapsulate this information so that it can be easily sorted or added to
  * table views. It is used to identify reservations that are related.
  */
-package hms;
+package junk;
+
+import hms.Address;
 
 /**
  *

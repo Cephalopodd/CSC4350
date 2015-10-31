@@ -1,16 +1,13 @@
 /**
- * CreateReservationController class
+ * CreateGroupController class
  * 
- * This is the controller for the reservation 
- * GUI which is used to create guest reservations. 
- * Agents can input the desired date and profile information,
- * and the new reservation will be created.
+ * CreateGroupController is the controller for the createGroup GUI
+ * which is used to create new Groups. 
  * 
  */
-package hms;
+package junk;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -22,17 +19,16 @@ import javafx.scene.layout.*;
  *
  * @author Team SLAM
  */
-public class FormCreateReservationController implements Initializable {
+public class FormCreateGroupController implements Initializable {
     
     private Parent root;  
-    private GridPane createReservationPane;
+    private GridPane createGroupPane;
     private Button btnSave, btnCancel;
-    private TextField numAdults, numChildren, numRooms;
-    private TextArea comments;
-    private ChoiceBox paymentType, roomType, rateCode;
-    private LocalDate checkin, checkout;
-    private Label lblFirstName,lblLastName, lblMemberID;
-     
+    private TextField txtGroupName, txtContactName, txtContactNumber,
+            txtEmail, txtStreet, txtApt, txtCity, txtState,
+            txtCountry, txtZip, txtCompany;
+    private Label lblGroupID;
+    
     /**
      * Initializes the controller class.
      */
@@ -42,20 +38,20 @@ public class FormCreateReservationController implements Initializable {
     }    
 
     /**
-     * This method will create a new reservation object, 
+     * This method will create a new Group object, 
      * and store the object information in the database.
      * Precondition: Fields are verified to be valid
-     * Postcondition: Reservations information is stored in the DB.
+     * Postcondition: Group information is stored in the DB.
      */
     private void onClickSave(ActionEvent event) { 
         // TODO
     }
 
     /**
-     * This method cancels the create reservation event, and closes
+     * This method cancels the create group event, and closes
      * the form.
      * Precondition: none
-     * Postcondition: Reservations form is closed.
+     * Postcondition: createGroupPane is closed.
      */
     private void onClickCancel(ActionEvent event) {
         // TODO
