@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 
 /**
  *
- * @author jgreene
+ * @author Team SLAM
  */
 class DB {
 
