@@ -9,274 +9,65 @@
  */
 package hms;
 
-import java.time.LocalDate;
-
 /**
  *
  * @author Team SLAM
  */
 public class Reservation {
 
-    private Profile guest;
-    private PaymentTypeCode paymentType;
-    private CreditCard creditCard;
-    private LocalDate checkinDate, checkoutDate;
-    private RoomTypeCode roomType;
-    private RoomRateCode rateCode;
-    private double rate;
-    private int roomNumber, numAdults, numChildren,numRooms;
-    private int confirmationNumber;
-    private String comments;
+    //Required
+    private int confirmation;
     private String firstName;
     private String lastName;
+    private String checkinDate;
+    private String checkoutDate;
+    private String groupName;
+    private String companyName;
+    private String phoneNumber;
+    private String roomType;
+    private String status;
+    private String comments;
+    private int numberAdults;
+    private int numberChildren;
+    private double roomRate;
     
-    /**
-     * This constructor creates a reservation. Due to the large number
-     * of parameters, it is recommended to use the ReservationBuilder
-     * to create new Reservations.
-     * 
-     * @param guest
-     * @param paymentType
-     * @param creditCard
-     * @param checkinDate
-     * @param checkoutDate
-     * @param roomType
-     * @param rateCode
-     * @param roomNumber
-     * @param numAdults
-     * @param numChildren
-     * @param numRooms
-     * @param rate
-     * @param comments
-     * @param firstName
-     * @param lastName
-     * @Contructor to create a reservation
-     */
-    public Reservation(Profile guest, PaymentTypeCode paymentType, 
-            CreditCard creditCard, LocalDate checkinDate, 
-            LocalDate checkoutDate, RoomTypeCode roomType,
-            RoomRateCode rateCode, int roomNumber, int numAdults,
-            int numChildren, int numRooms, double rate, String comments,
-            String firstName, String lastName) {
-        
-        this.guest = guest;
-        this.paymentType = paymentType;
-        this.creditCard = creditCard;
-        this.checkinDate = checkinDate;
-        this.checkoutDate = checkoutDate;
-        this.roomType = roomType;
-        this.rateCode = rateCode;
-        this.roomNumber = roomNumber;
-        this.numAdults = numAdults;
-        this.numChildren = numChildren;
-        this.numRooms = numRooms;
-        this.rate = rate;
-        this.comments = comments;
+    //Reference other tables
+    private int roomNumber;
+    private int profileID;
+    private int creditCardID;
+
+    public Reservation(int confirmation, String firstName, String lastName, String checkinDate, String checkoutDate, String groupName, String companyName, String phoneNumber, String roomType, String status, String comments, int numberAdults, int numberChildren, double roomRate, int roomNumber, int profileID, int creditCardID) {
+        this.confirmation = confirmation;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    /**
-    * @return the guest
-    */
-    public static int generateConfirmationNumber() {
-        //TODO
-        return 0;
-    }
-    /**
-     * @return the guest
-     */
-    public Profile getGuest() {
-        return guest;
-    }
-
-    /**
-     * @param guest the guest to set
-     */
-    public void setGuest(Profile guest) {
-        this.guest = guest;
-    }
-
-    /**
-     * @return the paymentType
-     */
-    public PaymentTypeCode getPaymentType() {
-        return paymentType;
-    }
-
-    /**
-     * @param paymentType the paymentType to set
-     */
-    public void setPaymentType(PaymentTypeCode paymentType) {
-        this.paymentType = paymentType;
-    }
-
-    /**
-     * @return the creditCard
-     */
-    public CreditCard getCreditCard() {
-        return creditCard;
-    }
-
-    /**
-     * @param creditCard the creditCard to set
-     */
-    public void setCreditCard(CreditCard creditCard) {
-        this.creditCard = creditCard;
-    }
-
-    /**
-     * @return the checkinDate
-     */
-    public LocalDate getCheckinDate() {
-        return checkinDate;
-    }
-
-    /**
-     * @param checkinDate the checkinDate to set
-     */
-    public void setCheckinDate(LocalDate checkinDate) {
         this.checkinDate = checkinDate;
-    }
-
-    /**
-     * @return the checkoutDate
-     */
-    public LocalDate getCheckoutDate() {
-        return checkoutDate;
-    }
-
-    /**
-     * @param checkoutDate the checkoutDate to set
-     */
-    public void setCheckoutDate(LocalDate checkoutDate) {
         this.checkoutDate = checkoutDate;
-    }
-
-    /**
-     * @return the roomType
-     */
-    public RoomTypeCode getRoomType() {
-        return roomType;
-    }
-
-    /**
-     * @param roomType the roomType to set
-     */
-    public void setRoomType(RoomTypeCode roomType) {
+        this.groupName = groupName;
+        this.companyName = companyName;
+        this.phoneNumber = phoneNumber;
         this.roomType = roomType;
-    }
-
-    /**
-     * @return the rateCode
-     */
-    public RoomRateCode getRateCode() {
-        return rateCode;
-    }
-
-    /**
-     * @param rateCode the rateCode to set
-     */
-    public void setRateCode(RoomRateCode rateCode) {
-        this.rateCode = rateCode;
-    }
-
-    /**
-     * @return the rate
-     */
-    public double getRate() {
-        return rate;
-    }
-
-    /**
-     * @param rate the rate to set
-     */
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
-
-    /**
-     * @return the numAdults
-     */
-    public int getNumAdults() {
-        return numAdults;
-    }
-
-    /**
-     * @param numAdults the numAdults to set
-     */
-    public void setNumAdults(int numAdults) {
-        this.numAdults = numAdults;
-    }
-
-    /**
-     * @return the numChildren
-     */
-    public int getNumChildren() {
-        return numChildren;
-    }
-
-    /**
-     * @param numChildren the numChildren to set
-     */
-    public void setNumChildren(int numChildren) {
-        this.numChildren = numChildren;
-    }
-
-    /**
-     * @return the numRooms
-     */
-    public int getNumRooms() {
-        return numRooms;
-    }
-
-    /**
-     * @param numRooms the numRooms to set
-     */
-    public void setNumRooms(int numRooms) {
-        this.numRooms = numRooms;
-    }
-
-    /**
-     * @return the comments
-     */
-    public String getComments() {
-        return comments;
-    }
-
-    /**
-     * @param comments the comments to set
-     */
-    public void setComments(String comments) {
+        this.status = status;
         this.comments = comments;
-    }
-
-    /**
-     * @return the roomNumber
-     */
-    public int getRoomNumber() {
-        return roomNumber;
-    }
-
-    /**
-     * @param roomNumber the roomNumber to set
-     */
-    public void setRoomNumber(int roomNumber) {
+        this.numberAdults = numberAdults;
+        this.numberChildren = numberChildren;
+        this.roomRate = roomRate;
         this.roomNumber = roomNumber;
+        this.profileID = profileID;
+        this.creditCardID = creditCardID;
     }
 
     /**
-     * @return the confirmationNumber
+     * @return the confirmation
      */
-    public int getConfirmationNumber() {
-        return confirmationNumber;
+    public int getConfirmation() {
+        return confirmation;
     }
 
     /**
-     * @param confirmationNumber the confirmationNumber to set
+     * @param confirmation the confirmation to set
      */
-    public void setConfirmationNumber(int confirmationNumber) {
-        this.confirmationNumber = confirmationNumber;
+    public void setConfirmation(int confirmation) {
+        this.confirmation = confirmation;
     }
 
     /**
@@ -307,4 +98,202 @@ public class Reservation {
         this.lastName = lastName;
     }
 
+    /**
+     * @return the checkinDate
+     */
+    public String getCheckinDate() {
+        return checkinDate;
+    }
+
+    /**
+     * @param checkinDate the checkinDate to set
+     */
+    public void setCheckinDate(String checkinDate) {
+        this.checkinDate = checkinDate;
+    }
+
+    /**
+     * @return the checkoutDate
+     */
+    public String getCheckoutDate() {
+        return checkoutDate;
+    }
+
+    /**
+     * @param checkoutDate the checkoutDate to set
+     */
+    public void setCheckoutDate(String checkoutDate) {
+        this.checkoutDate = checkoutDate;
+    }
+
+    /**
+     * @return the groupName
+     */
+    public String getGroupName() {
+        return groupName;
+    }
+
+    /**
+     * @param groupName the groupName to set
+     */
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    /**
+     * @return the companyName
+     */
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    /**
+     * @param companyName the companyName to set
+     */
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    /**
+     * @return the phoneNumber
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * @param phoneNumber the phoneNumber to set
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * @return the roomType
+     */
+    public String getRoomType() {
+        return roomType;
+    }
+
+    /**
+     * @param roomType the roomType to set
+     */
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the comments
+     */
+    public String getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    /**
+     * @return the numberAdults
+     */
+    public int getNumberAdults() {
+        return numberAdults;
+    }
+
+    /**
+     * @param numberAdults the numberAdults to set
+     */
+    public void setNumberAdults(int numberAdults) {
+        this.numberAdults = numberAdults;
+    }
+
+    /**
+     * @return the numberChildren
+     */
+    public int getNumberChildren() {
+        return numberChildren;
+    }
+
+    /**
+     * @param numberChildren the numberChildren to set
+     */
+    public void setNumberChildren(int numberChildren) {
+        this.numberChildren = numberChildren;
+    }
+
+    /**
+     * @return the roomRate
+     */
+    public double getRoomRate() {
+        return roomRate;
+    }
+
+    /**
+     * @param roomRate the roomRate to set
+     */
+    public void setRoomRate(double roomRate) {
+        this.roomRate = roomRate;
+    }
+
+    /**
+     * @return the roomNumber
+     */
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    /**
+     * @param roomNumber the roomNumber to set
+     */
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    /**
+     * @return the profileID
+     */
+    public int getProfileID() {
+        return profileID;
+    }
+
+    /**
+     * @param profileID the profileID to set
+     */
+    public void setProfileID(int profileID) {
+        this.profileID = profileID;
+    }
+
+    /**
+     * @return the creditCardID
+     */
+    public int getCreditCardID() {
+        return creditCardID;
+    }
+
+    /**
+     * @param creditCardID the creditCardID to set
+     */
+    public void setCreditCardID(int creditCardID) {
+        this.creditCardID = creditCardID;
+    }
+    
+    
+    
 }

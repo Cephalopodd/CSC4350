@@ -109,7 +109,7 @@ public class MenuMainController implements Initializable {
 
     public void loadSubMenus(){
         try {
-            addSubMenu(MenuType.FRONTDESK, "MenuFrontDeskFXML.fxml");
+            addSubMenu(MenuType.FRONTDESK, "FrontDeskMenuFXML.fxml");
             addSubMenu(MenuType.BILLING, "MenuBillingFXML.fxml");
             addSubMenu(MenuType.RESERVATIONS, "MenuReservationsFXML.fxml");
             addSubMenu(MenuType.ROOMS, "MenuRoomsFXML.fxml");
