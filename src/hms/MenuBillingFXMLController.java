@@ -7,7 +7,10 @@ package hms;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseDragEvent;
 
 /**
  * FXML Controller class
@@ -32,6 +35,18 @@ public class MenuBillingFXMLController implements Initializable, SubMenu {
     @Override
     public void setUser(User e) {
         //
+    }
+
+    @FXML
+    private void onClickPrintMenu(ActionEvent event) {
+    }
+
+    @FXML
+    private void onClickMakePayment(ActionEvent event) {
+    }
+
+    @FXML
+    private void credit(MouseDragEvent event) {
     }
     
 }

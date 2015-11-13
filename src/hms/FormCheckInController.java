@@ -101,7 +101,8 @@ public class FormCheckInController implements Initializable {
         Scene scene = new Scene(root);
         
         stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
+        //stage.setAlwaysOnTop(true);   //cannot find symbol error
+        stage.toFront();    //stop gap fix for above
         stage.initStyle(StageStyle.UNDECORATED);
         stage.initModality(Modality.APPLICATION_MODAL);
         
