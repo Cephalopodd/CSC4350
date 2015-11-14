@@ -12,7 +12,6 @@ package hms.model;
 public class User {
 
     private String userName;
-    private String password;
     private MenuType defaultMenu;
     
     private boolean reservationsAccess;
@@ -21,13 +20,14 @@ public class User {
     private boolean billingAccess;
     private boolean adminAccess;
     
-    public User(String userName, String password, MenuType defaultMenu) {
-        this(userName, password, defaultMenu,false,false,false,false,false);
+    public User(String userName, MenuType defaultMenu) {
+        this(userName, defaultMenu,false,false,false,false,false);
     }
 
-    public User(String userName, String password, MenuType defaultMenu, boolean reservationsAccess, boolean frontDeskAccess, boolean roomsAccess, boolean billingAccess, boolean adminAccess) {
+    public User(String userName, MenuType defaultMenu, boolean reservationsAccess, 
+            boolean frontDeskAccess, boolean roomsAccess, 
+            boolean billingAccess, boolean adminAccess) {
         this.userName = userName;
-        this.password = password;
         this.reservationsAccess = reservationsAccess;
         this.frontDeskAccess = frontDeskAccess;
         this.roomsAccess = roomsAccess;
@@ -72,15 +72,7 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public MenuType getDefaultMenu() {
+     public MenuType getDefaultMenu() {
         return defaultMenu;
     }
 

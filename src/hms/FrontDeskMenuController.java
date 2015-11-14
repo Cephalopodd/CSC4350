@@ -10,15 +10,19 @@ import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskDAO;
 import hms.model.FrontDeskArrivalsDTOBuilder;
 import hms.model.Reservation;
+import hms.model.ReservationStatusCode;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -114,6 +118,15 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickClear(ActionEvent event) {
+        data.clear();
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtGroupName.setText("");
+        txtCompanyName.setText("");
+        txtPhoneNumber.setText("");
+        txtConfirmation.setText("");
+        dateArrival.setValue(LocalDate.now());
+        dateDeparture.setValue(null);
     }
 
     @FXML
@@ -122,10 +135,45 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickEdit(ActionEvent event) {
+        //Get Selected Reservation
+        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+        
+        //Dim Screen
+        frontDeskPane.setOpacity(.3);
+        
+        //Open Up Reservation Editor
+        ReservationFormController.display(r, mainMenuController);
+        
+        //Save Updated Reservation to DB
+        dao.updateReservation(r);
+        
+        //UnDim Screen
+        frontDeskPane.setOpacity(1.0);
+
     }
 
     @FXML
     private void onClickCancel(ActionEvent event) {
+        
+        //Get Selected Reservation
+        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+        
+        //If reservation is null, return
+        if (r == null)
+            return;
+        
+        //If reservation is not null, prompt the user to cancel reservation.
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+             "Are you sure you would like to cancel the\n" +
+                     "reservation for " + r.getFirstName() +
+                     " " + r.getLastName());
+        Optional<ButtonType> response = alert.showAndWait();
+
+        //Response is Yes - CANCEL THE RESERVATION
+        if (response.get() == ButtonType.YES) {
+            r.setStatus("Cancelled");
+            dao.cancelReservation(r.getConfirmation());
+        }
     }
 
     @FXML

@@ -18,6 +18,9 @@ import javafx.collections.ObservableList;
 public class FrontDeskDAO {
 
     public ObservableList queryArrivals(FrontDeskArrivalsDTO dto) {
+        //This should accept a confirmation number
+        //This should delete the reservation from the db
+        //This should return T/F outcome
 
         ObservableList<Reservation> result = FXCollections.observableArrayList();
 
@@ -229,5 +232,20 @@ public class FrontDeskDAO {
         //Return Observalble list of results
         return result;
     }
+
+    public boolean cancelReservation(int confirmation) {
+        //This should accept a confirmation number
+        //This should delete the reservation from the db
+        //This should return T/F outcome
+        return true;
+    }
+
+    public boolean updateReservation(Reservation r) {
+        //This should accept a reservation
+        //This should update the reservation
+        //This should return T/F outcome
+        return true;
+    }
+
 }
 

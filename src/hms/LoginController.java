@@ -1,13 +1,8 @@
-/**
- * LoginController
- *
- * This class is used to handle the initial login GUI
- *
- */
 package hms;
 
 import hms.model.User;
 import hms.model.LoginDAO;
+import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
@@ -22,96 +17,75 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-/**
- * FXML Controller class
- *
- * @author Team SLAM
- */
+//FXML controller class. ..
 public class LoginController implements Initializable {
-    
+
     HMS HMSapp;
     LoginDAO dao;
     User user;
-
+    
+    //Button used in the login form GUI.
+    //Located in the Login.fxml
     @FXML
-    private TextField txtUserName;
+    private TextField unTxtField;
     @FXML
-    private PasswordField txtPassword;
+    private PasswordField pwdTxtField;
     @FXML
-    private Button btnLogin;
+    private Button loginButton;
     @FXML
-    private Button btnExit;
+    private Button exitButton;
     @FXML
     private Label lblLoginError;
     @FXML
-    private GridPane loginPane;
+    private GridPane bkgrndPane;
     
-
-    
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
+    //Initalize the controller class.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        //Creates a new database access object called LoginDAO.
         dao = new LoginDAO();
-        txtUserName.requestFocus();
+        unTxtField.requestFocus();
     }
-
-   /**
-     * Sets the HMS main app
-     * @param HMSapp
-     */
+    
+    //Sets the HMS main application.
     public void setHMSApp(HMS HMSapp) {
         this.HMSapp = HMSapp;
     }
     
-    /**
-     * This method exits the program. precondition: none postcondition: The
-     * program is terminated.
-     *
-     * @param event
-     */
+    //Method to exit the program if the user presses exit.
     @FXML
     private void onClickExit(ActionEvent event) {
         HMSapp.exit();
     }
-
-    /**
-     * This method verifies the username and the password and launches the main
-     * menu. precondition: none postcondition: If the username and password are
-     * valid, the main menu launches and permissions are set. If the username
-     * and password are not valid, then an error message is displayed.
-     *
-     * @param event
-     */
+    
+    //Method if the users clicks login.
+    //Post: The user user is taken to the appropiate page according to their permission levels.
     @FXML
     private void onClickLogin(ActionEvent event) {
        
         //Authenticate User
-        user = dao.authenticateUser(txtUserName.getText(), txtPassword.getText());
+        user = dao.authenticateUser(unTxtField.getText(), pwdTxtField.getText().hashCode());
         
         //Process Login
-        if (user == null) {
+        if (user == null){
             processLoginError();
-        } else {    
+        } else{    
             processLogin(user);
         }
     }
     
     private void processLoginError() {
         //Clear Login and Password and set Cusor back in Login field
-        txtUserName.setText("");
-        txtPassword.setText("");
-        txtUserName.requestFocus();
+        unTxtField.setText("");
+        pwdTxtField.setText("");
+        unTxtField.requestFocus();
  
         //Set Error Message
         lblLoginError.setText("Incorrect Login name or Password");
         
-        //Fade the error message in and back out
+        //Commented out the fading. Do not need it.
+        /*/Fade the error message in and back out
         FadeTransition ft0 = new FadeTransition(Duration.millis(250), lblLoginError);
         FadeTransition ft1 = new FadeTransition(Duration.millis(3000), lblLoginError);
         FadeTransition ft2 = new FadeTransition(Duration.millis(250), lblLoginError);
@@ -122,14 +96,15 @@ public class LoginController implements Initializable {
         ft2.setFromValue(1.0);
         ft2.setToValue(0.0);
         SequentialTransition st = new SequentialTransition(ft0,ft1,ft2);
-        st.play();
+        st.play();*/
         
     }
     
-    private void processLogin(User user) {
+    //Process login method. Gets the username and password enterned in to the text fields.
+    private void processLogin(User user){
         //Clear user Name and Password
-        txtUserName.setText("");
-        txtPassword.setText("");
+        unTxtField.setText("");
+        pwdTxtField.setText("");
         HMSapp.doLogin(user);
     }
     

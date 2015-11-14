@@ -36,6 +36,10 @@ public class Reservation {
     private int profileID;
     private int creditCardID;
 
+    public Reservation() {
+        this(0,"","","","", "", "", "", "", "", "", 1, 0, 0, 0, 0, 0);
+    }
+    
     public Reservation(int confirmation, String firstName, String lastName, String checkinDate, String checkoutDate, String groupName, String companyName, String phoneNumber, String roomType, String status, String comments, int numberAdults, int numberChildren, double roomRate, int roomNumber, int profileID, int creditCardID) {
         this.confirmation = confirmation;
         this.firstName = firstName;

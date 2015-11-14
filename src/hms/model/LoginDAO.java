@@ -5,6 +5,7 @@
  */
 package hms.model;
 
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -12,36 +13,59 @@ import java.util.ArrayList;
  * @author jgreene
  */
 public class LoginDAO {
+    
+    Connection c;
+    Statement stmt;
+    ResultSet rs;
   
-    public User authenticateUser(String userName, String password){
+    public User authenticateUser(String userName, Integer pwHash){
         
         User authenticatedUser = null;
-        for ( User u : getFakeUsers() ){
-            if ( u.getUserName().equals(userName) && u.getPassword().equals(password) ) {
-                authenticatedUser = u;
-                System.out.println("\nAuthenticated: " + u.getUserName());
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select * from user where login like '" + userName + "'");
+            if (rs.next()) {
+                if (pwHash == rs.getInt("pw")) {
+                    MenuType defMenu;
+                    switch (rs.getString("menu")) {
+                        case "res":
+                            defMenu = MenuType.RESERVATIONS; break;
+                        case "front":
+                            defMenu = MenuType.FRONTDESK; break;
+                        case "rooms":
+                            defMenu = MenuType.ROOMS; break;
+                        case "bill":
+                            defMenu = MenuType.BILLING; break;
+                        case "admin":
+                            defMenu = MenuType.ADMIN; break;
+                        default:
+                            defMenu = MenuType.NONE;
+                    }
+                    authenticatedUser = new User(
+                        rs.getString("login"), defMenu, rs.getBoolean("res_access"), 
+                            rs.getBoolean("front_access"), rs.getBoolean("rooms_access"), 
+                            rs.getBoolean("bill_access"), rs.getBoolean("admin_access"));
+                }
             }
+            
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
         }
-        
         return authenticatedUser;
     }
 
-    private ArrayList<User> getFakeUsers() {
-        
-        ArrayList users = new ArrayList();
-    
-        users.add(new User("Reservations", "password", MenuType.RESERVATIONS,
-                true, false, false, false, false));
-        users.add(new User("FrontDesk", "password", MenuType.FRONTDESK,
-                false, true, false, false, false));
-        users.add(new User("Rooms", "password", MenuType.ROOMS,
-                false, false, true, false, false));
-        users.add(new User("Billing", "password", MenuType.BILLING,
-                false,false,false,true,false));
-        users.add(new User("Admin", "password", MenuType.ADMIN,
-                true,true,true,true,true));
-        
-        return users;
+    private void closeAll() {
+        try {
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
     }
-      
 }
