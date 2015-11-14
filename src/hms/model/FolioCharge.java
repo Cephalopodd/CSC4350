@@ -22,6 +22,7 @@ public class FolioCharge {
     private String description;
     private double amount;
     private String date;
+    private CreditCard CC;
 
     public FolioCharge(FolioBillingCode code, String description, double amount, String date) {
         this.code = code;
@@ -61,6 +62,10 @@ public class FolioCharge {
     public void setDate(String date) {
         this.date = LocalDate.now().toString();
     }
- 
+    
+    // CHARGE CARD Method:
+    // takes in CC information and amount
+    // relays information to data base
+    
     
 }
