@@ -25,7 +25,7 @@ public class MenuAdminFXMLController implements Initializable, SubMenu {
     }    
 
     @Override
-    public void setSubMenuParent(MenuMainController main) {
+    public void setSubMenuParent(MainMenuFXMLController main) {
         //
     }
 

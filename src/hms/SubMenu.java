@@ -11,7 +11,7 @@ package hms;
  */
 public interface SubMenu {
     
-    public void setSubMenuParent(MenuMainController main);
+    public void setSubMenuParent(MainMenuFXMLController main);
     public void setUser(User e);
   
 }

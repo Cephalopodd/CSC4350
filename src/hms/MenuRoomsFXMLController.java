@@ -42,7 +42,7 @@ public class MenuRoomsFXMLController implements Initializable,SubMenu {
     }
 
     @Override
-    public void setSubMenuParent(MenuMainController main) {
+    public void setSubMenuParent(MainMenuFXMLController main) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

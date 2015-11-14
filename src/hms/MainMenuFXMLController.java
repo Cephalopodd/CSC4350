@@ -5,7 +5,6 @@
  */
 package hms;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -27,7 +26,7 @@ import javafx.util.Duration;
  *
  * @author jgreene
  */
-public class MenuMainController implements Initializable {
+public class MainMenuFXMLController implements Initializable {
 
     private HMS HMSapp;
     private User user;
@@ -94,17 +93,20 @@ public class MenuMainController implements Initializable {
         this.HMSapp = app;
     }
 
-    void setUser(User u) {
-        user = u;
+    void setUser(User user) {
+        
+        //Set logged in User
+        this.user = user;
+        
         //Set Logged In User Label
-        lblLoggedInUser.setText(user.getLogin());
+        lblLoggedInUser.setText(user.getUserName());
 
         //Set active Buttons
-        btnAdmin.setDisable(!user.getAccessLevel().hasAdminAccess());
-        btnRooms.setDisable(!user.getAccessLevel().hasRoomsAccess());
-        btnFrontDesk.setDisable(!user.getAccessLevel().hasFrontDeskAccess());
-        btnBilling.setDisable(!user.getAccessLevel().hasBillingAccess());
-        btnReservations.setDisable(!user.getAccessLevel().hasReservationsAccess());
+        btnAdmin.setDisable(!user.hasAdminAccess());
+        btnRooms.setDisable(!user.hasRoomsAccess());
+        btnFrontDesk.setDisable(!user.hasFrontDeskAccess());
+        btnBilling.setDisable(!user.hasBillingAccess());
+        btnReservations.setDisable(!user.hasReservationsAccess());
     }
 
     public void loadSubMenus(){
@@ -119,13 +121,22 @@ public class MenuMainController implements Initializable {
         }
     }
     
-    private void addSubMenu(MenuType menu, String fxml) throws IOException {
-        FXMLLoader myLoader = new FXMLLoader(getClass().getResource(fxml));
-        Parent loadScreen = (Parent) myLoader.load();
-        SubMenu submenu = ((SubMenu) myLoader.getController());
-        submenu.setSubMenuParent(this);
-        submenu.setUser(user);
+    private void addSubMenu(MenuType menu, String fxml) {
+        Parent loadScreen;
+        try {
+            FXMLLoader myLoader = new FXMLLoader(getClass().getResource(fxml));
+            loadScreen = (Parent) myLoader.load();
+            SubMenu submenu = ((SubMenu) myLoader.getController());
+            submenu.setSubMenuParent(this);
+            submenu.setUser(user);
+        } catch (Exception ex) {
+            String msg = "Error Loading menu " + menu.toString() + " from " + fxml;
+            System.out.println(msg);
+            loadScreen = new BorderPane();
+            ( (BorderPane) loadScreen).setCenter(new Label(msg));
+        }
         subMenus.put(menu, loadScreen);
+        
     }
     
     public void setDefaultSubMenu(){

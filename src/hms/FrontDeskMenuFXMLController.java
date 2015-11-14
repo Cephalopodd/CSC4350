@@ -75,7 +75,7 @@ public class FrontDeskMenuFXMLController implements Initializable, SubMenu {
     @FXML
     private TableColumn<Reservation, Double> colRoomRate;
 
-    private MenuMainController menuMainController;
+    private MainMenuFXMLController mainMenuController;
     private User currentUser;
     private ObservableList<Reservation> data;
     private FrontDeskDAO dao;
@@ -126,13 +126,13 @@ public class FrontDeskMenuFXMLController implements Initializable, SubMenu {
     @FXML
     private void onClickCheckIn(ActionEvent event) {
         frontDeskPane.setOpacity(.3);
-        FormCheckInController.display(menuMainController);
+        CheckInFXMLController.display(mainMenuController);
         frontDeskPane.setOpacity(1.0);
     }
 
     @Override
-    public void setSubMenuParent(MenuMainController main) {
-        menuMainController = main;
+    public void setSubMenuParent(MainMenuFXMLController main) {
+        mainMenuController = main;
     }
 
     @Override

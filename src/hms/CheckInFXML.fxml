@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<GridPane fx:id="loginPane" hgap="5.0" prefHeight="239.0" prefWidth="468.0" style="-fx-background-color: white;" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.FormCheckInController">
+<GridPane fx:id="loginPane" hgap="5.0" prefHeight="239.0" prefWidth="468.0" style="-fx-background-color: white;" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.CheckInFXMLController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="128.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="1.0" prefWidth="40.0" />

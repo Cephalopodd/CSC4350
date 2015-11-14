@@ -5,23 +5,34 @@
  */
 package hms;
 
-import java.util.Objects;
-
 /**
  *
  * @author jgreene
  */
 public class User {
 
-    private String login;
+    private String userName;
     private String password;
-    private AccessLevel accessLevel;
     private MenuType defaultMenu;
+    
+    private boolean reservationsAccess;
+    private boolean frontDeskAccess;
+    private boolean roomsAccess;
+    private boolean billingAccess;
+    private boolean adminAccess;
+    
+    public User(String userName, String password, MenuType defaultMenu) {
+        this(userName, password, defaultMenu,false,false,false,false,false);
+    }
 
-    public User(String login, String password, AccessLevel accessLevel, MenuType defaultMenu) {
-        this.login = login;
+    public User(String userName, String password, MenuType defaultMenu, boolean reservationsAccess, boolean frontDeskAccess, boolean roomsAccess, boolean billingAccess, boolean adminAccess) {
+        this.userName = userName;
         this.password = password;
-        this.accessLevel = accessLevel;
+        this.reservationsAccess = reservationsAccess;
+        this.frontDeskAccess = frontDeskAccess;
+        this.roomsAccess = roomsAccess;
+        this.billingAccess = billingAccess;
+        this.adminAccess = adminAccess;
         if (verifyMenuAccess(defaultMenu)) {
             this.defaultMenu = defaultMenu;
         } else {
@@ -32,98 +43,89 @@ public class User {
     private boolean verifyMenuAccess(MenuType defaultMenu) {
         switch (defaultMenu) {
             case ADMIN:
-                return getAccessLevel().hasAdminAccess();
+                return hasAdminAccess();
             case ROOMS:
-                return getAccessLevel().hasRoomsAccess();
+                return hasRoomsAccess();
             case RESERVATIONS:
-                return getAccessLevel().hasReservationsAccess();
+                return hasReservationsAccess();
             case FRONTDESK:
-                return getAccessLevel().hasFrontDeskAccess();
+                return hasFrontDeskAccess();
             case BILLING:
-                return getAccessLevel().hasBillingAccess();
+                return hasBillingAccess();
             default:
                 break;
         }
         return false;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == null || this.getClass() != other.getClass()) {
-            return false;
-        }
-        User otherUser = (User) other;
-        
-        return this.login.equals(otherUser.login)
-                && this.password.equals(otherUser.password)
-                && this.accessLevel == otherUser.getAccessLevel()
-                && this.defaultMenu == otherUser.getDefaultMenu();
-    }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.login);
-        hash = 67 * hash + Objects.hashCode(this.password);
-        hash = 67 * hash + Objects.hashCode(this.accessLevel);
-        hash = 67 * hash + Objects.hashCode(this.defaultMenu);
-        return hash;
+    public String toString() {
+        return userName;
     }
 
-    /**
-     * @return the login
-     */
-    public String getLogin() {
-        return login;
+    public String getUserName() {
+        return userName;
     }
 
-    /**
-     * @param login the login to set
-     */
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    /**
-     * @return the password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * @param password the password to set
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * @return the accessLevel
-     */
-    public AccessLevel getAccessLevel() {
-        return accessLevel;
-    }
-
-    /**
-     * @param accessLevel the accessLevel to set
-     */
-    public void setAccessLevel(AccessLevel accessLevel) {
-        this.accessLevel = accessLevel;
-    }
-
-    /**
-     * @return the defaultMenu
-     */
     public MenuType getDefaultMenu() {
         return defaultMenu;
     }
 
-    /**
-     * @param defaultMenu the defaultMenu to set
-     */
     public void setDefaultMenu(MenuType defaultMenu) {
         this.defaultMenu = defaultMenu;
+    }
+
+    public boolean hasRoomsAccess() {
+        return roomsAccess;
+    }
+
+    public void setRoomsAccess(boolean roomsAccess) {
+        this.roomsAccess = roomsAccess;
+    }
+
+    public boolean hasFrontDeskAccess() {
+        return frontDeskAccess;
+    }
+
+    public void setFrontDeskAccess(boolean frontDeskAccess) {
+        this.frontDeskAccess = frontDeskAccess;
+    }
+
+    public boolean hasAdminAccess() {
+        return adminAccess;
+    }
+
+    public void setAdminAccess(boolean adminAccess) {
+        this.adminAccess = adminAccess;
+    }
+
+    public boolean hasReservationsAccess() {
+        return reservationsAccess;
+    }
+
+    public void setReservationsAccess(boolean reservationsAccess) {
+        this.reservationsAccess = reservationsAccess;
+    }
+
+    public boolean hasBillingAccess() {
+        return billingAccess;
+    }
+
+    public void setBillingAccess(boolean billingAccess) {
+        this.billingAccess = billingAccess;
     }
 
 }

@@ -32,7 +32,7 @@ import javafx.stage.StageStyle;
  *
  * @author jgreene
  */
-public class FormCheckInController implements Initializable {
+public class CheckInFXMLController implements Initializable {
     @FXML
     private GridPane loginPane;
     @FXML
@@ -86,16 +86,16 @@ public class FormCheckInController implements Initializable {
         stage.close();
     }
    
-    public static void display(MenuMainController p) {
+    public static void display(MainMenuFXMLController p) {
         
         stage = new Stage();
         Parent root = null;
         
         try {
             root = FXMLLoader.load(p.getClass()
-                    .getResource("FormCheckInFXML.fxml"));
+                    .getResource("CheckInFXML.fxml"));
         } catch (Exception ex) {
-            Logger.getLogger(FormCheckInController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CheckInFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         Scene scene = new Scene(root);

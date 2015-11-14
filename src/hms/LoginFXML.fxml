@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginController">
+<StackPane style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginFXMLController">
    <children>
       <GridPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="320.0" style="-fx-background-color: white;">
         <columnConstraints>
@@ -29,7 +29,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-             <TextField fx:id="txtLogin" promptText="Rooms, Admin, FrontDesk..." GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+            <TextField fx:id="txtUserName" promptText="Enter Username" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
             <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="199.0" promptText="password" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
             <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#onClickLogin" text="Login" defaultButton="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Button fx:id="btnExit" mnemonicParsing="false" onAction="#onClickExit" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="3" />

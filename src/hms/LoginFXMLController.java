@@ -1,5 +1,5 @@
 /**
- * LoginController
+ * LoginFXMLController
  *
  * This class is used to handle the initial login GUI
  *
@@ -25,12 +25,14 @@ import javafx.util.Duration;
  *
  * @author Team SLAM
  */
-public class LoginController implements Initializable {
+public class LoginFXMLController implements Initializable {
     
     HMS HMSapp;
+    LoginDAO dao;
+    User user;
 
     @FXML
-    private TextField txtLogin;
+    private TextField txtUserName;
     @FXML
     private PasswordField txtPassword;
     @FXML
@@ -42,13 +44,7 @@ public class LoginController implements Initializable {
     @FXML
     private GridPane loginPane;
     
-    /**
-     * Sets the HMS main app
-     * @param HMSapp
-     */
-    public void setHMSApp(HMS HMSapp) {
-        this.HMSapp = HMSapp;
-    }
+
     
     /**
      * Initializes the controller class.
@@ -58,9 +54,19 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        txtLogin.requestFocus();
+        
+        dao = new LoginDAO();
+        txtUserName.requestFocus();
     }
 
+   /**
+     * Sets the HMS main app
+     * @param HMSapp
+     */
+    public void setHMSApp(HMS HMSapp) {
+        this.HMSapp = HMSapp;
+    }
+    
     /**
      * This method exits the program. precondition: none postcondition: The
      * program is terminated.
@@ -83,24 +89,22 @@ public class LoginController implements Initializable {
     @FXML
     private void onClickLogin(ActionEvent event) {
        
-        //Authentictate User. User will be null if there is no match
-        User user = Authenticate.validateUser(
-                        txtLogin.getText(), 
-                        txtPassword.getText()
-        );
+        //Authenticate User
+        user = dao.authenticateUser(txtUserName.getText(), txtPassword.getText());
         
         //Process Login
-        if (user == null)
+        if (user == null) {
             processLoginError();
-        else
+        } else {    
             processLogin(user);
+        }
     }
     
     private void processLoginError() {
         //Clear Login and Password and set Cusor back in Login field
-        txtLogin.setText("");
+        txtUserName.setText("");
         txtPassword.setText("");
-        txtLogin.requestFocus();
+        txtUserName.requestFocus();
  
         //Set Error Message
         lblLoginError.setText("Incorrect Login name or Password");
@@ -122,10 +126,9 @@ public class LoginController implements Initializable {
     
     private void processLogin(User user) {
         //Clear user Name and Password
-        txtLogin.setText("");
+        txtUserName.setText("");
         txtPassword.setText("");
         HMSapp.doLogin(user);
-        
     }
     
 }
