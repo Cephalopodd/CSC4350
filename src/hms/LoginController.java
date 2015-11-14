@@ -65,7 +65,7 @@ public class LoginController implements Initializable {
     private void onClickLogin(ActionEvent event) {
        
         //Authenticate User
-        user = dao.authenticateUser(txtUserName.getText(), txtPassword.getText().hashCode());
+        user = dao.authenticateUser(unTxtField.getText(), pwdTxtField.getText().hashCode());
         
         //Process Login
         if (user == null){
