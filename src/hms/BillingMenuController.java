@@ -22,9 +22,6 @@ public class BillingMenuController implements Initializable, SubMenu {
     
     double chargeAmount;
     
-    
-    
-
     /**
      * Initializes the controller class.
      */
