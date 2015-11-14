@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hms;
-
-import hms.model.User;
+package hms.model;
 
 /**
  *
  * @author jgreene
  */
-public interface SubMenu {
-    
-    public void setSubMenuParent(MainMenuController main);
-    public void setUser(User e);
-  
+public enum MenuType {
+    ROOMS,BILLING,ADMIN,FRONTDESK,RESERVATIONS,NONE
 }

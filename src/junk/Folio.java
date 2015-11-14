@@ -8,9 +8,10 @@
  */
 package junk;
 
-import hms.CreditCard;
-import hms.Profile;
-import hms.Room;
+import hms.model.FolioCharge;
+import hms.model.CreditCard;
+import hms.model.Profile;
+import hms.model.Room;
 import javafx.collections.ObservableList;
 
 /**

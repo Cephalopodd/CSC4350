@@ -7,6 +7,7 @@
  */
 package hms;
 
+import hms.model.User;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +24,8 @@ public class HMS extends Application {
     private Stage stage;
     private Scene loginScene;
     private Scene mainMenuScene;
-    private LoginFXMLController loginController;
-    private MainMenuFXMLController mainMenuController;
+    private LoginController loginController;
+    private MainMenuController mainMenuController;
     
     /**
     * This method starts our application.
@@ -37,14 +38,14 @@ public class HMS extends Application {
         stage = primaryStage;
         
         //Inject Link to HMSapp into Login And Main Menu Screen
-        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("LoginFXML.fxml"));
+        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Parent loginView = (Parent) loginLoader.load();
-        loginController = ((LoginFXMLController) loginLoader.getController());
+        loginController = ((LoginController) loginLoader.getController());
         loginController.setHMSApp(this);
        
-        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
+        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
         Parent mainMenuView = (Parent) mainMenuLoader.load();
-        mainMenuController = ((MainMenuFXMLController) mainMenuLoader.getController());
+        mainMenuController = ((MainMenuController) mainMenuLoader.getController());
         mainMenuController.setHMSApp(this);
        
         //Create Login and MainMenu Scene
