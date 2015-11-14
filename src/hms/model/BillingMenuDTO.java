@@ -20,6 +20,7 @@ public class BillingMenuDTO {
     private double subTotal;
     
     private CreditCard CC;
+   
 
     public BillingMenuDTO() {
         this(null, null, "", "", 0, 0, 0);
@@ -56,7 +57,7 @@ public class BillingMenuDTO {
     /**
      * @param code the code to set
      */
-    public void setLCode(FolioBillingCode code) {
+    public void setCode(FolioBillingCode code) {
         this.code = code;
     }
 
@@ -130,6 +131,10 @@ public class BillingMenuDTO {
     public void setSubTotal(int subTotal) {
         this.subTotal = subTotal;
     }
+    
+    // CHARGE CARD Method:
+    // takes in CC information and amount
+    // relays information to data base
     
       public void chargeCard(CreditCard CC, double amount){
         
