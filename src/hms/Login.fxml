@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginController">
    <children>
       <Pane id="bkgrndPane" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #302F3B;">
          <children>
@@ -26,12 +26,13 @@
                   <Font size="24.0" />
                </font>
             </Text>
+            <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="57.0" layoutY="286.0" prefHeight="54.0" prefWidth="386.0" promptText="Password" />
             <Text fill="WHITE" layoutX="57.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button id="loginButton" fx:id="loginButton" layoutX="57.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="46.0" prefWidth="182.0" text="Login">
+            <Button id="loginButton" fx:id="loginButton" defaultButton="true" layoutX="57.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="46.0" prefWidth="182.0" text="Login">
                <font>
                   <Font size="20.0" />
                </font>
@@ -41,7 +42,6 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="57.0" layoutY="286.0" prefHeight="54.0" prefWidth="386.0" promptText="Password" />
             <Label fx:id="lblLoginError" layoutX="57.0" layoutY="358.0" prefHeight="17.0" prefWidth="386.0" textFill="#f20202" />
          </children>
       </Pane>
