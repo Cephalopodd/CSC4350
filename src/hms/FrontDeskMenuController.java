@@ -10,6 +10,7 @@ import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskDAO;
 import hms.model.FrontDeskArrivalsDTOBuilder;
 import hms.model.Reservation;
+import hms.model.ReservationStatus;
 import hms.model.ReservationStatusCode;
 import java.net.URL;
 import java.time.LocalDate;
@@ -137,16 +138,16 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     private void onClickEdit(ActionEvent event) {
         //Get Selected Reservation
         Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
-        
+
         //Dim Screen
         frontDeskPane.setOpacity(.3);
-        
+
         //Open Up Reservation Editor
         ReservationFormController.display(r, mainMenuController);
-        
+
         //Save Updated Reservation to DB
         dao.updateReservation(r);
-        
+
         //UnDim Screen
         frontDeskPane.setOpacity(1.0);
 
@@ -154,42 +155,24 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickCancel(ActionEvent event) {
-        
-        //Get Selected Reservation
-        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
-        
-        //If reservation is null, return
-        if (r == null)
-            return;
-        
-        //If reservation is not null, prompt the user to cancel reservation.
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-             "Are you sure you would like to cancel the\n" +
-                     "reservation for " + r.getFirstName() +
-                     " " + r.getLastName());
-        Optional<ButtonType> response = alert.showAndWait();
-
-        //Response is Yes - CANCEL THE RESERVATION
-        if (response.get() == ButtonType.YES) {
-            r.setStatus("Cancelled");
-            dao.cancelReservation(r.getConfirmation());
-        }
+        handleCancel();
     }
 
     @FXML
-    private void onClickCheckIn(ActionEvent event) {
+        private void onClickCheckIn(ActionEvent event) {
         frontDeskPane.setOpacity(.3);
-        CheckInFormController.display(mainMenuController);
+        CheckInFormController checkIn = new CheckInFormController();
+        checkIn.display(mainMenuController);
         frontDeskPane.setOpacity(1.0);
     }
 
     @Override
-    public void setSubMenuParent(MainMenuController main) {
+        public void setSubMenuParent(MainMenuController main) {
         mainMenuController = main;
     }
 
     @Override
-    public void setUser(User user) {
+        public void setUser(User user) {
         currentUser = user;
     }
 
@@ -201,7 +184,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
                 new PropertyValueFactory<>("FirstName"));
         colLastName.setCellValueFactory(
                 new PropertyValueFactory<>("LastName"));
-         colRoomNumber.setCellValueFactory(
+        colRoomNumber.setCellValueFactory(
                 new PropertyValueFactory<>("RoomNumber"));
         colRoomType.setCellValueFactory(
                 new PropertyValueFactory<>("RoomType"));
@@ -218,7 +201,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         colStatus.setCellValueFactory(
                 new PropertyValueFactory<>("Status"));
         colComments.setCellValueFactory(
-                new PropertyValueFactory<>("Comments"));  
+                new PropertyValueFactory<>("Comments"));
 
     }
 
@@ -230,7 +213,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
 
         ObservableList<Reservation> result;
-        
+
         FrontDeskArrivalsDTO dto
                 = new FrontDeskArrivalsDTOBuilder()
                 .setFirstName(txtFirstName.getText())
@@ -245,14 +228,66 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
         result = dao.queryArrivals(dto);
 
-           if (result != null) {
-             data.setAll(result);
-          }
+        if (result != null) {
+            data.setAll(result);
+        }
 
     }
 
     private boolean validateFields() {
         return true;
+    }
+
+    private void handleCancel() {
+        
+        Alert alert;
+        Optional<ButtonType> response;
+
+        //Get Selected Reservation
+        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+
+        //If reservation is null, display message and return
+        if (r == null) {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Reservation not Selected");
+            alert.showAndWait();
+            return;
+        }
+
+        //Check to make sure that the status is pending
+        if (!r.getStatus().equals(ReservationStatus.PENDING)) {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Only reservations that are PENDING \n"
+                    + "can be cancelled");
+            alert.showAndWait();
+            return;
+        }
+
+        //Confirm the delete of the reservation
+        alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Are you sure you would like to cancel the\n"
+                + "reservation for " + r.getFirstName()
+                + " " + r.getLastName());
+        response = alert.showAndWait();
+
+        //Response is not yes, return
+        if (response.get() != ButtonType.YES) {
+            return;
+        }
+
+        //Cancel the reservation
+        boolean result = false;
+        result = dao.cancelReservation(r.getConfirmation());
+
+        if (result) {
+            r.setStatus("Cancelled");
+            tblFrontDesk.getItems().remove(r);
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Record can not be deleted at this time");
+            alert.showAndWait();
+        }
+
     }
 
 }
