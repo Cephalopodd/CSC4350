@@ -15,20 +15,23 @@ public class BillingMenuDTO {
     private FolioBillingCode code;
     private String description;
     private String date;
+    private double amount;
+    private int subTotal;
+    private CreditCard CC;
     private double subTotal;
-    private int quantity;
 
     public BillingMenuDTO() {
         this(null, null, "", "", 0, 0);
     }
 
-    public BillingMenuDTO(Reservation confirmation, FolioBillingCode code, String description, String date, double subTotal, int quantity) {
+    public BillingMenuDTO(Reservation confirmation, FolioBillingCode code, String description, String date, double amount, int quantity, double subTotal) {
         this.confirmation = confirmation;
         this.code = code;
         this.description = description;
         this.date = date;
-        this.subTotal = subTotal;
+        this.amount = amount;
         this.quantity = quantity;
+        this.subTotal = subTotal;
 
     }
        public Reservation getConfirmation() {
@@ -86,17 +89,17 @@ public class BillingMenuDTO {
 
 
     /**
-     * @return the SubTotal
+     * @return the amount
      */
-    public double getSubTotal() {
-        return subTotal;
+    public double getamount() {
+        return amount;
     }
 
     /**
-     * @param subTotal the SubTotal to set
+     * @param amount the amount to set
      */
-    public void setSubTotal(double SubTotal) {
-        this.subTotal = SubTotal;
+    public void setamount(double amount) {
+        this.amount = amount;
     }
 
     /**
@@ -111,8 +114,27 @@ public class BillingMenuDTO {
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    } 
+    
+    /**
+     * @return the Quantity
+     */
+    public int getQuantity() {
+        return quantity;
     }
 
-   
+    /**
+     * @param subTotal the subTotal to set
+     */
+    public void setSubTotal(int subTotal) {
+        this.subTotal = subTotal;
+    }
     
+      public void chargeCard(CreditCard CC, double amount){
+        
+        this.CC = CC;
+        this.amount = amount;
+    } 
+
+   
 }
