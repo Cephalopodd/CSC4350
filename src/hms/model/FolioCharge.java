@@ -63,9 +63,6 @@ public class FolioCharge {
         this.date = LocalDate.now().toString();
     }
     
-    // CHARGE CARD Method:
-    // takes in CC information and amount
-    // relays information to data base
-    
+
     
 }
