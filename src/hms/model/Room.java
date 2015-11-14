@@ -14,59 +14,84 @@ package hms.model;
  */
 public class Room {
 
-    private final int roomNumber;
-    private final int floorNumber;
-    private final boolean handicappedAccesible;
-    private final RoomTypeCode type;
+    private int number;
+    private String type = RoomType.DBLNS;
+    private String status = RoomStatus.CLEAN;
+    private boolean handicapAccess = false;
+    private boolean occupied = false;
     
-    private boolean occupied;
-    private RoomStatusCode status;
+    public Room(int number) {
+        this.number = number;
+    }
     
-    /**
-     * @Constructor Creates a room object
-     * @param roomNumber
-     * @param floorNumber
-     * @param handicappedAccesible
-     * @param type
-     * @param occupied
-     * @param status
-    */
-    public Room(int roomNumber, int floorNumber, boolean handicappedAccesible,
-            RoomTypeCode type, boolean occupied, RoomStatusCode status) {
-        this.roomNumber = roomNumber;
-        this.floorNumber = floorNumber;
-        this.handicappedAccesible = handicappedAccesible;
+    public Room(int number, String type, String status) {
+        this.number = number;
         this.type = type;
-        this.occupied = occupied;
         this.status = status;
     }
-
-    /**
-     * @return the roomNumber
-     */
-    public int getRoomNumber() {
-        return roomNumber;
+    
+    public Room(int number, String type, String status, boolean handicapAccess, boolean occupied) {
+        this.number = number;
+        this.type = type;
+        this.status = status;
+        this.handicapAccess = handicapAccess;
+        this.occupied = occupied;
     }
 
     /**
-     * @return the floorNumber
+     * @return the number
      */
-    public int getFloorNumber() {
-        return floorNumber;
+    public int getNumber() {
+        return number;
     }
 
     /**
-     * @return the handicappedAccesible
+     * @param number the number to set
      */
-    public boolean isHandicappedAccesible() {
-        return handicappedAccesible;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     /**
      * @return the type
      */
-    public RoomTypeCode getType() {
+    public String getType() {
         return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the handicapAccess
+     */
+    public boolean isHandicapAccess() {
+        return handicapAccess;
+    }
+
+    /**
+     * @param handicapAccess the handicapAccess to set
+     */
+    public void setHandicapAccess(boolean handicapAccess) {
+        this.handicapAccess = handicapAccess;
     }
 
     /**
@@ -82,19 +107,6 @@ public class Room {
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
-
-    /**
-     * @return the status
-     */
-    public RoomStatusCode getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(RoomStatusCode status) {
-        this.status = status;
-    }
-
+        
 }
+    
