@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
 /**
  * FXML Controller class
  *
- * @author jgreene
+ * @author fpatel
  */
 public class AdminMenuController implements Initializable, SubMenu {
 
@@ -27,12 +27,12 @@ public class AdminMenuController implements Initializable, SubMenu {
 
     @Override
     public void setSubMenuParent(MainMenuController main) {
-        //
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void setUser(User e) {
-        //
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
