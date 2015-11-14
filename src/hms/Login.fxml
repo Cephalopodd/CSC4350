@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -8,38 +10,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginController">
+<StackPane style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginController">
    <children>
-      <GridPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="320.0" style="-fx-background-color: white;">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <Pane id="bkgrndPane" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #302F3B;">
          <children>
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="288.0" text="HMS Login" GridPane.columnSpan="2147483647">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff855c" height="80.0" stroke="#2b7bc6" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
+            <Text fill="WHITE" layoutX="48.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SIGN INTO YOUR ACCOUNT" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <TextField id="unTxtField" fx:id="unTxtField" layoutX="57.0" layoutY="171.0" prefHeight="54.0" prefWidth="386.0" text="Username" />
+            <Text fill="WHITE" layoutX="57.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
                </font>
-            </Label>
-            <TextField fx:id="txtUserName" promptText="Enter Username" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-            <PasswordField fx:id="txtPassword" prefHeight="26.0" prefWidth="199.0" promptText="password" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
-            <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#onClickLogin" text="Login" defaultButton="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#onClickExit" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label alignment="CENTER" text="Username : " textAlignment="RIGHT" GridPane.rowIndex="1" />
-            <Label text="Password:" GridPane.rowIndex="2" />
-            <Label fx:id="lblLoginError" alignment="CENTER" prefHeight="16.0" prefWidth="242.0" textAlignment="CENTER" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            </Text>
+            <Text fill="WHITE" layoutX="57.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="125.21875">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Button id="loginButton" fx:id="loginButton" layoutX="57.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="46.0" prefWidth="182.0" text="Login">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button id="exitButton" fx:id="exitButton" layoutX="261.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="46.0" prefWidth="182.0" text="Exit">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="57.0" layoutY="286.0" prefHeight="54.0" prefWidth="386.0" promptText="Password" />
+            <Label fx:id="lblLoginError" layoutX="57.0" layoutY="358.0" prefHeight="17.0" prefWidth="386.0" textFill="#f20202" />
          </children>
-         <padding>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-         </padding>
-      </GridPane>
+      </Pane>
    </children>
 </StackPane>
