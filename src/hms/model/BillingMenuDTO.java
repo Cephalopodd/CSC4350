@@ -16,12 +16,13 @@ public class BillingMenuDTO {
     private String description;
     private String date;
     private double amount;
-    private int subTotal;
-    private CreditCard CC;
+    private int quantity;
     private double subTotal;
+    
+    private CreditCard CC;
 
     public BillingMenuDTO() {
-        this(null, null, "", "", 0, 0);
+        this(null, null, "", "", 0, 0, 0);
     }
 
     public BillingMenuDTO(Reservation confirmation, FolioBillingCode code, String description, String date, double amount, int quantity, double subTotal) {
@@ -117,10 +118,10 @@ public class BillingMenuDTO {
     } 
     
     /**
-     * @return the Quantity
+     * @return the subTotal
      */
-    public int getQuantity() {
-        return quantity;
+    public double getSubTotal() {
+        return subTotal;
     }
 
     /**
