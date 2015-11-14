@@ -19,6 +19,11 @@ import javafx.scene.input.MouseDragEvent;
  * @author jgreene
  */
 public class BillingMenuController implements Initializable, SubMenu {
+    
+    double chargeAmount;
+    
+    
+    
 
     /**
      * Initializes the controller class.
@@ -44,6 +49,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickMakePayment(ActionEvent event) {
+        
+        //chargeCard(amount);
     }
 
     @FXML
