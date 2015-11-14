@@ -7,6 +7,7 @@ package hms;
 
 import hms.model.CreditCardType;
 import com.sun.media.jfxmediaimpl.platform.Platform;
+import hms.model.CreditCard;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +35,8 @@ import javafx.stage.StageStyle;
  * @author jgreene
  */
 public class CheckInFormController implements Initializable {
+    @FXML
+    private ChoiceBox<Integer> choiceRooms;
     @FXML
     private GridPane loginPane;
     @FXML
@@ -80,6 +83,7 @@ public class CheckInFormController implements Initializable {
 
     @FXML
     private void onClickOK(ActionEvent event) {
+        
     }
 
     @FXML
@@ -87,13 +91,17 @@ public class CheckInFormController implements Initializable {
         stage.close();
     }
    
-    public static void display(MainMenuController p) {
+    public void setFields(int room, CreditCard cc) {
+        
+    }
+    
+    public void display(MainMenuController main) {
         
         stage = new Stage();
         Parent root = null;
         
         try {
-            root = FXMLLoader.load(p.getClass()
+            root = FXMLLoader.load(main.getClass()
                     .getResource("CheckInForm.fxml"));
         } catch (Exception ex) {
             Logger.getLogger(CheckInFormController.class.getName()).log(Level.SEVERE, null, ex);

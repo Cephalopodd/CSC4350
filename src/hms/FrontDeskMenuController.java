@@ -161,7 +161,8 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
         private void onClickCheckIn(ActionEvent event) {
         frontDeskPane.setOpacity(.3);
-        CheckInFormController.display(mainMenuController);
+        CheckInFormController checkIn = new CheckInFormController();
+        checkIn.display(mainMenuController);
         frontDeskPane.setOpacity(1.0);
     }
 
