@@ -39,7 +39,7 @@ public class CheckInFormController implements Initializable {
     @FXML
     private TextField txtFirstName;
     @FXML
-    private ChoiceBox<CreditCardType> cbxCCType;
+    private ChoiceBox<String> cbxCCType;
     @FXML
     private TextField txtCC;
     @FXML
@@ -57,7 +57,7 @@ public class CheckInFormController implements Initializable {
     
     private ObservableList<Integer> months;
     private ObservableList<Integer> years;
-    private ObservableList<CreditCardType> ccTypes;
+    private ObservableList<String> ccTypes;
     private static Stage stage;
 
     /**
@@ -69,7 +69,7 @@ public class CheckInFormController implements Initializable {
         years = FXCollections.observableArrayList(2015,2016,2017,2018,2019,
                 2020,2021,2022,2023,2024,2025);
         ccTypes = FXCollections.observableArrayList(CreditCardType.AMEX,
-                CreditCardType.DISC, CreditCardType.MAST, CreditCardType.VISA);
+                CreditCardType.DISC, CreditCardType.MC, CreditCardType.VISA);
         cbxMonth.setItems(months);
         cbxYear.setItems(years);
         cbxCCType.setItems(ccTypes);

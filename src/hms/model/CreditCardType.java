@@ -9,6 +9,9 @@ package hms.model;
  *
  * @author jgreene
  */
-public enum CreditCardType {
-    AMEX, MAST, VISA, DISC
+public class CreditCardType {
+    public static String AMEX = "AMEX";
+    public static String MC = "MC";
+    public static String VISA = "VISA";
+    public static String DISC = "DISC";
 }
