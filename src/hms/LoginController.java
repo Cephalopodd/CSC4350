@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-//FXML controller class.
+//FXML controller class. ..
 public class LoginController implements Initializable {
 
     HMS HMSapp;
