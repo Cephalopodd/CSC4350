@@ -121,7 +121,7 @@
                         <TableColumn fx:id="colFirstName" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="First Name" />
                         <TableColumn fx:id="colLastName" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Last Name" />
                         <TableColumn fx:id="colVIP" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="VIP" />
-                        <TableColumn fx:id="colPhone" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Phone" />
+                        <TableColumn fx:id="colPhoneNumber" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Phone" />
                         <TableColumn fx:id="colEmail" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" text="Email" />
                         <TableColumn fx:id="colNotes" minWidth="-1.0" prefWidth="161.0" text="Notes" />
                     </columns>

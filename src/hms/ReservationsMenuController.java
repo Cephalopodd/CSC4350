@@ -5,6 +5,7 @@
  */
 package hms;
 
+import hms.model.MenuType;
 import hms.model.Reservation;
 import hms.model.User;
 import java.net.URL;
@@ -81,6 +82,8 @@ public class ReservationsMenuController implements Initializable, SubMenu {
     private Button btnEditReservation;
     @FXML
     private Button btnCancelReservation;
+    private MainMenuController main;
+    private User user;
 
     /**
      * Initializes the controller class.
@@ -96,10 +99,12 @@ public class ReservationsMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickReservations(ActionEvent event) {
+        main.displaySubMenu(MenuType.RESERVATIONS);
     }
 
     @FXML
     private void onClickProfiles(ActionEvent event) {
+        main.displaySubMenu(MenuType.PROFILE);
     }
 
     @FXML
@@ -120,12 +125,12 @@ public class ReservationsMenuController implements Initializable, SubMenu {
 
     @Override
     public void setSubMenuParent(MainMenuController main) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.main = main;
     }
 
     @Override
-    public void setUser(User e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }

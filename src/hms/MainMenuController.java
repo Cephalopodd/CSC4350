@@ -118,6 +118,7 @@ public class MainMenuController implements Initializable {
             addSubMenu(MenuType.RESERVATIONS, "ReservationsMenu.fxml");
             addSubMenu(MenuType.ROOMS, "RoomsMenu.fxml");
             addSubMenu(MenuType.ADMIN, "AdminMenu.fxml");
+            addSubMenu(MenuType.PROFILE, "ProfileMenu.fxml");
         } catch (Exception e) {
             System.out.println("Error loading menus:" + e.getMessage());
         }
@@ -169,7 +170,7 @@ public class MainMenuController implements Initializable {
         }
     }
     
-    private void displaySubMenu(MenuType subMenu){
+    void displaySubMenu(MenuType subMenu){
         FadeTransition ft0 = new FadeTransition(Duration.millis(500), displayPane);
         ft0.setFromValue(1.0);
         ft0.setToValue(0.0);
