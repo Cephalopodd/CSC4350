@@ -49,7 +49,7 @@ public class FrontDeskDAO {
         if (!dto.getDepartureDate().equals("")) {
             filters.append(" AND r.dep like '").append(dto.getDepartureDate()).append("'");
         }
-        filters.replace(0, 4, " WHERE");
+        if (filters.length() > 0) filters.replace(0, 4, " WHERE");
         System.out.println(sql + filters);
         
         try {
@@ -84,6 +84,7 @@ public class FrontDeskDAO {
     }
 
     public boolean cancelReservation(int confirmation) {
+        System.out.println("deleting reservation #" + confirmation);
         int rowsDeleted = 0;
         try {
             Class.forName("org.sqlite.JDBC");
@@ -91,6 +92,7 @@ public class FrontDeskDAO {
             stmt = c.createStatement();
             rowsDeleted = stmt.executeUpdate("delete from reservation where id = " 
                         + confirmation);
+            c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
