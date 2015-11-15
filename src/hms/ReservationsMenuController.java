@@ -268,7 +268,8 @@ public class ReservationsMenuController implements Initializable, SubMenu {
         response = alert.showAndWait();
 
         //Response is not yes, return
-        if (response.get() != ButtonType.YES) {
+        if (response.get() != ButtonType.OK) {
+            System.out.println("Delete Cancelled");
             return;
         }
 
@@ -279,6 +280,7 @@ public class ReservationsMenuController implements Initializable, SubMenu {
         if (result) {
             r.setStatus("Cancelled");
             tblReservations.getItems().remove(r);
+            System.out.println("Reservation cancelled" + r.getLastName());
         } else {
             alert = new Alert(Alert.AlertType.ERROR,
                     "Record can not be deleted at this time");
