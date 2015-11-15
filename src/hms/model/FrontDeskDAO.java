@@ -23,33 +23,63 @@ public class FrontDeskDAO {
     ResultSet rs;
   
     public ObservableList queryArrivals(FrontDeskArrivalsDTO dto) {
-        //This should accept a confirmation number
-        //This should delete the reservation from the db
-        //This should return T/F outcome
-
+        
         ObservableList<Reservation> result = FXCollections.observableArrayList();
-
-        //Execute Query Here from FrontDeskArrivalsDTO  Information
+        String sql = "select g.fname, g.lname, r.rm_num, r.roomtype, r2.rate, "
+            + "r.adults, r.kids, r.arr, r.dep, r.comments, r.status, r.id from "
+            + "reservation r join guest g on r.g_id = g.id join roomtype t on "
+            + "t.type like r.roomtype join rate r2 on r.ratecode like r2.ratecode "
+            + "AND t.beds like r2.roomtype";
+        StringBuilder filters = new StringBuilder();
+        if (!dto.getFirstName().equals("")) {
+            filters.append(" AND g.fname like '").append(dto.getFirstName()).append("'");
+        }
+        if (!dto.getLastName().equals("")) {
+            filters.append(" AND g.lname like '").append(dto.getLastName()).append("'");
+        }
+        if (!dto.getConfirmation().equals("")) {
+            filters.append(" AND r.id = ").append(dto.getConfirmation());
+        }
+        if (!dto.getPhoneNumber().equals("")) {
+            filters.append(" AND g.phone like '").append(dto.getPhoneNumber()).append("'");
+        }
+        if (!dto.getArrivalDate().equals("")) {
+            filters.append(" AND r.arr like '").append(dto.getArrivalDate()).append("'");
+        }
+        if (!dto.getDepartureDate().equals("")) {
+            filters.append(" AND r.dep like '").append(dto.getDepartureDate()).append("'");
+        }
+        filters.replace(0, 4, " WHERE");
+        System.out.println(sql + filters);
         
-        //Build Reservation objects from Results:
-        
-        result.add(new ReservationBuilder()
-                .setFirstName("Test")
-                .setLastName("User")
-                .setRoomNumber(105)
-                .setRoomType("Queen NS")
-                .setRoomRate(129.12)
-                .setNumberAdults(1)
-                .setNumberChildren(4)
-                .setCheckinDate(LocalDate.now().toString())
-                .setCheckoutDate(LocalDate.now().toString())
-                .setComments("No Comment")
-                .setStatus("Pending")
-                .setCompanyName("My Company")
-                .setGroupName("My Group")
-                .setConfirmation(12345)
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(sql + filters);
+            while (rs.next()) {
+                result.add(new ReservationBuilder()
+                .setFirstName(rs.getString(1))
+                .setLastName(rs.getString(2))
+                .setRoomNumber(rs.getInt(3))
+                .setRoomType(rs.getString(4))
+                .setRoomRate(rs.getDouble(5))
+                .setNumberAdults(rs.getInt(6))
+                .setNumberChildren(rs.getInt(7))
+                .setCheckinDate(rs.getString(8))
+                .setCheckoutDate(rs.getString(9))
+                .setComments(rs.getString(10))
+                .setStatus(rs.getString(11))
+                .setCompanyName("")
+                .setGroupName("")
+                .setConfirmation(rs.getInt(12))
                 .createReservation());        
-        //Return Observalble list of results
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
         return result;
     }
 

@@ -2,7 +2,8 @@
 		id integer primary key,
 		fname text not null,
 		lname text not null,
-		phone integer not null check (phone between 1000000000 and 9999999999),
+		phone text not null check (phone glob
+			'[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]'),
 		email text,
 		addr1 text not null,
 		addr2 text,
@@ -12,14 +13,22 @@
 		vip boolean not null default 0 check (vip in (0, 1)),
 		notes text);
 
+	create table roomtype (
+		type text primary key not null check (type in 
+			('DNH', 'DNN', 'DSH', 'DSN', 'KNH', 'KNN', 
+			'KSH', 'KSN', 'QNH', 'QNN', 'QSH', 'QSN')),
+		beds text not null check (beds in ('king','queen','twodbl')),
+		smoking boolean not null default 0 check (smoking in (0, 1)),
+		handicap boolean not null default 0 check (handicap in (0, 1)));
+
 	create table room (
 		number integer primary key not null,
-		roomtype text not null check (roomtype in ('king','queen','twodbl')),
-		smoking boolean not null default 0 check (smoking in (0, 1)),
-		handicap boolean not null default 0 check (handicap in (0, 1)),
+		roomtype text not null,
 		status text not null check (status in ('clean','dirty','insp','out')),
-		occupied boolean not null default 0 check (occupied in (0, 1)));
-
+		occupied boolean not null default 0 check (occupied in (0, 1))
+		foreign key (roomtype) references roomtype (type)
+		);
+		
 	create table cc (
 		g_id integer not null references guest (id),
 		last4 text not null check (last4 glob '[0-9][0-9][0-9][0-9]'),
@@ -37,31 +46,27 @@
 		adults integer not null default 1,
 		kids integer not null default 0,
 		cc_last4 text not null,
+		roomtype text not null references roomtype (type),
+		rm_num integer references room (number),
+		status text not null default 'PENDING' check (status in
+			('PENDING','CHECKEDIN','CHECKEDOUT')),
+		comments text,
 		foreign key (g_id, cc_last4) references cc (g_id, last4));
-
-	create table res_req (
-		res_id integer not null references reservation (id),
-		roomtype text not null check (roomtype in ('king','queen','twodbl')),
-		count integer not null default 1,
-		primary key (res_id, roomtype));
-
-	create table res_rms (
-		res_id integer not null references reservation (id),
-		rm_num integer not null references room (number),
-		primary key (res_id, rm_num));
 
 	create table rate (
 		ratecode text not null check (ratecode in ('rack','govt','stdt','cmpn')),
-		roomtype text not null check (roomtype in ('king','queen','twodbl')),
+		roomtype text not null,
 		rate real not null,
-		primary key (ratecode, roomtype));
+		primary key (ratecode, roomtype)
+		foreign key (roomtype) references roomtype (type));
 
 	create table user (
 		login text not null primary key,
-		pw text not null,
+		pw integer not null,
 		res_access boolean not null default 0 check (res_access in (0, 1)),
 		front_access boolean not null default 0 check (front_access in (0, 1)),
 		bill_access boolean not null default 0 check (bill_access in (0, 1)),
 		rooms_access boolean not null default 0 check (rooms_access in (0, 1)),
 		admin_access boolean not null default 0 check (admin_access in (0, 1)),
-		menu text not null default 'front' check (menu in ('res','front','bill','rooms','admin')));
+		menu text not null default 'front' check (menu in
+			('res','front','bill','rooms','admin')));
