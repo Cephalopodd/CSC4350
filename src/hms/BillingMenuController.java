@@ -11,14 +11,17 @@ import hms.model.Reservation;
 import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.converter.CurrencyStringConverter;
 
 /**
  * FXML Controller class
@@ -35,12 +38,16 @@ public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private TableColumn<FolioCharge, String> colQuantity;
     @FXML
-    private TableColumn<FolioCharge, Double> colAmount;
+    private TableColumn<FolioCharge, String> colAmount;
+    @FXML
+    private Label lblTotal, lblSubTotal,lblTaxes;
+ 
     
     Reservation reservation;
     BillingMenuDAO dao;
     User user;
     MainMenuController main;
+    double taxRate = .07;
 
     /**
      * Initializes the controller class.
@@ -53,7 +60,7 @@ public class BillingMenuController implements Initializable, SubMenu {
     }    
 
     @FXML
-    private void onClickPrintMenu(ActionEvent event) {
+    private void onClickPrintInvoice(ActionEvent event) {
     }
 
     @FXML
@@ -61,9 +68,10 @@ public class BillingMenuController implements Initializable, SubMenu {
     }
    
     public void getCharges() {
-        ObservableList charges = FXCollections.observableArrayList();
+        ObservableList<FolioCharge> charges = FXCollections.observableArrayList();
         charges = dao.queryCharges(1234);
         tblCharges.setItems(charges);
+        calculateTotals();
     }
 
     private void setupColumns() {
@@ -76,6 +84,10 @@ public class BillingMenuController implements Initializable, SubMenu {
                 new PropertyValueFactory<>("Date"));
         colAmount.setCellValueFactory(
                 new PropertyValueFactory<>("Amount"));
+        colAmount.setCellValueFactory( cellData ->
+            Bindings.format("%.2f", cellData.getValue().getAmount())
+        );
+        
     }
 
     public void setReservation(Reservation reservation) {
@@ -89,6 +101,17 @@ public class BillingMenuController implements Initializable, SubMenu {
     @Override
     public void setUser(User e) {
         this.user = e;
+    }
+
+    private void calculateTotals() {
+        CurrencyStringConverter csc = new CurrencyStringConverter();
+        double subtotal = 0, total = 0, taxes = 0;
+        subtotal = tblCharges.getItems().stream().mapToDouble(FolioCharge::getAmount).sum();
+        taxes = subtotal * taxRate;
+        total = subtotal + taxes;
+        lblTotal.setText(csc.toString(total));
+        lblTaxes.setText(csc.toString(taxes));
+        lblSubTotal.setText(csc.toString(subtotal));
     }
     
 }

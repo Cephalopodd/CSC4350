@@ -37,7 +37,26 @@ public class BillingMenuDAO {
         result.addAll( new FolioCharge(BillingCode.FOOD, "Steak", LocalDate.now().toString(), 12.00),
             new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
             new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
-            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00)
+            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 89.00),
+            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 35.00),
+            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
+            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00),
+            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
+            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
+            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00),
+            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
+            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
+            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 45.00),
+            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
+            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
+            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00),
+            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
+            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 24.34),
+            new FolioCharge(BillingCode.RESORTFEE, "Internet", LocalDate.now().toString(), 50.00),
+            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
+            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
+            new FolioCharge(BillingCode.ROOM, "Room 506", LocalDate.now().toString(), 287.00)
+        
         );
         
         return result;
