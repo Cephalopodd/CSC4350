@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -14,19 +15,31 @@
    <children>
       <Pane id="bkgrndPane" maxHeight="500.0" maxWidth="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #302F3B;">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff855c" height="80.0" stroke="#2b7bc6" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
-            <Text fill="WHITE" layoutX="48.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SIGN INTO YOUR ACCOUNT" textAlignment="CENTER">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff855c" height="80.0" stroke="#2b7bc6" strokeType="INSIDE" strokeWidth="0.0" width="500.0">
+               <effect>
+                  <InnerShadow height="17.96" radius="3.99" width="0.0" />
+               </effect></Rectangle>
+            <Text fill="WHITE" layoutX="48.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.5" text="SIGN INTO YOUR ACCOUNT" textAlignment="CENTER">
                <font>
                   <Font size="30.0" />
                </font>
+               <effect>
+                  <DropShadow color="#00000088" height="3.0" offsetX="1.0" offsetY="1.0" radius="0.5" spread="0.5" width="1.0" />
+               </effect>
             </Text>
-            <TextField id="unTxtField" fx:id="unTxtField" layoutX="57.0" layoutY="171.0" prefHeight="54.0" prefWidth="386.0" text="Username" />
+            <TextField id="unTxtField" fx:id="unTxtField" layoutX="57.0" layoutY="171.0" prefHeight="54.0" prefWidth="386.0" promptText="Username">
+               <effect>
+                  <DropShadow />
+               </effect></TextField>
             <Text fill="WHITE" layoutX="57.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="57.0" layoutY="286.0" prefHeight="54.0" prefWidth="386.0" promptText="Password" />
+            <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="57.0" layoutY="286.0" prefHeight="54.0" prefWidth="386.0" promptText="Password">
+               <effect>
+                  <DropShadow />
+               </effect></PasswordField>
             <Text fill="WHITE" layoutX="57.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
@@ -36,11 +49,17 @@
                <font>
                   <Font size="20.0" />
                </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </Button>
             <Button id="exitButton" fx:id="exitButton" layoutX="261.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="46.0" prefWidth="182.0" text="Exit">
                <font>
                   <Font size="20.0" />
                </font>
+               <effect>
+                  <InnerShadow />
+               </effect>
             </Button>
             <Label fx:id="lblLoginError" layoutX="57.0" layoutY="358.0" prefHeight="17.0" prefWidth="386.0" textFill="#f20202" />
          </children>
