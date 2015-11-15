@@ -1,39 +1,28 @@
-/** 
- * ProfileBuilder class
- * 
- * This builder is used to generate new profiles. 
- * 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package hms.model;
 
-import junk.Address;
 
-/**
- *
- * @author Team SLAM
- */
 public class ProfileBuilder {
-    private String firstName;
-    private String lastName;
-    private String title;
-    private String phone;
-    private String email;
-    private String notes;
-    private Address address;
-    private boolean VIP;
+    private String firstName = "";
+    private String lastName = "";
+    private String title = "";
+    private String phoneNumber = "";
+    private String email = "";
+    private String notes = "";
+    private String street = "";
+    private String apt = "";
+    private String city = "";
+    private String state = "";
+    private String zip = "";
+    private String country = "";
+    private boolean VIP = false;
     private int memberID;
 
     public ProfileBuilder() {
-    }
-    
-    /**
-     * This method returns a new profile, and is called after
-     * the preceding methods are used to build the profile.
-     * @return Profile 
-     */
-    public Profile createProfile() {
-        return new Profile(firstName, lastName, title, phone, email,
-                notes, address, VIP);
     }
 
     public ProfileBuilder setFirstName(String firstName) {
@@ -51,8 +40,8 @@ public class ProfileBuilder {
         return this;
     }
 
-    public ProfileBuilder setPhone(String phone) {
-        this.phone = phone;
+    public ProfileBuilder setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
         return this;
     }
 
@@ -66,8 +55,33 @@ public class ProfileBuilder {
         return this;
     }
 
-    public ProfileBuilder setAddress(Address address) {
-        this.address = address;
+    public ProfileBuilder setStreet(String street) {
+        this.street = street;
+        return this;
+    }
+
+    public ProfileBuilder setApt(String apt) {
+        this.apt = apt;
+        return this;
+    }
+
+    public ProfileBuilder setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public ProfileBuilder setState(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public ProfileBuilder setZip(String zip) {
+        this.zip = zip;
+        return this;
+    }
+
+    public ProfileBuilder setCountry(String country) {
+        this.country = country;
         return this;
     }
 
@@ -79,6 +93,10 @@ public class ProfileBuilder {
     public ProfileBuilder setMemberID(int memberID) {
         this.memberID = memberID;
         return this;
+    }
+
+    public Profile createProfile() {
+        return new Profile(firstName, lastName, title, phoneNumber, email, notes, street, apt, city, state, zip, country, VIP, memberID);
     }
     
 }

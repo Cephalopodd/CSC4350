@@ -99,7 +99,7 @@ public class ReservationsMenuController implements Initializable, SubMenu {
     }
 
     @FXML
-    private void onProfiles(ActionEvent event) {
+    private void onClickProfiles(ActionEvent event) {
     }
 
     @FXML

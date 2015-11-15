@@ -13,7 +13,10 @@ package junk;
  */
 public class Address {
 
+    private String firstName, lastName, title, phoneNumber, email, notes;
     private String street, apt, city, state, zip, country;
+    private boolean VIP;
+    private int memberID;
 
     /**
      * @Constructor Creates an Address

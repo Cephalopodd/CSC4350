@@ -8,169 +8,146 @@
  */
 package hms.model;
 
-import junk.Address;
-
 /**
  *
  * @author Team SLAM
  */
 public class Profile {
     
-    private String firstName, lastName, title, phone, email, notes;
-    private Address address;
+    private String firstName, lastName, title, phoneNumber, email, notes;
+    private String street, apt, city, state, zip, country;
     private boolean VIP;
     private int memberID;
 
-    public Profile(String firstName, String lastName, String title, 
-            String phone, String email, String notes, Address address, 
-            boolean VIP) {
+    public Profile(String firstName, String lastName, String title, String phoneNumber, String email, String notes, String street, String apt, String city, String state, String zip, String country, boolean VIP, int memberID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.title = title;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.notes = notes;
-        this.address = address;
+        this.street = street;
+        this.apt = apt;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.country = country;
         this.VIP = VIP;
-        this.memberID = generateMemberID();
+        this.memberID = memberID;
     }
 
-    /**
-     * This method is used to generate a unique profile ID. 
-     * precondition: A database connection to retrieve existing IDs is 
-     * available.
-     * postcondition: A unique ID is generated and returned.
-     * @return new memberID
-     */
-    private int generateMemberID() {
-        //TODO
-        return 0;
-    }
-    
-    /**
-     * @return the firstName
-     */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * @param firstName the firstName to set
-     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-     * @return the lastName
-     */
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * @param lastName the lastName to set
-     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-     * @return the title
-     */
     public String getTitle() {
         return title;
     }
 
-    /**
-     * @param title the title to set
-     */
     public void setTitle(String title) {
         this.title = title;
     }
 
-    /**
-     * @return the phone
-     */
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    /**
-     * @param phone the phone to set
-     */
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    /**
-     * @return the email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the notes
-     */
     public String getNotes() {
         return notes;
     }
 
-    /**
-     * @param notes the notes to set
-     */
     public void setNotes(String notes) {
         this.notes = notes;
     }
 
-    /**
-     * @return the address
-     */
-    public Address getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    /**
-     * @param address the address to set
-     */
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    /**
-     * @return the VIP
-     */
+    public String getApt() {
+        return apt;
+    }
+
+    public void setApt(String apt) {
+        this.apt = apt;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public boolean isVIP() {
         return VIP;
     }
 
-    /**
-     * @param VIP the VIP to set
-     */
     public void setVIP(boolean VIP) {
         this.VIP = VIP;
     }
 
-    /**
-     * @return the memberID
-     */
     public int getMemberID() {
         return memberID;
     }
 
-    /**
-     * @param memberID the memberID to set
-     */
     public void setMemberID(int memberID) {
         this.memberID = memberID;
     }
+
     
+
 }
