@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="loginPane" hgap="5.0" prefHeight="200.0" prefWidth="425.0" style="-fx-background-color: white;" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.CheckInFormController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="128.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="1.0" prefWidth="40.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="0.0" prefWidth="36.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="27.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="0.0" prefWidth="29.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="157.0" minWidth="10.0" prefWidth="53.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="10.0" prefWidth="25.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="6.0" prefWidth="28.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="4.0" prefWidth="11.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="10.0" prefWidth="17.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="81.0" minHeight="0.0" prefHeight="28.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label alignment="CENTER" prefHeight="25.0" prefWidth="482.0" text="Verify Check In Information" GridPane.columnSpan="2147483647" GridPane.valignment="CENTER">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label text="Customer Name" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+      <Label text="Credit Card Type" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+      <Label text="Credit Card #" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+      <ChoiceBox fx:id="cbxCCType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <TextField fx:id="txtCC" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="3" />
+      <Label text="Exp" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+      <TextField fx:id="txtLastName" prefHeight="26.0" prefWidth="106.0" promptText="Last Name" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="1" />
+      <ChoiceBox fx:id="cbxMonth" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+      <ChoiceBox fx:id="cbxYear" prefWidth="150.0" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <Button fx:id="btnOK" mnemonicParsing="false" onAction="#onClickOK" prefHeight="26.0" prefWidth="73.0" text="OK" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+      <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="26.0" prefWidth="65.0" text="Cancel" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+      <Label prefHeight="16.0" prefWidth="71.0" text="CCID" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+      <TextField fx:id="txtCCID" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <Label alignment="CENTER" prefHeight="16.0" prefWidth="73.0" text="Room#" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.valignment="BOTTOM" />
+      <ChoiceBox fx:id="choiceRooms" prefWidth="150.0" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>
