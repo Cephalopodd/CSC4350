@@ -9,8 +9,9 @@ package hms.model;
 public class AdminDAO {
     
     //Query that accesses the database and get toatalSales of the current day.
-    public String getTotalSales(String totalSales) {
-        //String sales = "123.23";
+    public double getTotalSales(double totalSales) {
+        //Please write query to return the total Sales for the current day.
+        double sales = 123.23;
         return sales;
     }
     
