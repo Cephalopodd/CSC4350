@@ -16,7 +16,7 @@ import javafx.scene.control.Label;
 public class AdminMenuController implements Initializable, SubMenu {
     
     AdminDAO dao;
-    String totalSales;
+    double totalSales;
 
     @FXML
     private Label txtTotalSales;
@@ -42,7 +42,7 @@ public class AdminMenuController implements Initializable, SubMenu {
     }
     
     private void setTotalSales(){
-        txtTotalSales.setText(dao.getTotalSales(totalSales));
+        String daoTotalSales = Double.toString(dao.getTotalSales(totalSales));
+        txtTotalSales.setText("$" + daoTotalSales);
     }
-    
 }
