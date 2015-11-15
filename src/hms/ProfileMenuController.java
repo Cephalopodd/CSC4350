@@ -29,7 +29,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class ProfileMenuController implements Initializable, SubMenu {
     @FXML
-    private BorderPane ProfileMenuPane;
+    private BorderPane profileMenuPane;
     @FXML
     private TextField txtFirstName;
     @FXML
@@ -111,6 +111,17 @@ public class ProfileMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickNewProfile(ActionEvent event) {
+        ProfileFormController p = new ProfileFormController();
+        //Get Selected Reservation
+       
+        //Dim Screen
+        this.profileMenuPane.setOpacity(.3);
+
+        //Open Up Reservation Editor
+        p.display(main);
+        
+        //UnDim Screen
+        profileMenuPane.setOpacity(1.0);
     }
 
     @FXML
