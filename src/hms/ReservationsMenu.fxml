@@ -124,7 +124,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
                <content>
-                  <TableView fx:id="tblFrontDesk" prefHeight="202.0" prefWidth="630.0">
+                  <TableView fx:id="tblReservations" prefHeight="202.0" prefWidth="630.0">
                     <columns>
                         <TableColumn fx:id="colFirstName" maxWidth="300.0" minWidth="150.0" prefWidth="150.0" text="First Name" />
                         <TableColumn fx:id="colLastName" maxWidth="300.0" minWidth="150.0" prefWidth="150.0" text="Last Name" />

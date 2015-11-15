@@ -9,6 +9,7 @@ import hms.model.User;
 import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskDAO;
 import hms.model.FrontDeskArrivalsDTOBuilder;
+import hms.model.MenuType;
 import hms.model.Reservation;
 import hms.model.ReservationStatus;
 import hms.model.ReservationStatusCode;
@@ -87,7 +88,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
     private TableColumn<Reservation, Double> colRoomRate;
 
-    private MainMenuController mainMenuController;
+    private MainMenuController main;
     private User currentUser;
     private ObservableList<Reservation> data;
     private FrontDeskDAO dao;
@@ -99,8 +100,6 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     public void initialize(URL url, ResourceBundle rb) {
 
         dao = new FrontDeskDAO();
-        data = FXCollections.observableArrayList();
-
         dateArrival.setValue(LocalDate.now());
         setupTable();
 
@@ -108,10 +107,12 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickArrivals(ActionEvent event) {
+        main.displaySubMenu(MenuType.FRONTDESK);
     }
 
     @FXML
     private void onClickInHouseGuests(ActionEvent event) {
+        //Todo Create IN House Guests menu
     }
 
     @FXML
@@ -134,24 +135,12 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickWalkIn(ActionEvent event) {
+        //Todo Handle Walk IN
     }
 
     @FXML
     private void onClickEditReservation(ActionEvent event) {
-        //Get Selected Reservation
-        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
-
-        //Dim Screen
-        frontDeskPane.setOpacity(.3);
-
-        //Open Up Reservation Editor
-        ReservationFormController.display(r, mainMenuController);
-
-        //Save Updated Reservation to DB
-        dao.updateReservation(r);
-
-        //UnDim Screen
-        frontDeskPane.setOpacity(1.0);
+        handleEdit();
 
     }
     
@@ -169,13 +158,13 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         private void onClickCheckIn(ActionEvent event) {
         frontDeskPane.setOpacity(.3);
         CheckInFormController checkIn = new CheckInFormController();
-        checkIn.display(mainMenuController);
+        checkIn.display(main);
         frontDeskPane.setOpacity(1.0);
     }
 
     @Override
         public void setSubMenuParent(MainMenuController main) {
-        mainMenuController = main;
+        this.main = main;
     }
 
     @Override
@@ -184,6 +173,8 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private void setupTable() {
+        
+        data = FXCollections.observableArrayList();
 
         tblFrontDesk.setItems(data);
 
@@ -295,6 +286,23 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             alert.showAndWait();
         }
 
+    }
+
+    private void handleEdit() {
+        //Get Selected Reservation
+        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+
+        //Dim Screen
+        frontDeskPane.setOpacity(.3);
+
+        //Open Up Reservation Editor
+        ReservationFormController.display(r, main);
+
+        //Save Updated Reservation to DB
+        dao.updateReservation(r);
+
+        //UnDim Screen
+        frontDeskPane.setOpacity(1.0);
     }
 
 }
