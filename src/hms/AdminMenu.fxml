@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AdminMenuController">
+<StackPane prefHeight="1000.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AdminMenuController">
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0">
          <children>
@@ -39,7 +39,15 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <PieChart fx:id="checkStatsPieChart" layoutX="36.0" layoutY="225.0" prefHeight="238.0" prefWidth="298.0" />
+            <PieChart fx:id="checkStatsPieChart" layoutX="30.0" layoutY="200.0" />
+            <LineChart fx:id="weeklySales" layoutX="550.0" layoutY="200.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
          </children>
       </Pane>
    </children>
