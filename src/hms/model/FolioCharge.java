@@ -8,34 +8,29 @@
  */
 package hms.model;
 
-import java.time.LocalDate;
-
 /**
  * 
  * @author Team SLAM
  */
 public class FolioCharge {
     
-    
-    
-    private FolioBillingCode code;
+    private String code;
     private String description;
-    private double amount;
     private String date;
-    private CreditCard CC;
+    private double amount;
 
-    public FolioCharge(FolioBillingCode code, String description, double amount, String date) {
+    public FolioCharge(String code, String description, String date, double amount) {
         this.code = code;
         this.description = description;
-        this.amount = amount;
         this.date = date;
+        this.amount = amount;
     }
 
-    public FolioBillingCode getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(FolioBillingCode code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -47,6 +42,14 @@ public class FolioCharge {
         this.description = description;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public double getAmount() {
         return amount;
     }
@@ -54,15 +57,5 @@ public class FolioCharge {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-    
-  public String getDate() {
-        return date;
-    }
 
-    public void setDate(String date) {
-        this.date = LocalDate.now().toString();
-    }
-    
-
-    
 }

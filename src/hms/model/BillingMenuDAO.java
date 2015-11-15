@@ -15,14 +15,31 @@ import javafx.collections.ObservableList;
  */
 public class BillingMenuDAO {
 
-    public ObservableList queryArrivals(BillingMenuDTO dto) {
+    public ObservableList queryCharges(int confirmation) {
 
+        //Receive Reservation confirmation number
+        //Return Observable list of pending Folio Charges
         ObservableList<FolioCharge> result = FXCollections.observableArrayList();
 
         //Execute Query Here from FolioCharges  Information
-        //Build BillingMenu objects from Results:
+        //Build folio charges objects from Results:
         //Return Observalble list of results
+        
+        result = getFakeData();
+        
+        
         return result;
 
+    }
+
+    private ObservableList<FolioCharge> getFakeData() {
+        ObservableList<FolioCharge> result = FXCollections.observableArrayList();
+        result.addAll( new FolioCharge(BillingCode.FOOD, "Steak", LocalDate.now().toString(), 12.00),
+            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
+            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
+            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00)
+        );
+        
+        return result;
     }
 }
