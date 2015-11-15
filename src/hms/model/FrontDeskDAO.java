@@ -91,7 +91,6 @@ public class FrontDeskDAO {
             stmt = c.createStatement();
             rowsDeleted = stmt.executeUpdate("delete from reservation where id = " 
                         + confirmation);
-            c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
