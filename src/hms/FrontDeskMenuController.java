@@ -67,7 +67,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
     private Button btnWalkIn;
     @FXML
-    private Button btnEdit;
+    private Button btnEditReservation;
+    @FXML
+    private Button btnEditProfile;
     @FXML
     private Button btnCancel;
     @FXML
@@ -135,7 +137,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     @FXML
-    private void onClickEdit(ActionEvent event) {
+    private void onClickEditReservation(ActionEvent event) {
         //Get Selected Reservation
         Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
 
@@ -151,6 +153,11 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         //UnDim Screen
         frontDeskPane.setOpacity(1.0);
 
+    }
+    
+    @FXML
+    private void onClickEditProfile(ActionEvent event) {
+        
     }
 
     @FXML
