@@ -39,6 +39,7 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
+            <PieChart fx:id="checkStatsPieChart" layoutX="36.0" layoutY="225.0" prefHeight="238.0" prefWidth="298.0" />
          </children>
       </Pane>
    </children>
