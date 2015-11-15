@@ -6,9 +6,7 @@
 package hms;
 
 import hms.model.CreditCardType;
-import com.sun.media.jfxmediaimpl.platform.Platform;
 import hms.model.CreditCard;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -35,28 +34,29 @@ import javafx.stage.StageStyle;
  * @author jgreene
  */
 public class CheckInFormController implements Initializable {
+    
     @FXML
-    private ChoiceBox<Integer> choiceRooms;
+    private GridPane checkInFormPane;
+
     @FXML
-    private GridPane loginPane;
+    private TextField txtCCNumber;
     @FXML
-    private TextField txtFirstName;
+    private TextField txtNameOnCC;
     @FXML
-    private ChoiceBox<String> cbxCCType;
+    private TextField txtCCID;
     @FXML
-    private TextField txtCC;
-    @FXML
-    private TextField txtLastName;
+    private Label lblRoomNumber;
     @FXML
     private ChoiceBox<Integer> cbxMonth;
     @FXML
     private ChoiceBox<Integer> cbxYear;
     @FXML
+    private ChoiceBox<String> cbxCCType;
+    
+    @FXML
     private Button btnOK;
     @FXML
     private Button btnCancel;
-    @FXML
-    private TextField txtCCID;
     
     private ObservableList<Integer> months;
     private ObservableList<Integer> years;
