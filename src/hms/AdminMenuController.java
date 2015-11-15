@@ -1,32 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hms;
 
+import hms.model.AdminDAO;
 import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
  *
- * @author fpatel
+ * @author Fenil
  */
 public class AdminMenuController implements Initializable, SubMenu {
     
-    @FXML
-    ImageView image1;
+    AdminDAO dao;
+    String totalSales;
 
     @FXML
-    public void onClickImage1 (MouseEvent e) {
-        System.out.println("This image is a button");
-    }
+    private Label txtTotalSales;
 
     /**
      * Initializes the controller class.
@@ -34,6 +27,8 @@ public class AdminMenuController implements Initializable, SubMenu {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        dao = new AdminDAO();
+        setTotalSales();
     }    
 
     @Override
@@ -44,6 +39,10 @@ public class AdminMenuController implements Initializable, SubMenu {
     @Override
     public void setUser(User e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private void setTotalSales(){
+        txtTotalSales.setText(dao.getTotalSales(totalSales));
     }
     
 }

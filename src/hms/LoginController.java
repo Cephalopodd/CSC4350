@@ -106,6 +106,10 @@ public class LoginController implements Initializable {
         unTxtField.setText("");
         pwdTxtField.setText("");
         HMSapp.doLogin(user);
+        
+        //If login successfull sets the message to blank.
+        //This way the message reset after login.
+        lblLoginError.setText(" ");
     }
     
 }

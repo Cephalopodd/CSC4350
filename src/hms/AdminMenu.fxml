@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AdminMenuController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AdminMenuController">
    <children>
-      <ImageView fx:id="image1" fitHeight="114.0" fitWidth="114.0" layoutX="100.0" layoutY="143.0" onMouseClicked="#onClickImage1" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../resource/images/add-user.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="114.0" fitWidth="114.0" layoutX="233.0" layoutY="143.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../resource/images/add-user.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="114.0" fitWidth="114.0" layoutX="371.0" layoutY="143.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../resource/images/add-user.png" />
-         </image>
-      </ImageView>
+      <Pane prefHeight="500.0" prefWidth="700.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4173c4" height="100.0" layoutX="36.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f1f1f1" height="35.0" layoutX="36.0" layoutY="79.0" stroke="#f1f1f1" strokeType="INSIDE" width="200.0" />
+            <Text layoutX="36.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Sales" textAlignment="CENTER" wrappingWidth="199.99999850988388">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4173c4" height="100.0" layoutX="251.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f1f1f1" height="35.0" layoutX="251.0" layoutY="79.0" stroke="#f1f1f1" strokeType="INSIDE" width="200.0" />
+            <Text layoutX="251.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Check In" textAlignment="CENTER" wrappingWidth="199.99999850988388">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4173c4" height="100.0" layoutX="464.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f1f1f1" height="35.0" layoutX="464.0" layoutY="80.0" stroke="#f1f1f1" strokeType="INSIDE" width="200.0" />
+            <Text layoutX="464.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Check Out" textAlignment="CENTER" wrappingWidth="199.99999850988388">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Label fx:id="txtTotalSales" alignment="CENTER" layoutX="44.0" layoutY="23.0" prefHeight="50.0" prefWidth="180.0" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
-</Pane>
+</StackPane>
