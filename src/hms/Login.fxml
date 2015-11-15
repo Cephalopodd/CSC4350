@@ -27,25 +27,25 @@
                   <DropShadow color="#00000088" height="3.0" offsetX="1.0" offsetY="1.0" radius="0.5" spread="0.5" width="1.0" />
                </effect>
             </Text>
-            <TextField id="unTxtField" fx:id="unTxtField" layoutX="57.0" layoutY="171.0" prefHeight="54.0" prefWidth="386.0" promptText="Username">
+            <TextField id="unTxtField" fx:id="unTxtField" layoutX="55.0" layoutY="162.0" prefHeight="55.0" prefWidth="390.0" promptText="Username">
                <effect>
                   <DropShadow />
                </effect></TextField>
-            <Text fill="WHITE" layoutX="57.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" wrappingWidth="125.21875">
+            <Text fill="WHITE" layoutX="55.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="57.0" layoutY="286.0" prefHeight="54.0" prefWidth="386.0" promptText="Password">
+            <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="55.0" layoutY="279.0" prefHeight="55.0" prefWidth="390.0" promptText="Password">
                <effect>
                   <DropShadow />
                </effect></PasswordField>
-            <Text fill="WHITE" layoutX="57.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="125.21875">
+            <Text fill="WHITE" layoutX="55.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button id="loginButton" fx:id="loginButton" defaultButton="true" layoutX="57.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="46.0" prefWidth="182.0" text="Login">
+            <Button id="loginButton" fx:id="loginButton" defaultButton="true" layoutX="55.0" layoutY="395.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="45.0" prefWidth="180.0" text="Login">
                <font>
                   <Font size="20.0" />
                </font>
@@ -53,7 +53,7 @@
                   <InnerShadow />
                </effect>
             </Button>
-            <Button id="exitButton" fx:id="exitButton" layoutX="261.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="46.0" prefWidth="182.0" text="Exit">
+            <Button id="exitButton" fx:id="exitButton" layoutX="265.0" layoutY="395.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="45.0" prefWidth="180.0" text="Exit">
                <font>
                   <Font size="20.0" />
                </font>
@@ -61,7 +61,7 @@
                   <InnerShadow />
                </effect>
             </Button>
-            <Label fx:id="lblLoginError" layoutX="57.0" layoutY="358.0" prefHeight="17.0" prefWidth="386.0" textFill="#f20202" />
+            <Label fx:id="lblLoginError" layoutX="55.0" layoutY="355.0" prefHeight="20.0" prefWidth="390.0" textFill="#d2290b" />
          </children>
       </Pane>
    </children>
