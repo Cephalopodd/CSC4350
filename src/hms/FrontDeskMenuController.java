@@ -269,7 +269,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         response = alert.showAndWait();
 
         //Response is not yes, return
-        if (response.get() != ButtonType.YES) {
+        if (response.get() != ButtonType.OK) {
             return;
         }
 
