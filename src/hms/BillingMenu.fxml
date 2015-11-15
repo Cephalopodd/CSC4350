@@ -37,7 +37,7 @@
             </TableView>
          </content>
       </ScrollPane>
-      <Button mnemonicParsing="false" onAction="#onClickPrintInvoice" text="Print Invoice" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+      <Button mnemonicParsing="false" onAction="#onClickPrintInvoice" prefHeight="50.0" prefWidth="140.0" text="Print Invoice" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <rotationAxis>
             <Point3D />
          </rotationAxis>
@@ -56,7 +56,7 @@
             <Insets left="10.0" />
          </padding>
       </Label>
-      <Button mnemonicParsing="false" onAction="#onClickMakePayment" text="Make Payment" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Button mnemonicParsing="false" onAction="#onClickMakePayment" prefHeight="50.0" prefWidth="140.0" text="Make Payment" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets />
          </GridPane.margin>

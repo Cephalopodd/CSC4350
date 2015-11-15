@@ -10,9 +10,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginController">
+<StackPane style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.LoginController">
    <children>
-      <Pane id="bkgrndPane" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #302F3B;">
+      <Pane id="bkgrndPane" maxHeight="500.0" maxWidth="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #302F3B;">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff855c" height="80.0" stroke="#2b7bc6" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
             <Text fill="WHITE" layoutX="48.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SIGN INTO YOUR ACCOUNT" textAlignment="CENTER">
