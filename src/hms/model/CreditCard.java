@@ -11,12 +11,13 @@ package hms.model;
  * @author Team SLAM
  */
 public class CreditCard {
-    private final String CCNumber;
-    private final String code;
-    private final String name;
-    private final int expMonth;
-    private final int expYear;
-    private boolean verified = false;
+    
+    private String name;
+    private String CCNumber;
+    private String code;
+    private String type;
+    private int expMonth;
+    private int expYear;
 
     /**
      * @Constructor creates CreditCard
@@ -26,26 +27,100 @@ public class CreditCard {
      * @param expMonth
      * @param expYear
      */
-    public CreditCard(String CCNumber, String code, 
-            String name, int expMonth, int expYear) {
+    public CreditCard(String name, String CCNumber, String type, 
+            String code, int expMonth, int expYear) {
         this.CCNumber = CCNumber;
         this.code = code;
+        this.type = type;
         this.name = name;
         this.expMonth = expMonth;
         this.expYear = expYear;
-        this.verified = verifyCC();
-    }
-    
-    /**
-     * This method checks the validity of the credit card
-     * Precondition: none
-     * Postcondition: returns true if the CC information is valid, and 
-     * account is action. returns false if the card cannot be validated.
-     * @return boolean 
-     */
-    public final boolean verifyCC() {
-        //TODO
-        return true;
     }
 
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the CCNumber
+     */
+    public String getCCNumber() {
+        return CCNumber;
+    }
+
+    /**
+     * @param CCNumber the CCNumber to set
+     */
+    public void setCCNumber(String CCNumber) {
+        this.CCNumber = CCNumber;
+    }
+
+    /**
+     * @return the code
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * @param code the code to set
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * @return the expMonth
+     */
+    public int getExpMonth() {
+        return expMonth;
+    }
+
+    /**
+     * @param expMonth the expMonth to set
+     */
+    public void setExpMonth(int expMonth) {
+        this.expMonth = expMonth;
+    }
+
+    /**
+     * @return the expYear
+     */
+    public int getExpYear() {
+        return expYear;
+    }
+
+    /**
+     * @param expYear the expYear to set
+     */
+    public void setExpYear(int expYear) {
+        this.expYear = expYear;
+    }
+
+    
+    
 }

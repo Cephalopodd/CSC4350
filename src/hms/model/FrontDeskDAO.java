@@ -117,5 +117,22 @@ public class FrontDeskDAO {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
     }
+
+    public CreditCard getCreditCard(int confirmation) {
+    
+        //Receive Confirmation number
+        //Return CC
+        CreditCard cc = new CreditCard("Jon Smith", "412812341283", 
+                CreditCardType.VISA, "1234", 4, 2017);
+        return cc;
+        
+    }
+
+    public boolean setCreditCard(int confirmation, CreditCard verifiedCC) {
+        //Recieve Confirmation number
+        //Update CC information
+        //Return boolean result
+        return true;
+    }
 }
 

@@ -5,6 +5,9 @@
  */
 package hms;
 
+import hms.model.CreditCard;
+import hms.model.FrontDeskDAO;
+import hms.model.Reservation;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +25,8 @@ import javafx.stage.StageStyle;
 class Forms {
     
 
-    static void displayCheckInForm(MainMenuController main) {
+    static boolean displayCheckInForm(MainMenuController main, int roomNum, CreditCard cc, FrontDeskDAO dao, Reservation r) {
+        boolean result = false;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -36,14 +40,32 @@ class Forms {
             CheckInFormController checkInFormController = ((CheckInFormController) checkInFormLoader.getController());
             
             checkInFormController.setStage(stage);
+            checkInFormController.setCC(cc);
+            checkInFormController.setRoomNumber(roomNum);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(checkInFormView);
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
+            
+            //Get Result
+            try {
+                CreditCard verifiedCC = checkInFormController.getCC();
+                result = checkInFormController.getResult();
+                if (result) {
+                    //Send new CC information to DB
+                    System.out.println("Sending new CC to DB: " + verifiedCC.getName());
+                    dao.setCreditCard(r.getConfirmation(), verifiedCC);
+                }
+            } catch (Exception e) {
+                System.out.println("Error reading form return");
+            }
+      
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return result;
+        
     }
     
     static void displayProfileForm(MainMenuController main) {

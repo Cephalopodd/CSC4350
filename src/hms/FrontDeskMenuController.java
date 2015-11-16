@@ -5,6 +5,7 @@
  */
 package hms;
 
+import hms.model.CreditCard;
 import hms.model.User;
 import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskDAO;
@@ -158,7 +159,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
         private void onClickCheckIn(ActionEvent event) {
-        Forms.displayCheckInForm(main);
+            handleCheckIn();
     }
 
     @Override
@@ -285,6 +286,64 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             alert.showAndWait();
         }
 
+    }
+
+    private void handleCheckIn() {
+        try {
+            Alert alert;
+            Optional<ButtonType> response;
+
+            //Get Selected Reservation
+            Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+
+            //If reservation is null, display message and return
+            if (r == null) {
+                alert = new Alert(Alert.AlertType.ERROR,
+                        "Reservation not Selected");
+                alert.showAndWait();
+                return;
+            }
+
+            //Check to make sure that the status is pending
+            if (!r.getStatus().equals(ReservationStatus.PENDING)) {
+                alert = new Alert(Alert.AlertType.ERROR,
+                        "Only reservations that are PENDING \n"
+                        + "can be CheckedIn");
+                alert.showAndWait();
+                return;
+            }
+            
+//            //Check to make sure that the checkIn Date is today
+//            if (!r.getCheckinDate().equals(LocalDate.now().toString())) {
+//                alert = new Alert(Alert.AlertType.ERROR,
+//                        "Only reservations with today's arrival \n"
+//                        + "date can be CheckedIn");
+//                alert.showAndWait();
+//                return;
+//            }
+            
+            //Get Credit Card information from DB
+            CreditCard cc = dao.getCreditCard(r.getConfirmation());
+            
+            //Send Information to Rooms Form
+            boolean result = Forms.displayCheckInForm(main, r.getRoomNumber(), cc, dao, r);
+            
+            if (result) {
+                r.setStatus(ReservationStatus.CHECKEDIN);
+                dao.updateReservation(r);
+                alert = new Alert(Alert.AlertType.INFORMATION,
+                "Guest was successfully checked in");
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR,
+                "Guest could not be checked in at this time");
+            }
+            alert.showAndWait();
+            
+            //Print Results
+            System.out.println("Result:" + result);
+        } catch (Exception e){
+            System.out.println("Error Handling CheckIn");
+        }
     }
 
 }
