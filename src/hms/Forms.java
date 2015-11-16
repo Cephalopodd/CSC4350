@@ -104,10 +104,10 @@ class Forms {
             stage.initOwner(HMS.stage);
             
             //Inject Link to HMSapp into Login And Main Menu Screen
-            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReservationsForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReserveRoomForm.fxml"));
             Parent parent = (Parent) loader.load();
             
-            ReservationsFormController controller = ((ReservationsFormController) loader.getController());
+            ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
             controller.setStage(stage);
             
             //Create Login and MainMenu Scene
