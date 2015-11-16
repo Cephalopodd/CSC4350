@@ -61,7 +61,7 @@ public class CheckInFormController implements Initializable {
     private ObservableList<Integer> months;
     private ObservableList<Integer> years;
     private ObservableList<String> ccTypes;
-    private static Stage stage;
+    private Stage stage;
 
     /**
      * Initializes the controller class.
@@ -83,7 +83,7 @@ public class CheckInFormController implements Initializable {
 
     @FXML
     private void onClickOK(ActionEvent event) {
-        
+        stage.close();
     }
 
     @FXML
@@ -93,6 +93,10 @@ public class CheckInFormController implements Initializable {
    
     public void setFields(int room, CreditCard cc) {
         
+    }
+
+    void setStage(Stage stage) {
+        this.stage = stage;
     }
     
 }

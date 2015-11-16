@@ -116,6 +116,7 @@ public class ProfileMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickEditProfile(ActionEvent event) {
+        Forms.displayProfileForm(main);
     }
 
     @FXML

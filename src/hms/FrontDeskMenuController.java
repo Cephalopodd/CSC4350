@@ -145,6 +145,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     
     @FXML
     private void onClickEditProfile(ActionEvent event) {
+        frontDeskPane.setOpacity(.3);
+        Forms.displayProfileForm(main);
+        frontDeskPane.setOpacity(1.0);
         
     }
 
@@ -156,6 +159,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
         private void onClickCheckIn(ActionEvent event) {
         frontDeskPane.setOpacity(.3);
+        Forms.displayCheckInForm(main);
         frontDeskPane.setOpacity(1.0);
     }
 

@@ -59,7 +59,7 @@ public class ProfileFormController implements Initializable {
     private Button btnSave;
     @FXML
     private Button btnCancel;
-    private static Stage stage;
+    private Stage stage;
 
     /**
      * Initializes the controller class.
@@ -119,10 +119,16 @@ public class ProfileFormController implements Initializable {
 
     @FXML
     private void onActionSave(ActionEvent event) {
+        stage.close();
     }
 
     @FXML
     private void onActionCancel(ActionEvent event) {
+        stage.close();
+    }
+
+    void setStage(Stage stage) {
+        this.stage = stage;
     }
    
 }
