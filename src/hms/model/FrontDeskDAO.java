@@ -134,5 +134,21 @@ public class FrontDeskDAO {
         //Return boolean result
         return true;
     }
+
+    public Profile getProfile(int profileID) {
+        //Receive ProfileID
+        //Return profile
+        return new ProfileBuilder()
+                .setFirstName("Test")
+                .setLastName("User")
+                .createProfile();
+    }
+
+    public boolean updateProfile(Profile p) {
+        //Receive Profile
+        //Update profile in DB
+        //REturn boolean result
+        return true;
+    }
 }
 

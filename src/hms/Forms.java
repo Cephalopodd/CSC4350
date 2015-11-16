@@ -68,27 +68,33 @@ class Forms {
         
     }
     
-    static void displayProfileForm(MainMenuController main) {
+    static boolean displayEditProfileForm(MainMenuController main, int profileID) {
+        boolean result = false;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(HMS.stage);
             
-            //Inject Link to HMSapp into Login And Main Menu Screen
+            //Load Form and get the controller
             FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ProfileForm.fxml"));
             Parent parent = (Parent) loader.load();
-            
             ProfileFormController controller = ((ProfileFormController) loader.getController());
+            
+            //Inject information into Form
             controller.setStage(stage);
+            controller.setProfileInformation(profileID);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
             
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
+            result = controller.getResult();
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return result;
     }
 
     static void displayEditReservationForm(MainMenuController main) {
