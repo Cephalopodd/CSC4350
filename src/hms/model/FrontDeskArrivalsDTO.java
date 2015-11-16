@@ -23,7 +23,7 @@ public class FrontDeskArrivalsDTO {
     private String departureDate;
 
     public FrontDeskArrivalsDTO() {
-        this("","","","","","",LocalDate.now().toString(),"");
+        this("","","","","","","","");
     }
     
     public FrontDeskArrivalsDTO(String firstName, String lastName, String companyName, String groupName, String confirmation, String phoneNumber, String arrivalDate, String departureDate) {

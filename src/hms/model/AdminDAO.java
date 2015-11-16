@@ -20,7 +20,7 @@ public class AdminDAO {
             rs = stmt.executeQuery(
                     "select count (*) from reservation "
                     + "where status like 'CHECKEDOUT' and "
-                    + "dep like '" + LocalDate.now().toString() + "'");
+                    + "dep like '" + today.toString() + "'");
             rs.next();
             checkOutToday = rs.getInt(1);
             System.out.println("Check Outs: " + checkOutToday);
