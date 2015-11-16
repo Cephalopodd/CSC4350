@@ -83,6 +83,14 @@ public class FrontDeskDAO {
         return result;
     }
 
+    public boolean createReservation(Reservation reservation) {
+        
+        //Create single reservation...
+        
+        return true;
+    }
+    
+    
     public boolean cancelReservation(int confirmation) {
         System.out.println("deleting reservation #" + confirmation);
         int rowsDeleted = 0;
@@ -237,5 +245,23 @@ public class FrontDeskDAO {
             closeAll();
         }
         return (rowsChanged > 0);
+    }
+
+    public boolean createProfile(Profile p) {
+        //Send you a profile to add to database
+        //You add Profile
+        //Return boolean result
+        return true;
+    }
+    
+    public ObservableList queryProfiles(ProfileSearchDTO dto) {
+        
+        ObservableList<Profile> profiles = FXCollections.observableArrayList();
+        
+        //Receive profile search dto
+        // QUery profiles
+        //Return observableList<Profile>
+        
+        return profiles;
     }
 }
