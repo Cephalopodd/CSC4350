@@ -92,5 +92,28 @@ class Forms {
         }
     }
     
+    static void displayAddNewUser(MainMenuController main) {
+           try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Inject Link to HMSapp into Login And Main Menu Screen
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("AddNewUser.fxml"));
+            Parent parent = (Parent) loader.load();
+            
+            AddNewUserController controller = ((AddNewUserController) loader.getController());
+            controller.setStage(stage);
+            
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 
 }
