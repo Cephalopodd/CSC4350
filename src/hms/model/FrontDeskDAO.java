@@ -165,6 +165,7 @@ public class FrontDeskDAO {
             ps.setInt(2, confirmation);
             rowsChanged = ps.executeUpdate();
             c.commit();
+            ps.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
@@ -174,19 +175,67 @@ public class FrontDeskDAO {
     }
 
     public Profile getProfile(int profileID) {
-        //Receive ProfileID
-        //Return profile
-        return new ProfileBuilder()
-                .setFirstName("Test")
-                .setLastName("User")
-                .createProfile();
+        Profile guest = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select * from guest where id = " + profileID);
+            if (rs.next()) {
+                guest = new ProfileBuilder()
+                    .setMemberID(rs.getInt("id"))
+                    .setFirstName(rs.getString("fname"))
+                    .setLastName(rs.getString("lname"))
+                    .setPhoneNumber(rs.getString("phone"))
+                    .setEmail(rs.getString("email"))
+                    .setStreet(rs.getString("addr1"))
+                    .setApt(rs.getString("addr2"))
+                    .setCity(rs.getString("city"))
+                    .setState(rs.getString("state"))
+                    .setZip(rs.getString("zip"))
+                    .setVIP(rs.getBoolean("vip"))
+                    .setNotes(rs.getString("notes"))
+                    .createProfile();
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return guest;
     }
 
     public boolean updateProfile(Profile p) {
-        //Receive Profile
-        //Update profile in DB
-        //REturn boolean result
-        return true;
+        System.out.println("updating guest #" + p.getMemberID());
+        int rowsChanged = 0;
+        PreparedStatement ps = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            ps = c.prepareStatement("update guest set fname = '?', lname = '?', "
+                + "phone = '?', email = '?', addr1 = '?', addr2 = '?', city = '?', "
+                + "state = '?', zip = '?', vip = ?, notes = '?', where id = ?");
+            ps.setString(1,p.getFirstName());
+            ps.setString(2,p.getLastName());
+            ps.setString(3,p.getPhoneNumber());
+            ps.setString(4,p.getEmail());
+            ps.setString(5,p.getStreet());
+            ps.setString(6,p.getApt());
+            ps.setString(7,p.getCity());
+            ps.setString(8,p.getState());
+            ps.setString(9,p.getZip());
+            ps.setInt(10,(p.isVIP() ? 1 : 0));
+            ps.setString(11,p.getNotes());
+            ps.setInt(12,p.getMemberID());
+            rowsChanged = ps.executeUpdate();
+            c.commit();
+            ps.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return (rowsChanged > 0);
     }
 }
-
