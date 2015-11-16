@@ -16,6 +16,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +31,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -134,20 +136,18 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickWalkIn(ActionEvent event) {
-        //Todo Handle Walk IN
+        //
     }
 
     @FXML
     private void onClickEditReservation(ActionEvent event) {
-        handleEdit();
+        Forms.displayEditReservationForm(main);
 
     }
     
     @FXML
     private void onClickEditProfile(ActionEvent event) {
-        frontDeskPane.setOpacity(.3);
         Forms.displayProfileForm(main);
-        frontDeskPane.setOpacity(1.0);
         
     }
 
@@ -158,9 +158,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
         private void onClickCheckIn(ActionEvent event) {
-        frontDeskPane.setOpacity(.3);
         Forms.displayCheckInForm(main);
-        frontDeskPane.setOpacity(1.0);
     }
 
     @Override
@@ -286,10 +284,6 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
                     "Record can not be deleted at this time");
             alert.showAndWait();
         }
-
-    }
-
-    private void handleEdit() {
 
     }
 

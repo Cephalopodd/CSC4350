@@ -27,6 +27,9 @@ class Forms {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(HMS.stage);
+            stage.setAlwaysOnTop(true);
+            stage.centerOnScreen();
+            
             //Inject Link to HMSapp into Login And Main Menu Screen
             FXMLLoader checkInFormLoader = new FXMLLoader(main.getClass().getResource("CheckInForm.fxml"));
             Parent checkInFormView = (Parent) checkInFormLoader.load();
@@ -36,7 +39,6 @@ class Forms {
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(checkInFormView);
-            
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
@@ -55,6 +57,29 @@ class Forms {
             Parent parent = (Parent) loader.load();
             
             ProfileFormController controller = ((ProfileFormController) loader.getController());
+            controller.setStage(stage);
+            
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    static void displayEditReservationForm(MainMenuController main) {
+           try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Inject Link to HMSapp into Login And Main Menu Screen
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReservationsForm.fxml"));
+            Parent parent = (Parent) loader.load();
+            
+            ReservationsFormController controller = ((ReservationsFormController) loader.getController());
             controller.setStage(stage);
             
             //Create Login and MainMenu Scene
