@@ -7,14 +7,9 @@ package hms;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -22,9 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -130,35 +123,6 @@ public class ProfileFormController implements Initializable {
 
     @FXML
     private void onActionCancel(ActionEvent event) {
-        stage.close();
     }
-    
-    
-    public void display(MainMenuController main) {
-        
-        stage = new Stage();
-        Parent root = null;
-        
-        try {
-            root = FXMLLoader.load(main.getClass()
-                    .getResource("ProfileForm.fxml"));
-        } catch (Exception ex) {
-            Logger.getLogger(CheckInFormController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        Scene scene = new Scene(root);
-        
-        stage.setResizable(false);
-        //stage.setAlwaysOnTop(true);   //cannot find symbol error
-        stage.toFront();    //stop gap fix for above
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        
-        //This should fix fullscreen but I need link to hmsApp in subMenu.
-        //  stage.initOwner(hmsApp);
-        
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-    
+   
 }

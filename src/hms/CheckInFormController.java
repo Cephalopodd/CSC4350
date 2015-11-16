@@ -95,30 +95,4 @@ public class CheckInFormController implements Initializable {
         
     }
     
-    public void display(MainMenuController main) {
-        
-        stage = new Stage();
-        Parent root = null;
-        
-        try {
-            root = FXMLLoader.load(main.getClass()
-                    .getResource("CheckInForm.fxml"));
-        } catch (Exception ex) {
-            Logger.getLogger(CheckInFormController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        Scene scene = new Scene(root);
-        
-        stage.setResizable(false);
-        //stage.setAlwaysOnTop(true);   //cannot find symbol error
-        stage.toFront();    //stop gap fix for above
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        
-        //This should fix fullscreen but I need link to hmsApp in subMenu.
-        //  stage.initOwner(hmsApp);
-        
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
 }

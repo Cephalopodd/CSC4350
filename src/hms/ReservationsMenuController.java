@@ -13,7 +13,6 @@ import hms.model.Reservation;
 import hms.model.ReservationStatus;
 import hms.model.User;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -291,17 +290,6 @@ public class ReservationsMenuController implements Initializable, SubMenu {
 
     private void handleEdit( Reservation r ) {
 
-        //Dim Screen
-        frontDeskPane.setOpacity(.3);
-
-        //Open Up Reservation Editor
-        ReservationFormController.display(r, main);
-
-        //Save Updated Reservation to DB
-        dao.updateReservation(r);
-
-        //UnDim Screen
-        frontDeskPane.setOpacity(1.0);
     }
 
 }
