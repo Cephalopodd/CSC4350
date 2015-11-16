@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AddNewUserController">
+   <children>
+      <TextField fx:id="unTxtField" layoutX="126.0" layoutY="49.0" promptText="Username" />
+      <TextField fx:id="pwdTxtField1" layoutX="126.0" layoutY="97.0" promptText="Password" />
+      <CheckBox layoutX="39.0" layoutY="150.0" mnemonicParsing="false" text="Manager" />
+      <CheckBox layoutX="132.0" layoutY="150.0" mnemonicParsing="false" text="Employee" />
+      <Button fx:id="btnFinish" defaultButton="true" layoutX="153.0" layoutY="290.0" mnemonicParsing="false" onAction="#onClickFinish" text="Finish" />
+      <Button fx:id="btnCancel" cancelButton="true" defaultButton="true" layoutX="258.0" layoutY="290.0" mnemonicParsing="false" onAction="#onClickCancel" text="Cancel" />
+   </children>
+</AnchorPane>

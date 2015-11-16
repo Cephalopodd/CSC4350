@@ -48,6 +48,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </LineChart>
+            <Button fx:id="btnAddUser" layoutX="724.0" layoutY="52.0" mnemonicParsing="false" onAction="#onClickAddNewUser" text="Add New User" />
          </children>
       </Pane>
    </children>

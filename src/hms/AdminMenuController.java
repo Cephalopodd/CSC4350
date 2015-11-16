@@ -15,6 +15,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import static java.time.DayOfWeek.MONDAY;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 
 public class AdminMenuController implements Initializable, SubMenu {
     
@@ -29,6 +31,8 @@ public class AdminMenuController implements Initializable, SubMenu {
     private PieChart checkStatsPieChart;
     @FXML
     private LineChart<?, ?> weeklySales;
+    @FXML
+    private Button btnAddUser;
 
     //Initializes the controller class.
     @Override
@@ -89,5 +93,9 @@ public class AdminMenuController implements Initializable, SubMenu {
         }
         //Adds the current week series to the line chart.
         weeklySales.getData().add(currentWeek);
+    }
+
+    @FXML
+    private void onClickAddNewUser(ActionEvent event) {
     }
 }
