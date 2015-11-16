@@ -5,16 +5,29 @@
  */
 package hms;
 
+import hms.model.FrontDeskArrivalsDTO;
+import hms.model.FrontDeskArrivalsDTOBuilder;
+import hms.model.FrontDeskDAO;
+import hms.model.Profile;
+import hms.model.Reservation;
+import hms.model.ReservationStatus;
+import hms.model.User;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
@@ -23,7 +36,7 @@ import javafx.scene.layout.GridPane;
  *
  * @author jgreene
  */
-public class ReservationsProfileMenuController implements Initializable {
+public class ReservationsProfileMenuController implements Initializable, SubMenu {
     @FXML
     private BorderPane reservationsProfilePane;
     @FXML
@@ -51,51 +64,51 @@ public class ReservationsProfileMenuController implements Initializable {
     @FXML
     private Button btnSearchProfiles;
     @FXML
-    private TextField memberID;
+    private TextField txtMemberID;
     @FXML
     private TextField txtEmail;
     @FXML
-    private TableView<?> tblReservations;
+    private TableView<Reservation> tblReservations;
     @FXML
-    private TableColumn<?, ?> colFirstName;
+    private TableColumn<Reservation, String> colFirstName;
     @FXML
-    private TableColumn<?, ?> colLastName;
+    private TableColumn<Reservation, String> colLastName;
     @FXML
-    private TableColumn<?, ?> colRoomNumber;
+    private TableColumn<Reservation, Integer> colRoomNumber;
     @FXML
-    private TableColumn<?, ?> colRoomType;
+    private TableColumn<Reservation, String> colRoomType;
     @FXML
-    private TableColumn<?, ?> colRoomRate;
+    private TableColumn<Reservation, Double> colRoomRate;
     @FXML
-    private TableColumn<?, ?> colNumberAdults;
+    private TableColumn<Reservation, Integer> colNumberAdults;
     @FXML
-    private TableColumn<?, ?> colNumberChildren;
+    private TableColumn<Reservation, Integer> colNumberChildren;
     @FXML
-    private TableColumn<?, ?> colArrival;
+    private TableColumn<Reservation, String> colArrival;
     @FXML
-    private TableColumn<?, ?> colDeparture;
+    private TableColumn<Reservation, String> colDeparture;
     @FXML
-    private TableColumn<?, ?> colStatus;
+    private TableColumn<Reservation, String> colStatus;
     @FXML
-    private TableColumn<?, ?> colComments;
+    private TableColumn<Reservation, String> colComments;
     @FXML
-    private TableView<?> tblProfiles;
+    private TableView<Profile> tblProfiles;
     @FXML
-    private TableColumn<?, ?> colMemberID;
+    private TableColumn<Profile, Integer> colMemberID;
     @FXML
-    private TableColumn<?, ?> colTitle;
+    private TableColumn<Profile, String> colTitle;
     @FXML
-    private TableColumn<?, ?> colFirstNameProfile;
+    private TableColumn<Profile, String> colFirstNameProfile;
     @FXML
-    private TableColumn<?, ?> colLastNameProfile;
+    private TableColumn<Profile, Integer> colLastNameProfile;
     @FXML
-    private TableColumn<?, ?> colVIP;
+    private TableColumn<Profile, Boolean> colVIP;
     @FXML
-    private TableColumn<?, ?> colPhoneNumber;
+    private TableColumn<Profile, String> colPhoneNumber;
     @FXML
-    private TableColumn<?, ?> colEmail;
+    private TableColumn<Profile, String> colEmail;
     @FXML
-    private TableColumn<?, ?> colNotes;
+    private TableColumn<Profile, String> colNotes;
     @FXML
     private Button btnNewReservation;
     @FXML
@@ -108,61 +121,282 @@ public class ReservationsProfileMenuController implements Initializable {
     private Button btnEditProfile;
     @FXML
     private Button btnDeleteProfile;
+    
+    private MainMenuController main;
+    private User user;
+
+    private ObservableList<Reservation> reservations;
+    private ObservableList<Profile> profiles;
+    private FrontDeskDAO dao;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    
+        dao = new FrontDeskDAO();
+
+        setupReservationsTable();
+        setupProfilesTable();
+        
     }    
 
     @FXML
-    private void onClickSearchReservation(ActionEvent event) {
-    }
-
-    @FXML
-    private void onClickSearchProfile(ActionEvent event) {
-    }
-
-    @FXML
     private void onClickClear(ActionEvent event) {
+        handleClear();
     }
 
     @FXML
     private void onClickSearchReservations(ActionEvent event) {
+        handleSearchReservations();
     }
 
-    @FXML
-    private void onClickSearchProfiles(ActionEvent event) {
-    }
-
-    @FXML
-    private void onClickSearchReservatin(ActionEvent event) {
-    }
 
     @FXML
     private void onClickNewReservation(ActionEvent event) {
+        handleEditReservations(null);
     }
 
     @FXML
     private void onClickEditReservation(ActionEvent event) {
+        
+        //Get Selected Reservation
+        Reservation r = tblReservations.getSelectionModel().getSelectedItem();
+    
+        //Prompt and return if a reservation is not selected.
+        if (r == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Reservation not Selected");
+            alert.showAndWait();
+            return;
+        }
+       
+        handleEditReservations(r);
     }
 
     @FXML
     private void onClickCancelReservation(ActionEvent event) {
+        handleCancelReservation();
+        
     }
 
     @FXML
     private void onClickNewProfile(ActionEvent event) {
+        //TODO
     }
 
     @FXML
     private void onClickEditProfile(ActionEvent event) {
+        //TODO
     }
 
     @FXML
     private void onClickDeleteProfile(ActionEvent event) {
+        //TODO
+    }
+
+    @FXML
+    private void onClickSearchProfiles(ActionEvent event) {
+        //TODO
     }
     
+    private void setupReservationsTable() {
+
+        reservations = FXCollections.observableArrayList();
+        tblReservations.setItems(reservations);
+
+        colFirstName.setCellValueFactory(
+                new PropertyValueFactory<>("FirstName"));
+        colLastName.setCellValueFactory(
+                new PropertyValueFactory<>("LastName"));
+        colRoomNumber.setCellValueFactory(
+                new PropertyValueFactory<>("RoomNumber"));
+        colRoomType.setCellValueFactory(
+                new PropertyValueFactory<>("RoomType"));
+        colRoomRate.setCellValueFactory(
+                new PropertyValueFactory<>("RoomRate"));
+        colNumberChildren.setCellValueFactory(
+                new PropertyValueFactory<>("NumberChildren"));
+        colNumberAdults.setCellValueFactory(
+                new PropertyValueFactory<>("NumberAdults"));
+        colArrival.setCellValueFactory(
+                new PropertyValueFactory<>("CheckinDate"));
+        colDeparture.setCellValueFactory(
+                new PropertyValueFactory<>("CheckoutDate"));
+        colStatus.setCellValueFactory(
+                new PropertyValueFactory<>("Status"));
+        colComments.setCellValueFactory(
+                new PropertyValueFactory<>("Comments"));
+    }
+
+    private void setupProfilesTable() {
+        
+        profiles = FXCollections.observableArrayList();
+        tblProfiles.setItems(profiles);
+    
+                
+        colMemberID.setCellValueFactory(
+            new PropertyValueFactory<>("MemberID"));
+        colTitle.setCellValueFactory(
+                new PropertyValueFactory<>("Title"));
+        colFirstNameProfile.setCellValueFactory(
+                new PropertyValueFactory<>("FirstName"));
+        colLastNameProfile.setCellValueFactory(
+                new PropertyValueFactory<>("LastName"));
+        colVIP.setCellValueFactory(
+                new PropertyValueFactory<>("VIP"));
+        colEmail.setCellValueFactory(
+                new PropertyValueFactory<>("Email"));
+        colPhoneNumber.setCellValueFactory(
+                new PropertyValueFactory<>("PhoneNumber"));
+        colNotes.setCellValueFactory(
+                new PropertyValueFactory<>("Notes")); 
+    }
+
+    @Override
+    public void setSubMenuParent(MainMenuController main) {
+        this.main = main;
+    }
+
+    @Override
+    public void setUser(User e) {
+        this.user = user;
+    }
+    
+    private void handleSearchReservations() {
+        if (!validateFields()) {
+            System.out.println("error validatiting fields");
+            return;
+        }
+
+        ObservableList<Reservation> result;
+
+        FrontDeskArrivalsDTO dto
+                = new FrontDeskArrivalsDTOBuilder()
+                .setFirstName(txtFirstName.getText())
+                .setLastName(txtLastName.getText())
+                .setCompanyName(txtCompanyName.getText())
+                .setGroupName(txtGroupName.getText())
+                .setConfirmation(txtConfirmation.getText())
+                .setPhoneNumber(txtPhoneNumber.getText())
+                .setArrivalDate(dateArrival.getValue() == null ? "" : dateArrival.getValue().toString())
+                .setDepartureDate(dateDeparture.getValue() == null ? "" : dateArrival.getValue().toString())
+                .createQueryArrivalsDTO();
+
+        result = dao.queryArrivals(dto);
+
+        if (result != null) {
+            reservations.setAll(result);
+        }
+    }
+
+    private void handleClear() {
+    
+        //Clear Reservations
+        reservations.clear();
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtGroupName.setText("");
+        txtCompanyName.setText("");
+        txtPhoneNumber.setText("");
+        txtConfirmation.setText("");
+        dateArrival.setValue(null);
+        dateDeparture.setValue(null);
+    
+        //Clear Profiles
+        profiles.clear();
+        txtEmail.clear();
+        txtPhoneNumber.clear();
+        txtMemberID.clear();
+    }
+    
+    private void handleSearch() {
+        if (!validateFields()) {
+            System.out.println("error validatiting fields");
+            return;
+        }
+
+        ObservableList<Reservation> result;
+
+        FrontDeskArrivalsDTO dto
+                = new FrontDeskArrivalsDTOBuilder()
+                .setFirstName(txtFirstName.getText())
+                .setLastName(txtLastName.getText())
+                .setCompanyName(txtCompanyName.getText())
+                .setGroupName(txtGroupName.getText())
+                .setConfirmation(txtConfirmation.getText())
+                .setPhoneNumber(txtPhoneNumber.getText())
+                .setArrivalDate(dateArrival.getValue() == null ? "" : dateArrival.getValue().toString())
+                .setDepartureDate(dateDeparture.getValue() == null ? "" : dateArrival.getValue().toString())
+                .createQueryArrivalsDTO();
+
+        result = dao.queryArrivals(dto);
+
+        if (result != null) {
+            reservations.setAll(result);
+        }
+    }
+    private boolean validateFields() {
+        return true;
+    }
+
+    private void handleCancelReservation() {
+
+        Alert alert;
+        Optional<ButtonType> response;
+
+        //Get Selected Reservation
+        Reservation r = tblReservations.getSelectionModel().getSelectedItem();
+
+        //If reservation is null, display message and return
+        if (r == null) {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Reservation not Selected");
+            alert.showAndWait();
+            return;
+        }
+
+        //Check to make sure that the status is pending
+        if (!r.getStatus().equals(ReservationStatus.PENDING)) {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Only reservations that are PENDING \n"
+                    + "can be cancelled");
+            alert.showAndWait();
+            return;
+        }
+
+        //Confirm the delete of the reservation
+        alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Are you sure you would like to cancel the\n"
+                + "reservation for " + r.getFirstName()
+                + " " + r.getLastName());
+        response = alert.showAndWait();
+
+        //Response is not yes, return
+        if (response.get() != ButtonType.OK) {
+            System.out.println("Delete Cancelled");
+            return;
+        }
+
+        //Cancel the reservation
+        boolean result = false;
+        result = dao.cancelReservation(r.getConfirmation());
+
+        if (result) {
+            r.setStatus("Cancelled");
+            tblReservations.getItems().remove(r);
+            System.out.println("Reservation cancelled" + r.getLastName());
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Record can not be deleted at this time");
+            alert.showAndWait();
+        }
+
+    }
+
+    private void handleEditReservations( Reservation r ) {
+        //TODO
+    }
+
 }

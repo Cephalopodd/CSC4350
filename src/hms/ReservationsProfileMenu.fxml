@@ -99,12 +99,12 @@
                               <Insets right="5.0" />
                            </GridPane.margin>
                         </Label>
-                        <TextField fx:id="txtFirstName" onAction="#onClickSearchReservation" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtLastName" onAction="#onClickSearchReservation" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtCompanyName" onAction="#onClickSearchReservation" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtGroupName" onAction="#onClickSearchReservation" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservation" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearchProfile" prefHeight="26.0" prefWidth="128.0" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtFirstName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtLastName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtCompanyName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtGroupName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservations" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="128.0" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                         <DatePicker fx:id="dateArrival" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                         <DatePicker fx:id="dateDeparture" GridPane.columnIndex="5" GridPane.rowIndex="2" />
                         <Label text="Phone#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
@@ -132,10 +132,10 @@
                               <Insets />
                            </GridPane.margin>
                         </Button>
-                        <TextField fx:id="memberID" onAction="#onClickSearchReservatin" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtMemberID" onAction="#onClickSearchReservations" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                         <Label text="Member ID" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                         <Label text="Email" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfile" prefHeight="26.0" prefWidth="125.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="125.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                      </children>
                <padding>
                   <Insets top="5.0" />
