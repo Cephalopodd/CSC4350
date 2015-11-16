@@ -261,6 +261,11 @@ public class FrontDeskDAO {
         //Receive profile search dto
         // QUery profiles
         //Return observableList<Profile>
+        profiles.add(new ProfileBuilder()
+                .setFirstName("Test")
+                .setLastName("User")
+                .createProfile());
+                
         
         return profiles;
     }
