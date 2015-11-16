@@ -277,12 +277,17 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             String arriveDate;
             String departDate;
             try {
-                arriveDate = dateDeparture.getValue().toString();
-                departDate = dateDeparture.getValue().toString();
+                arriveDate = dateArrival.getValue().toString();
             } catch (Exception ex) {
                 arriveDate = "";
-                departDate = "";
             }
+            
+            try {
+                departDate = dateDeparture.getValue().toString();
+            } catch (Exception e){
+               departDate = "";
+            }
+            
             
             FrontDeskArrivalsDTO dto
                     = new FrontDeskArrivalsDTOBuilder()
