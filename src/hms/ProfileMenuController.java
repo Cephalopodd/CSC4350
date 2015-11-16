@@ -111,21 +111,12 @@ public class ProfileMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickNewProfile(ActionEvent event) {
-        ProfileFormController p = new ProfileFormController();
-        //Get Selected Reservation
-       
-        //Dim Screen
-        this.profileMenuPane.setOpacity(.3);
 
-        //Open Up Reservation Editor
-        p.display(main);
-        
-        //UnDim Screen
-        profileMenuPane.setOpacity(1.0);
     }
 
     @FXML
     private void onClickEditProfile(ActionEvent event) {
+        Forms.displayProfileForm(main);
     }
 
     @FXML

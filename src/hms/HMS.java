@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  */
 public class HMS extends Application {
     
-    private Stage stage;
+    public static Stage stage;
     private Scene loginScene;
     private Scene mainMenuScene;
     private LoginController loginController;

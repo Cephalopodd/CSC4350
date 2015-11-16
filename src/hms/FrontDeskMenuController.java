@@ -12,7 +12,6 @@ import hms.model.FrontDeskArrivalsDTOBuilder;
 import hms.model.MenuType;
 import hms.model.Reservation;
 import hms.model.ReservationStatus;
-import hms.model.ReservationStatusCode;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -146,6 +145,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     
     @FXML
     private void onClickEditProfile(ActionEvent event) {
+        frontDeskPane.setOpacity(.3);
+        Forms.displayProfileForm(main);
+        frontDeskPane.setOpacity(1.0);
         
     }
 
@@ -157,8 +159,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
         private void onClickCheckIn(ActionEvent event) {
         frontDeskPane.setOpacity(.3);
-        CheckInFormController checkIn = new CheckInFormController();
-        checkIn.display(main);
+        Forms.displayCheckInForm(main);
         frontDeskPane.setOpacity(1.0);
     }
 
@@ -289,20 +290,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private void handleEdit() {
-        //Get Selected Reservation
-        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
 
-        //Dim Screen
-        frontDeskPane.setOpacity(.3);
-
-        //Open Up Reservation Editor
-        ReservationFormController.display(r, main);
-
-        //Save Updated Reservation to DB
-        dao.updateReservation(r);
-
-        //UnDim Screen
-        frontDeskPane.setOpacity(1.0);
     }
 
 }

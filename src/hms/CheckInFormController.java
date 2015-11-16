@@ -61,7 +61,7 @@ public class CheckInFormController implements Initializable {
     private ObservableList<Integer> months;
     private ObservableList<Integer> years;
     private ObservableList<String> ccTypes;
-    private static Stage stage;
+    private Stage stage;
 
     /**
      * Initializes the controller class.
@@ -83,7 +83,7 @@ public class CheckInFormController implements Initializable {
 
     @FXML
     private void onClickOK(ActionEvent event) {
-        
+        stage.close();
     }
 
     @FXML
@@ -94,31 +94,9 @@ public class CheckInFormController implements Initializable {
     public void setFields(int room, CreditCard cc) {
         
     }
-    
-    public void display(MainMenuController main) {
-        
-        stage = new Stage();
-        Parent root = null;
-        
-        try {
-            root = FXMLLoader.load(main.getClass()
-                    .getResource("CheckInForm.fxml"));
-        } catch (Exception ex) {
-            Logger.getLogger(CheckInFormController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        Scene scene = new Scene(root);
-        
-        stage.setResizable(false);
-        //stage.setAlwaysOnTop(true);   //cannot find symbol error
-        stage.toFront();    //stop gap fix for above
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        
-        //This should fix fullscreen but I need link to hmsApp in subMenu.
-        //  stage.initOwner(hmsApp);
-        
-        stage.setScene(scene);
-        stage.showAndWait();
+
+    void setStage(Stage stage) {
+        this.stage = stage;
     }
+    
 }
