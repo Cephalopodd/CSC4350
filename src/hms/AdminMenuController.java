@@ -45,6 +45,8 @@ public class AdminMenuController implements Initializable, SubMenu {
         
         //Sets the name of the Line Chart.
         weeklySales.setTitle("Weekly Sales");
+        //Removes the legend of the weekly sales line chart.
+        weeklySales.setLegendVisible(false);
         
         //Defines series for the line chart.
         XYChart.Series currentWeek = new XYChart.Series();
