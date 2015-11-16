@@ -70,3 +70,13 @@
 		admin_access boolean not null default 0 check (admin_access in (0, 1)),
 		menu text not null default 'front' check (menu in
 			('res','front','bill','rooms','admin')));
+
+	create table charge (
+		id integer primary key,
+		r_id integer not null,
+		code text not null check (code in ('FOOD', 'MOVIE', 'ROOM', 'GIFTSHOP', 
+			'PARKING', 'SPA', 'RESORTFEE', 'OTHER')),
+		descrip text,
+		date date not null check (date glob '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'),
+		amount real not null,
+		foreign key (r_id) references reservation (id));

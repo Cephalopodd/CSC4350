@@ -1,27 +1,87 @@
 package hms.model;
 
+import java.time.LocalDate;
+import java.sql.*;
+
 public class AdminDAO {
-    
+
+    Connection c;
+    Statement stmt;
+    ResultSet rs;
+
     //Query that accesses the database and get toatalSales of the current day.
     //Ex. If the total sales is 123.33 for %Todays Date%, query will return 123.33.
     //Let me know if it is easier to return string vs double or int.
     public double getTotalSales(double totalSales) {
-        //Please write query to return the total Sales for the current day.
-        double sales = 123.23;
-        return sales;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(
+                    "select sum (amount) from charge "
+                    + "where date like '" + LocalDate.now().toString() + "'");
+            rs.next();
+            totalSales = rs.getDouble(1);
+            System.out.println("Total sales: " + totalSales);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return totalSales;
     }
     
     //Query that returns the an int value of check outs that are schedule for the day.
     //Ex. If there are 10 check out schedules for %Todays Date%, the query will return a value of 10.
     public int getCheckOut(int checkOutToday){
-        checkOutToday = 5;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(
+                    "select count (*) from reservation "
+                    + "where status like 'CHECKEDOUT' and "
+                    + "dep like '" + LocalDate.now().toString() + "'");
+            rs.next();
+            checkOutToday = rs.getInt(1);
+            System.out.println("Check Outs: " + checkOutToday);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
         return checkOutToday;
     }
     
     //Query that returns the an int value of check ins that are schedule for the day.
     //Ex. If there are 10 check in schedules for %Todays Date%, the query will return a value of 10.
     public int getCheckIn(int checkInToday){
-        checkInToday = 20;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(
+                    "select count (*) from reservation "
+                    + "where status like 'CHECKEDIN' and "
+                    + "arr like '" + LocalDate.now().toString() + "'");
+            rs.next();
+            checkInToday = rs.getInt(1);
+            System.out.println("Check Ins: " + checkInToday);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
         return checkInToday;
+    }
+    
+    private void closeAll() {
+        try {
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
     }
 }

@@ -108,7 +108,6 @@ public class FrontDeskDAO {
         return true;
     }
     
-    
     private void closeAll() {
         try {
             rs.close();
