@@ -3,6 +3,7 @@ package hms;
 import hms.model.AdminDAO;
 import hms.model.User;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 public class AdminMenuController implements Initializable, SubMenu {
     
@@ -51,13 +54,13 @@ public class AdminMenuController implements Initializable, SubMenu {
         //Defines series for the line chart.
         XYChart.Series currentWeek = new XYChart.Series();
         currentWeek.setName("Day of the Week");
-        currentWeek.getData().add(new XYChart.Data("Monday", 230.00));
-        currentWeek.getData().add(new XYChart.Data("Tuesday", 141.00));
-        currentWeek.getData().add(new XYChart.Data("Wednesday", 152.00));
-        currentWeek.getData().add(new XYChart.Data("Thursday", 248.23));
-        currentWeek.getData().add(new XYChart.Data("Friday", 3400.33));
-        currentWeek.getData().add(new XYChart.Data("Saturday", 3615.22));
-        currentWeek.getData().add(new XYChart.Data("Sunday", 455.00));
+        LocalDate today = LocalDate.now();
+        LocalDate monday = today.with(previousOrSame(MONDAY));
+        
+        for(int i = 0; i <= 6; i++){
+            String weekDayDate = monday.plusDays(i).toString();
+            currentWeek.getData().add(new XYChart.Data(weekDayDate, dao.getWeeklySales(monday.plusDays(i))));
+        }
         
         weeklySales.getData().add(currentWeek);
     }    

@@ -3,6 +3,11 @@ package hms.model;
 import java.time.LocalDate;
 import java.sql.*;
 
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import static java.time.temporal.TemporalAdjusters.previousOrSame;
+
 public class AdminDAO {
 
     Connection c;
@@ -83,5 +88,14 @@ public class AdminDAO {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+    }
+    
+    //Method that returns the sales of the day requested.
+    public double getWeeklySales(LocalDate date){
+        //Using the date provide please retun the sum associated with that date.
+        //If the return is null or for future dates please set to 0.
+        //Delete these comments when you entered iny your code.
+        double sales = 255.55;
+        return sales;
     }
 }
