@@ -72,6 +72,7 @@ public class ProfileFormController implements Initializable {
     
     private ObservableList<String> states;
     private ObservableList<String> titles;
+    private boolean newProfile = false;
     
     /**
      * Initializes the controller class.
@@ -130,7 +131,14 @@ public class ProfileFormController implements Initializable {
 
     @FXML
     private void onActionSave(ActionEvent event) {
-        handleSave();
+       
+        //VERIFY FIELDS...
+        
+        if (newProfile) {
+            handleSaveNewProfile();
+        } else {
+            handleSaveUpdateProfile();
+        }
     }
 
     @FXML
@@ -144,7 +152,7 @@ public class ProfileFormController implements Initializable {
 
     void setProfileInformation(int profileID) {
         
-        
+        try {
         Profile p = dao.getProfile(profileID);
         if (p == null) {
             return;
@@ -163,9 +171,14 @@ public class ProfileFormController implements Initializable {
         txtCity.setText(p.getCity());
         txtZip.setText(p.getZip());
         txtCountry.setText(p.getCountry());
+        
+        } catch (Exception e) {
+            System.out.println("Error getting profile from DB");
+        }
   
     }
 
+   
     private void initChoiceBoxes() {
         states = FXCollections.observableArrayList();
         titles = FXCollections.observableArrayList();
@@ -185,13 +198,19 @@ public class ProfileFormController implements Initializable {
         return result;
     }
 
-    private void handleSave() {
-            
-        if (!verifyFields()){
-            result = false;
-            stage.close();
-        }
+    
+    void setNewProfile(boolean b) {
+        this.newProfile = true;
+    }
 
+    private void handleSaveNewProfile() {
+        //TODO
+        stage.close();
+    }
+
+    private void handleSaveUpdateProfile() {
+ 
+        try { 
         Profile p = new ProfileBuilder()
                 .setFirstName(txtFirstName.getText())
                 .setLastName(txtLastName.getText())
@@ -214,6 +233,10 @@ public class ProfileFormController implements Initializable {
         }
         
         result = dao.updateProfile(p);
+        
+        } catch (Exception e) {
+            System.out.println("DB Error");
+        }
     
         stage.close();
     }

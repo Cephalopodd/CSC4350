@@ -393,7 +393,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleEditReservations(Reservation r) {
-        //TODO
+        Forms.displayEditProfileForm(main, 0);
     }
 
     private void handleSearchProfiles() {
