@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
 import javafx.util.converter.CurrencyStringConverter;
 
 /**
@@ -41,8 +42,10 @@ public class BillingMenuController implements Initializable, SubMenu {
     private TableColumn<FolioCharge, String> colAmount;
     @FXML
     private Label lblTotal, lblSubTotal,lblTaxes;
- 
+    @FXML
+    private Button makePayBtn, printInvoiceBtn; 
     
+     
     Reservation reservation;
     BillingMenuDAO dao;
     User user;
@@ -113,5 +116,4 @@ public class BillingMenuController implements Initializable, SubMenu {
         lblTaxes.setText(csc.toString(taxes));
         lblSubTotal.setText(csc.toString(subtotal));
     }
-    
 }
