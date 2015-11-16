@@ -13,6 +13,7 @@ import hms.model.Reservation;
 import hms.model.ReservationStatus;
 import hms.model.User;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -37,6 +38,7 @@ import javafx.scene.layout.GridPane;
  * @author jgreene
  */
 public class ReservationsProfileMenuController implements Initializable, SubMenu {
+
     @FXML
     private BorderPane reservationsProfilePane;
     @FXML
@@ -121,7 +123,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     private Button btnEditProfile;
     @FXML
     private Button btnDeleteProfile;
-    
+
     private MainMenuController main;
     private User user;
 
@@ -134,13 +136,13 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    
+
         dao = new FrontDeskDAO();
 
         setupReservationsTable();
         setupProfilesTable();
-        
-    }    
+
+    }
 
     @FXML
     private void onClickClear(ActionEvent event) {
@@ -152,7 +154,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearchReservations();
     }
 
-
     @FXML
     private void onClickNewReservation(ActionEvent event) {
         handleEditReservations(null);
@@ -160,10 +161,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickEditReservation(ActionEvent event) {
-        
+
         //Get Selected Reservation
         Reservation r = tblReservations.getSelectionModel().getSelectedItem();
-    
+
         //Prompt and return if a reservation is not selected.
         if (r == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
@@ -171,14 +172,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             alert.showAndWait();
             return;
         }
-       
+
         handleEditReservations(r);
     }
 
     @FXML
     private void onClickCancelReservation(ActionEvent event) {
         handleCancelReservation();
-        
+
     }
 
     @FXML
@@ -200,7 +201,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     private void onClickSearchProfiles(ActionEvent event) {
         //TODO
     }
-    
+
     private void setupReservationsTable() {
 
         reservations = FXCollections.observableArrayList();
@@ -231,13 +232,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void setupProfilesTable() {
-        
+
         profiles = FXCollections.observableArrayList();
         tblProfiles.setItems(profiles);
-    
-                
+
         colMemberID.setCellValueFactory(
-            new PropertyValueFactory<>("MemberID"));
+                new PropertyValueFactory<>("MemberID"));
         colTitle.setCellValueFactory(
                 new PropertyValueFactory<>("Title"));
         colFirstNameProfile.setCellValueFactory(
@@ -251,7 +251,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         colPhoneNumber.setCellValueFactory(
                 new PropertyValueFactory<>("PhoneNumber"));
         colNotes.setCellValueFactory(
-                new PropertyValueFactory<>("Notes")); 
+                new PropertyValueFactory<>("Notes"));
     }
 
     @Override
@@ -263,36 +263,52 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     public void setUser(User e) {
         this.user = user;
     }
-    
+
     private void handleSearchReservations() {
-        if (!validateFields()) {
-            System.out.println("error validatiting fields");
-            return;
-        }
 
-        ObservableList<Reservation> result;
+        try {
+            if (!validateFields()) {
+                System.out.println("error validatiting fields");
+                return;
+            }
 
-        FrontDeskArrivalsDTO dto
-                = new FrontDeskArrivalsDTOBuilder()
-                .setFirstName(txtFirstName.getText())
-                .setLastName(txtLastName.getText())
-                .setCompanyName(txtCompanyName.getText())
-                .setGroupName(txtGroupName.getText())
-                .setConfirmation(txtConfirmation.getText())
-                .setPhoneNumber(txtPhoneNumber.getText())
-                .setArrivalDate(dateArrival.getValue() == null ? "" : dateArrival.getValue().toString())
-                .setDepartureDate(dateDeparture.getValue() == null ? "" : dateArrival.getValue().toString())
-                .createQueryArrivalsDTO();
+            ObservableList<Reservation> result;
+            
+            String arriveDate;
+            String departDate;
+            try {
+                arriveDate = dateDeparture.getValue().toString();
+                departDate = dateDeparture.getValue().toString();
+            } catch (Exception ex) {
+                arriveDate = "";
+                departDate = "";
+            }
+            
+            FrontDeskArrivalsDTO dto
+                    = new FrontDeskArrivalsDTOBuilder()
+                    .setFirstName(txtFirstName.getText())
+                    .setLastName(txtLastName.getText())
+                    .setCompanyName(txtCompanyName.getText())
+                    .setGroupName(txtGroupName.getText())
+                    .setConfirmation(txtConfirmation.getText())
+                    .setPhoneNumber(txtPhoneNumber.getText())
+                    .setArrivalDate(arriveDate)
+                    .setDepartureDate(departDate)
+                    .createQueryArrivalsDTO();
+       
+            result = dao.queryArrivals(dto);
 
-        result = dao.queryArrivals(dto);
+            if (result != null) {
+                reservations.setAll(result);
+            }
 
-        if (result != null) {
-            reservations.setAll(result);
+        } catch (Exception e) {
+            System.out.println("Error processing query");
         }
     }
 
     private void handleClear() {
-    
+
         //Clear Reservations
         reservations.clear();
         txtFirstName.setText("");
@@ -303,14 +319,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtConfirmation.setText("");
         dateArrival.setValue(null);
         dateDeparture.setValue(null);
-    
+
         //Clear Profiles
         profiles.clear();
         txtEmail.clear();
         txtPhoneNumber.clear();
         txtMemberID.clear();
     }
-    
+
     private void handleSearch() {
         if (!validateFields()) {
             System.out.println("error validatiting fields");
@@ -337,6 +353,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             reservations.setAll(result);
         }
     }
+
     private boolean validateFields() {
         return true;
     }
@@ -395,7 +412,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     }
 
-    private void handleEditReservations( Reservation r ) {
+    private void handleEditReservations(Reservation r) {
         //TODO
     }
 
