@@ -6,17 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author Fenil
- */
 public class AddNewUserController implements Initializable {
-
-    private Stage dialogSate;
     
     @FXML
     private TextField unTxtField;
@@ -26,10 +20,20 @@ public class AddNewUserController implements Initializable {
     private Button btnFinish;
     @FXML
     private Button btnCancel;
-
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private CheckBox chkManager;
+    @FXML
+    private CheckBox chkEmployee;
+    @FXML
+    private TextField confirmPwdTxtField;
+    @FXML
+    private CheckBox chkAdministrator;
+    
+    private Stage stage;
+    
+    
+    
+    //Initializes the controller class.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -41,6 +45,11 @@ public class AddNewUserController implements Initializable {
 
     @FXML
     private void onClickCancel(ActionEvent event) {
+        stage.close();
+    }
+    
+    void setStage(Stage stage) {
+        this.stage = stage;
     }
     
 }
