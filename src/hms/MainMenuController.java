@@ -115,7 +115,8 @@ public class MainMenuController implements Initializable {
         try {
             addSubMenu(MenuType.FRONTDESK, "FrontDeskMenu.fxml");
             addSubMenu(MenuType.BILLING, "BillingMenu.fxml");
-            addSubMenu(MenuType.RESERVATIONS, "ReservationsMenu.fxml");
+          //  addSubMenu(MenuType.RESERVATIONS, "ReservationsMenu.fxml");
+              addSubMenu(MenuType.RESERVATIONS, "ReservationsProfileMenu.fxml");
             addSubMenu(MenuType.ROOMS, "RoomsMenu.fxml");
             addSubMenu(MenuType.ADMIN, "AdminMenu.fxml");
             addSubMenu(MenuType.PROFILE, "ProfileMenu.fxml");

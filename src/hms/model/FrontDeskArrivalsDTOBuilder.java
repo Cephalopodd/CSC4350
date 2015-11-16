@@ -5,8 +5,6 @@
  */
 package hms.model;
 
-import java.time.LocalDate;
-
 
 public class FrontDeskArrivalsDTOBuilder {
     private String firstName = "";
@@ -15,7 +13,7 @@ public class FrontDeskArrivalsDTOBuilder {
     private String groupName = "";
     private String confirmation = "";
     private String phoneNumber = "";
-    private String arrivalDate = LocalDate.now().toString();
+    private String arrivalDate = "";
     private String departureDate = "";
 
     public FrontDeskArrivalsDTOBuilder() {
