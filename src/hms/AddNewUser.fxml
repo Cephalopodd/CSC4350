@@ -1,18 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AddNewUserController">
+
+<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AddNewUserController">
    <children>
-      <TextField fx:id="unTxtField" layoutX="126.0" layoutY="49.0" promptText="Username" />
-      <TextField fx:id="pwdTxtField1" layoutX="126.0" layoutY="97.0" promptText="Password" />
-      <CheckBox layoutX="39.0" layoutY="150.0" mnemonicParsing="false" text="Manager" />
-      <CheckBox layoutX="132.0" layoutY="150.0" mnemonicParsing="false" text="Employee" />
-      <Button fx:id="btnFinish" defaultButton="true" layoutX="153.0" layoutY="290.0" mnemonicParsing="false" onAction="#onClickFinish" text="Finish" />
-      <Button fx:id="btnCancel" cancelButton="true" defaultButton="true" layoutX="258.0" layoutY="290.0" mnemonicParsing="false" onAction="#onClickCancel" text="Cancel" />
+      <StackPane>
+         <children>
+            <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="323.0">
+               <children>
+                  <TextField fx:id="unTxtField" layoutX="24.0" layoutY="107.0" prefHeight="25.0" prefWidth="304.0" promptText="Username" />
+                  <TextField fx:id="pwdTxtField1" layoutX="24.0" layoutY="170.0" prefHeight="25.0" prefWidth="304.0" promptText="Password" />
+                  <CheckBox fx:id="chkManager" layoutX="24.0" layoutY="300.0" mnemonicParsing="false" text="Manager">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="chkEmployee" layoutX="124.0" layoutY="300.0" mnemonicParsing="false" text="Employee">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+                  <Button fx:id="btnFinish" defaultButton="true" layoutX="160.0" layoutY="351.0" mnemonicParsing="false" onAction="#onClickFinish" prefHeight="25.0" prefWidth="81.0" text="Finish" />
+                  <Button fx:id="btnCancel" cancelButton="true" defaultButton="true" layoutX="256.0" layoutY="351.0" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="25.0" prefWidth="88.0" text="Cancel" />
+                  <Rectangle fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="370.0" />
+                  <Text fill="WHITE" layoutX="151.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New User">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="24.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="24.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="confirmPwdTxtField" layoutX="24.0" layoutY="231.0" prefHeight="25.0" prefWidth="304.0" promptText="Password" />
+                  <Text layoutX="24.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <CheckBox fx:id="chkAdministrator" layoutX="234.0" layoutY="300.0" mnemonicParsing="false" text="Administrator">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+                  <Text layoutX="24.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Permission Level:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
    </children>
-</AnchorPane>
+</StackPane>

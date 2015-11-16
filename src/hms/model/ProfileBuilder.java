@@ -20,7 +20,7 @@ public class ProfileBuilder {
     private String zip = "";
     private String country = "";
     private boolean VIP = false;
-    private int memberID;
+    private int memberID = 0;
 
     public ProfileBuilder() {
     }

@@ -11,7 +11,12 @@
     <right>
         <VBox spacing="15.0" BorderPane.alignment="CENTER">
             <children>
-                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="180.0" prefWidth="14.0" />
+                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="90.0" prefWidth="14.0" />
+                <Button fx:id="btnWalkIn" mnemonicParsing="false" onAction="#onClickWalkIn" prefHeight="60.0" prefWidth="100.0" text="Walk In" textAlignment="CENTER" visible="false">
+                    <effect>
+                        <InnerShadow height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Button>
                 <Button fx:id="btnCheckIn" mnemonicParsing="false" onAction="#onClickCheckIn" prefHeight="60.0" prefWidth="100.0" text="Check In&#10;&#10;&#10;" textAlignment="CENTER">
                     <VBox.margin>
                         <Insets />
@@ -21,18 +26,13 @@
                     </effect>
             
                 </Button>
-                <Button fx:id="btnWalkIn" mnemonicParsing="false" onAction="#onClickWalkIn" prefHeight="60.0" prefWidth="100.0" text="Walk In" textAlignment="CENTER">
-                    <effect>
-                        <InnerShadow height="5.0" radius="2.0" width="5.0" />
-                    </effect>
-                </Button>
                 <Button fx:id="btnEditReservation" mnemonicParsing="false" onAction="#onClickEditReservation" prefHeight="60.0" prefWidth="100.0" text="Edit&#10;Reservation" textAlignment="CENTER">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
                 </Button>
             
-                <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="60.0" prefWidth="100.0" text="Cancel&#10;Reservation" textAlignment="CENTER">
+                <Button fx:id="btnCancelReservation" mnemonicParsing="false" onAction="#onClickCancelReservation" prefHeight="60.0" prefWidth="100.0" text="Cancel&#10;Reservation" textAlignment="CENTER">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
@@ -98,8 +98,8 @@
                         <TextField fx:id="txtGroupName" onAction="#onClickSearch" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                         <TextField fx:id="txtConfirmation" onAction="#onClickSearch" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                         <TextField fx:id="txtPhoneNumber" onAction="#onClickSearch" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                        <DatePicker fx:id="dateArrival" onAction="#onClickSearch" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                        <DatePicker fx:id="dateDeparture" onAction="#onClickSearch" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <DatePicker fx:id="dateArrival" promptText="Arrival Date" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="dateDeparture" promptText="Departure Date" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                         <Label text="Phone#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                         <Label text="Arrival Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                         <Label text="Departure Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
@@ -123,13 +123,13 @@
                             </effect>
                         </Button>
             
-                        <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="75.0" prefWidth="75.0" text="Search" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" >
+                        <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="75.0" prefWidth="75.0" text="Search" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3">
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
                         </Button>
             
-                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClickClear" prefWidth="75.0" text="Clear" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4" >
+                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClickClear" prefWidth="75.0" text="Clear" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>

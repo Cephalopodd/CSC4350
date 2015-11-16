@@ -24,6 +24,7 @@ public class AdminMenuController implements Initializable, SubMenu {
     int checkOutToday;
     int checkInToday;
     LocalDate today = LocalDate.now();
+    private MainMenuController main;
 
     @FXML
     private Label txtTotalSales;
@@ -47,7 +48,7 @@ public class AdminMenuController implements Initializable, SubMenu {
 
     @Override
     public void setSubMenuParent(MainMenuController main) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.main = main;
     }
 
     @Override
@@ -97,5 +98,6 @@ public class AdminMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickAddNewUser(ActionEvent event) {
+        Forms.displayAddNewUser(main);
     }
 }
