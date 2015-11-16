@@ -3,42 +3,16 @@ package hms.model;
 import java.time.LocalDate;
 import java.sql.*;
 
-import static java.time.DayOfWeek.MONDAY;
-import static java.time.DayOfWeek.SUNDAY;
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
-import static java.time.temporal.TemporalAdjusters.previousOrSame;
-
 public class AdminDAO {
 
     Connection c;
     Statement stmt;
     ResultSet rs;
-
-    //Query that accesses the database and get toatalSales of the current day.
-    //Ex. If the total sales is 123.33 for %Todays Date%, query will return 123.33.
-    //Let me know if it is easier to return string vs double or int.
-    public double getTotalSales(double totalSales) {
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
-            stmt = c.createStatement();
-            rs = stmt.executeQuery(
-                    "select sum (amount) from charge "
-                    + "where date like '" + LocalDate.now().toString() + "'");
-            rs.next();
-            totalSales = rs.getDouble(1);
-            System.out.println("Total sales: " + totalSales);
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-        } finally {
-            closeAll();
-        }
-        return totalSales;
-    }
     
     //Query that returns the an int value of check outs that are schedule for the day.
     //Ex. If there are 10 check out schedules for %Todays Date%, the query will return a value of 10.
-    public int getCheckOut(int checkOutToday){
+    public int getCheckOut(LocalDate today){
+        int checkOutToday = 0;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
@@ -60,7 +34,8 @@ public class AdminDAO {
     
     //Query that returns the an int value of check ins that are schedule for the day.
     //Ex. If there are 10 check in schedules for %Todays Date%, the query will return a value of 10.
-    public int getCheckIn(int checkInToday){
+    public int getCheckIn(LocalDate today){
+        int checkInToday = 0;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
@@ -68,7 +43,7 @@ public class AdminDAO {
             rs = stmt.executeQuery(
                     "select count (*) from reservation "
                     + "where status like 'CHECKEDIN' and "
-                    + "arr like '" + LocalDate.now().toString() + "'");
+                    + "arr like '" + today.toString() + "'");
             rs.next();
             checkInToday = rs.getInt(1);
             System.out.println("Check Ins: " + checkInToday);
@@ -80,6 +55,30 @@ public class AdminDAO {
         return checkInToday;
     }
     
+    //Query that accesses the database and get toatalSales of the current day.
+    //Ex. If the total sales is 123.33 for %Todays Date%, query will return 123.33.
+    //Let me know if it is easier to return string vs double or int.
+    public double getDailySales(LocalDate date){
+        double sales = 0.00;
+        
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(
+                    "select sum (amount) from charge "
+                    + "where date like '" + date.toString() + "'");
+            rs.next();
+            sales = rs.getDouble(1);
+            System.out.println("Total sales: " + sales);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return sales;
+    }
+    
     private void closeAll() {
         try {
             rs.close();
@@ -88,14 +87,5 @@ public class AdminDAO {
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
-    }
-    
-    //Method that returns the sales of the day requested.
-    public double getWeeklySales(LocalDate date){
-        //Using the date provide please retun the sum associated with that date.
-        //If the return is null or for future dates please set to 0.
-        //Delete these comments when you entered iny your code.
-        double sales = 255.55;
-        return sales;
     }
 }
