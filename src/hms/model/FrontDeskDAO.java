@@ -89,6 +89,7 @@ public class FrontDeskDAO {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
             stmt = c.createStatement();
             rowsDeleted = stmt.executeUpdate("delete from reservation where id = " 
                         + confirmation);
@@ -119,20 +120,57 @@ public class FrontDeskDAO {
     }
 
     public CreditCard getCreditCard(int confirmation) {
-    
-        //Receive Confirmation number
-        //Return CC
-        CreditCard cc = new CreditCard("Jon Smith", "412812341283", 
-                CreditCardType.VISA, "1234", 4, 2017);
+        CreditCard cc = null; 
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(
+                "select g.fname, g.lname, cc.card, cc.ccv, cc.exp from reservation r "
+                + "join guest g on g.id = r.g_id "
+                + "join cc on cc.g_id = g.id and cc.last4 = r.cc_last4");
+            if (rs.next()) {
+                String exp = rs.getString(5);
+                cc = new CreditCard(
+                    rs.getString(1) + " " + rs.getString(2),
+                    rs.getString(3),
+                    CreditCardType.VISA,
+                    rs.getString(4),
+                    Integer.parseInt(exp.substring(0,2)),
+                    Integer.parseInt(exp.substring(3)) + 2000
+                );
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
         return cc;
-        
     }
 
     public boolean setCreditCard(int confirmation, CreditCard verifiedCC) {
-        //Recieve Confirmation number
-        //Update CC information
-        //Return boolean result
-        return true;
+        PreparedStatement ps = null;
+        String ccn = verifiedCC.getCCNumber();
+        String last4 = ccn.substring(ccn.length() - 4);
+        System.out.println("changing reservation #" + confirmation +
+                " to use card ending in " + last4);
+        int rowsChanged = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            ps = c.prepareStatement("update reservation "
+                    + "set cc_last4 = '?' where id = ?");
+            ps.setString(1, last4);
+            ps.setInt(2, confirmation);
+            rowsChanged = ps.executeUpdate();
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return (rowsChanged > 0);
     }
 
     public Profile getProfile(int profileID) {
