@@ -19,6 +19,7 @@ public class Room {
     private String status = RoomStatus.CLEAN;
     private boolean handicapAccess = false;
     private boolean occupied = false;
+    private double cost = 120.00;
     
     public Room(int number) {
         this.number = number;
@@ -106,6 +107,14 @@ public class Room {
      */
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
+    }
+    
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+    
+    public double getCost() {
+        return cost;
     }
         
 }
