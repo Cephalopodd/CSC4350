@@ -44,9 +44,8 @@ public class RoomsMenuController implements Initializable,SubMenu {
         hkRmCount();
         totalRoomCount();
         
-    }    
-
-
+    }
+    
     @Override
     public void setSubMenuParent(MainMenuController main) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
