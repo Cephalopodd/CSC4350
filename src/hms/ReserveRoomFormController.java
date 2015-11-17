@@ -11,6 +11,7 @@ import hms.model.Reservation;
 import hms.model.Room;
 import hms.model.RoomType;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -44,6 +46,10 @@ public class ReserveRoomFormController implements Initializable {
     private Text lblHeading;
     @FXML
     private Label lblErrorMsg;
+    @FXML
+    private Label lblGuestName;
+    @FXML
+    private TextArea txtNotes;
     @FXML
     private Button btnSave;
     @FXML
@@ -221,9 +227,27 @@ public class ReserveRoomFormController implements Initializable {
         cbxRoomType.setValue(reservation.getRoomType());
         cbxAdults.setValue(reservation.getNumberAdults());
         cbxChildren.setValue(reservation.getNumberChildren());
+        txtNotes.setText(reservation.getComments());
+        
+        lblGuestName.setText(reservation.getFirstName() 
+                + " " + reservation.getLastName());
+        //No way to set Accessible
+        
+        //Set Room Type?
+        System.out.println(reservation.getRoomType() + " roomtype");
+        try {
+            dateArrival.setValue(LocalDate.parse(reservation.getCheckinDate()));
+            dateDeparture.setValue(LocalDate.parse(reservation.getCheckoutDate()));
+        } catch (Exception e) {
+            System.out.println("Could not set date fields");
+        }
+        
     }
 
     void setProfile(Profile profile) {
         this.profile = profile;
+        lblGuestName.setText(profile.getFirstName() 
+                + " " + profile.getLastName());
+        
     }
 }
