@@ -163,8 +163,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickEditReservation(ActionEvent event) {
-
-        handleEditReservations();
+        handleEditReservation();
     }
 
     @FXML
@@ -175,17 +174,17 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickNewProfile(ActionEvent event) {
-        Forms.displayCreateProfileForm(main);
+        handleNewProfile();
     }
 
     @FXML
     private void onClickEditProfile(ActionEvent event) {
-        Forms.displayCreateProfileForm(main);
+        handleEditProfile();
     }
 
     @FXML
     private void onClickDeleteProfile(ActionEvent event) {
-        //TODO
+        handleDeleteProfile();
     }
 
     @FXML
@@ -193,6 +192,19 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearchProfiles();
     }
 
+    
+    
+    
+    @Override
+    public void setSubMenuParent(MainMenuController main) {
+        this.main = main;
+    }
+
+    @Override
+    public void setUser(User e) {
+        this.user = user;
+    }
+    
     private void setupReservationsTable() {
 
         reservations = FXCollections.observableArrayList();
@@ -245,14 +257,38 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("Notes"));
     }
 
-    @Override
-    public void setSubMenuParent(MainMenuController main) {
-        this.main = main;
-    }
+    
+    
 
-    @Override
-    public void setUser(User e) {
-        this.user = user;
+
+    private void handleClear() {
+
+        //Clear Garbage Text from Date Field
+        dateArrival.setValue(LocalDate.now());
+        dateArrival.setValue(LocalDate.now());
+
+        //Clear Reservations
+        reservations.clear();
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtGroupName.setText("");
+        txtCompanyName.setText("");
+        txtPhoneNumber.setText("");
+        txtConfirmation.setText("");
+        dateArrival.setValue(null);
+        dateDeparture.setValue(null);
+
+        //Clear Profiles
+        profiles.clear();
+        txtEmail.clear();
+        txtPhoneNumber.clear();
+        txtMemberID.clear();
+    }
+    
+
+    private boolean validateReservationFields() {
+        //Set lblErrorMsg
+        return true;
     }
 
     private void handleSearchReservations() {
@@ -302,34 +338,20 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
     }
 
-    private void handleClear() {
-
-        //Clear Garbage Text from Date Field
-        dateArrival.setValue(LocalDate.now());
-        dateArrival.setValue(LocalDate.now());
-
-        //Clear Reservations
-        reservations.clear();
-        txtFirstName.setText("");
-        txtLastName.setText("");
-        txtGroupName.setText("");
-        txtCompanyName.setText("");
-        txtPhoneNumber.setText("");
-        txtConfirmation.setText("");
-        dateArrival.setValue(null);
-        dateDeparture.setValue(null);
-
-        //Clear Profiles
-        profiles.clear();
-        txtEmail.clear();
-        txtPhoneNumber.clear();
-        txtMemberID.clear();
+    private void handleNewReservation() {
+        Profile p = tblProfiles.getSelectionModel().getSelectedItem();
+        
+        //Prompt and return if a reservation is not selected.
+        if (p == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Please select a guest profile for \n"
+                            + "for the reservation");
+            alert.showAndWait();
+            return;
+        }
+        Forms.displayReserveRoomForm(main, p);
     }
-
-    private boolean validateReservationFields() {
-        return true;
-    }
-
+    
     private void handleCancelReservation() {
 
         Alert alert;
@@ -384,7 +406,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     }
 
-    private void handleEditReservations() {
+    private void handleEditReservation() {
         
         //Get Selected Reservation
         Reservation r = tblReservations.getSelectionModel().getSelectedItem();
@@ -410,11 +432,19 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         
     }
 
+
+    private boolean validateProfileFields() {
+        //Set lblErrorMsg
+        return true;
+    }
+    
     private void handleSearchProfiles() {
 
         try {
             if (!validateProfileFields()) {
-                System.out.println("error validatiting fields");
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "error validatiting fields");
+                alert.showAndWait();
                 return;
             }
 
@@ -438,22 +468,24 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
     }
 
-    private boolean validateProfileFields() {
-        return true;
+    private void handleNewProfile() {
+       Forms.displayCreateProfileForm(main); 
     }
-
-    private void handleNewReservation() {
+    
+    private void handleDeleteProfile() {
+        //TO BE IMPLEMENTED - Shouldn't delete with Checked in guest....
+    }
+    
+    private void handleEditProfile() {
         Profile p = tblProfiles.getSelectionModel().getSelectedItem();
         
-        //Prompt and return if a reservation is not selected.
-        if (p == null) {
+        if ( p == null ) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Please select a guest profile for \n"
-                            + "for the reservation");
+            "Please select a profile to edit");
             alert.showAndWait();
             return;
         }
-        Forms.displayReserveRoomForm(main, p);
+        Forms.displayEditProfileForm(main, p);
     }
 
 }
