@@ -45,5 +45,9 @@ public class NewUserDAO {
         
         return true;
     }
+
+    public void resetPassword(String userName, String pw) {
+        //reset password for the user name with the one provided.
+    }
     
 }

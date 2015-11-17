@@ -33,7 +33,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <LineChart layoutX="7.0" layoutY="22.0" prefHeight="480.0" prefWidth="484.0">
+                        <LineChart fx:id="weeklySales" layoutX="7.0" layoutY="22.0" prefHeight="480.0" prefWidth="484.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -45,19 +45,14 @@
                   </AnchorPane>
               </content>
             </TitledPane>
-            <TitledPane animated="false" collapsible="false" layoutX="998.0" layoutY="33.0" prefHeight="270.0" prefWidth="260.0" text="Check in vs. Check Out">
+            <TitledPane animated="false" collapsible="false" layoutX="989.0" layoutY="33.0" prefHeight="275.0" prefWidth="270.0" text="Check In vs Check Out">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="270.0" prefWidth="260.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <PieChart prefHeight="240.0" prefWidth="260.0" />
+                        <PieChart fx:id="checkStatsPieChart" layoutY="4.0" prefHeight="240.0" prefWidth="270.0" />
                      </children>
                   </AnchorPane>
               </content>
-            </TitledPane>
-            <TitledPane animated="false" collapsible="false" layoutX="998.0" layoutY="316.0" prefHeight="270.0" prefWidth="260.0" text="Lawl Catz">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
             </TitledPane>
          </children></AnchorPane>
    </children>
