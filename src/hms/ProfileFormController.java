@@ -313,6 +313,7 @@ public class ProfileFormController implements Initializable {
     private void handleSaveNewProfile() {
          try {
             boolean result = false;
+            int profileID = 0;
             System.out.println("Handling SaveNewProfile");
             
             System.out.println("Creating profile from fields");
@@ -342,13 +343,14 @@ public class ProfileFormController implements Initializable {
             }
             
             System.out.println("Sending p to db" + p.getFirstName() + p.getLastName());
-            result = dao.createProfile(p);
+            profileID = dao.createProfile(p);
             
             System.out.println("Result" + result);
-            if (result) {
+            if (profileID > 0) {
                 
             System.out.println("If DB result true, save and set p");
             System.out.println("");
+                p.setMemberID(profileID);
                 newProfile = p;
                 RESULT = true;
             } else {
