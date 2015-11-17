@@ -52,7 +52,7 @@ public class AddNewUserController implements Initializable {
 
     @FXML
     private void onClickFinish(ActionEvent event) {
-        
+        //count = 0;
         if(addNewUserValidation() == true){
             createNewUser();
         }
@@ -65,7 +65,6 @@ public class AddNewUserController implements Initializable {
         boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
         boolean pwdTxtFieldBlank = pwdTxtField.getText().isEmpty();
         boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();
-        boolean allChkBoxSelected = chkManager.isSelected() && chkAdministrator.isSelected() && chkEmployee.isSelected();
         boolean noChkBoxSelected = !chkManager.isSelected() && !chkAdministrator.isSelected() && !chkEmployee.isSelected();
         boolean unFieldPassed = true, pwdFieldPassed = true, confirmFieldPassed = true, notMatchedPassed = true, chkBoxPassed = true;
         user = new NewUserDAO();
@@ -100,13 +99,6 @@ public class AddNewUserController implements Initializable {
             notMatchedPassed = false;
         }
         
-        if(allChkBoxSelected){
-            permissionLabel.setText("One permission level must be chosen!");
-            chkBoxPassed = false;
-        }else{
-            permissionLabel.setText(null);
-        }
-        
         if(noChkBoxSelected){
             permissionLabel.setText("One permission level must be chosen!");
             chkBoxPassed = false;
@@ -114,14 +106,9 @@ public class AddNewUserController implements Initializable {
             permissionLabel.setText(null);
         }
         
-        if(count != 1){
-            permissionLabel.setText("One permission level must be chosen!");
-            chkBoxPassed = false;
-        }else if(count == 1){
-            permissionLabel.setText(null);
-        }
+        boolean passed = unFieldPassed && pwdFieldPassed && confirmFieldPassed && notMatchedPassed && chkBoxPassed;
         
-        if(unFieldPassed && pwdFieldPassed && confirmFieldPassed && notMatchedPassed && chkBoxPassed){
+        if(passed == true){
             return true;
         } else{
             return false;
@@ -147,6 +134,46 @@ public class AddNewUserController implements Initializable {
     
     void setStage(Stage stage){
         this.stage = stage;
+    }
+
+    @FXML
+    private void managerClicked(ActionEvent event) {
+        if(chkManager.isSelected()){
+            chkAdministrator.setDisable(true);
+            chkEmployee.setDisable(true);
+        }
+        
+        if(!chkManager.isSelected()){
+            chkAdministrator.setDisable(false);
+            chkEmployee.setDisable(false);
+        }
+        
+    }
+
+    @FXML
+    private void employeeClicked(ActionEvent event) {
+        if(chkEmployee.isSelected()){
+            chkAdministrator.setDisable(true);
+            chkManager.setDisable(true);
+        }
+        
+        if(!chkEmployee.isSelected()){
+            chkAdministrator.setDisable(false);
+            chkManager.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void adminClicked(ActionEvent event) {
+        if(chkAdministrator.isSelected()){
+            chkManager.setDisable(true);
+            chkEmployee.setDisable(true);
+        }
+        
+        if(!chkAdministrator.isSelected()){
+            chkManager.setDisable(false);
+            chkEmployee.setDisable(false);
+        }
     }
     
     

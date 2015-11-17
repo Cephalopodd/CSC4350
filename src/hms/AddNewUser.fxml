@@ -17,17 +17,17 @@
                   <TextField fx:id="unTxtField" layoutX="25.0" layoutY="95.0" prefHeight="25.0" prefWidth="300.0" promptText="Username" />
                   <PasswordField fx:id="pwdTxtField" layoutX="25.0" layoutY="169.0" prefHeight="25.0" prefWidth="300.0" promptText="Password" />
                   <PasswordField fx:id="confirmPwdTxtField" layoutX="25.0" layoutY="245.0" prefHeight="25.0" prefWidth="300.0" promptText="Confirm Password" />
-                  <CheckBox fx:id="chkManager" layoutX="25.0" layoutY="330.0" mnemonicParsing="false" text="Manager">
+                  <CheckBox fx:id="chkManager" layoutX="25.0" layoutY="330.0" mnemonicParsing="false" onAction="#managerClicked" text="Manager">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="chkEmployee" layoutX="118.0" layoutY="330.0" mnemonicParsing="false" text="Employee">
+                  <CheckBox fx:id="chkEmployee" layoutX="118.0" layoutY="330.0" mnemonicParsing="false" onAction="#employeeClicked" text="Employee">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="chkAdministrator" layoutX="215.0" layoutY="330.0" mnemonicParsing="false" text="Administrator">
+                  <CheckBox fx:id="chkAdministrator" layoutX="215.0" layoutY="330.0" mnemonicParsing="false" onAction="#adminClicked" text="Administrator">
                      <font>
                         <Font size="14.0" />
                      </font>
