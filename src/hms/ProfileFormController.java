@@ -8,6 +8,7 @@ package hms;
 import hms.model.FrontDeskDAO;
 import hms.model.Profile;
 import hms.model.ProfileBuilder;
+import hms.model.States;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -79,10 +80,10 @@ public class ProfileFormController implements Initializable {
     private boolean RESULT = false;
     private boolean EDIT = false;
     private Profile profile;
+    private Profile newProfile;
     
     private ObservableList<String> states;
     private ObservableList<String> titles;
-    private boolean newProfile = false;
     
     /**
      * Initializes the controller class.
@@ -95,14 +96,15 @@ public class ProfileFormController implements Initializable {
 
     @FXML
     private void onActionFirstName(ActionEvent event) {
-    }
-
-    @FXML
-    private void onActionStreet(ActionEvent event) {
+        
     }
 
     @FXML
     private void onActionLastName(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionStreet(ActionEvent event) {
     }
 
 
@@ -142,17 +144,20 @@ public class ProfileFormController implements Initializable {
     @FXML
     private void onActionSave(ActionEvent event) {
        
-        //VERIFY FIELDS...
-        
-        if (newProfile) {
-            handleSaveNewProfile();
-        } else {
-            handleSaveUpdateProfile();
+        //Verify fields are good
+        if (verifyFields()) {
+            // Edit or Create
+            if (EDIT) {
+                handleSaveEditProfile();
+            } else {
+                handleSaveNewProfile();
+            }
         }
     }
 
     @FXML
     private void onActionCancel(ActionEvent event) {
+        RESULT = false;
         stage.close();
     }
 
@@ -160,30 +165,25 @@ public class ProfileFormController implements Initializable {
         this.stage = stage;
     }
 
-    void setProfileInformation(int profileID) {
-        
+    void setProfileInformation(Profile p) {
+      
         try {
-        Profile p = dao.getProfile(profileID);
-        if (p == null) {
-            return;
-        }
-        
-        txtFirstName.setText(p.getFirstName());
-        txtLastName.setText(p.getLastName());
-        txtPhoneNumber.setText(p.getPhoneNumber());
-        txtEmail.setText(p.getEmail());
-        txtNotes.setText(p.getNotes());
-        cbxTitles.setValue(p.getTitle());
-        cbxStates.setValue(p.getState());
-        chkVIP.setSelected(p.isVIP());
-        txtStreet.setText(p.getStreet());
-        txtApt.setText(p.getApt());
-        txtCity.setText(p.getCity());
-        txtZip.setText(p.getZip());
-        txtCountry.setText(p.getCountry());
-        
+            txtFirstName.setText(p.getFirstName());
+            txtLastName.setText(p.getLastName());
+            txtPhoneNumber.setText(p.getPhoneNumber());
+            txtEmail.setText(p.getEmail());
+            txtNotes.setText(p.getNotes());
+            cbxTitles.setValue(p.getTitle());
+            cbxStates.setValue(p.getState());
+            chkVIP.setSelected(p.isVIP());
+            txtStreet.setText(p.getStreet());
+            txtApt.setText(p.getApt());
+            txtCity.setText(p.getCity());
+            txtZip.setText(p.getZip());
+            txtCountry.setText(p.getCountry());
+
         } catch (Exception e) {
-            System.out.println("Error getting profile from DB");
+            System.out.println("Error parsing Profile");
         }
   
     }
@@ -192,7 +192,7 @@ public class ProfileFormController implements Initializable {
     private void initChoiceBoxes() {
         states = FXCollections.observableArrayList();
         titles = FXCollections.observableArrayList();
-        states.addAll("AZ", "GA", "FL");
+        states.addAll(States.getStates());
         titles.addAll("Mr", "Ms", "Mrs", "Dr");
         cbxStates.setItems(states);
         cbxTitles.setItems(titles);
@@ -205,20 +205,24 @@ public class ProfileFormController implements Initializable {
     }
 
     boolean getResult() {
+        //Used by caller to check status
         return RESULT;
     }
-   
-    void setNewProfile(boolean b) {
-        this.newProfile = true;
+    
+    void setEditFlag(boolean value) {
+        this.EDIT = value;
+        if (EDIT){
+            lblHeading.setText(HEADING_EDIT);
+        } else {
+            lblHeading.setText(HEADING_NEW);
+        }
     }
-
-    private void handleSaveNewProfile() {
-        //TODO
-        stage.close();
-    }
-
-    private void handleSaveUpdateProfile() {
  
+    void setProfile(Profile p) {
+        this.profile = profile;
+    }
+
+    private void handleSaveEditProfile() {
         try {
             boolean result = false;
             Profile p = new ProfileBuilder()
@@ -238,11 +242,16 @@ public class ProfileFormController implements Initializable {
                     .createProfile();
 
             if ( p == null ) {
-                result = false;
+                RESULT = false;
                 stage.close();
             }
 
             result = dao.updateProfile(p);
+            
+            if (result) {
+                newProfile = p;
+                RESULT = true;
+            }
         
         } catch (Exception e) {
             System.out.println("DB Error");
@@ -250,12 +259,42 @@ public class ProfileFormController implements Initializable {
     
         stage.close();
     }
+    
+    private void handleSaveNewProfile() {
+         try {
+            boolean result = false;
+            Profile p = new ProfileBuilder()
+                    .setFirstName(txtFirstName.getText())
+                    .setLastName(txtLastName.getText())
+                    .setEmail(txtEmail.getText())
+                    .setPhoneNumber(txtPhoneNumber.getText())
+                    .setStreet(txtStreet.getText())
+                    .setApt(txtApt.getText())
+                    .setCity(txtCity.getText())
+                    .setState(cbxStates.getValue())
+                    .setZip(txtZip.getText())
+                    .setCountry(txtCountry.getText())
+                    .setVIP(chkVIP.isSelected())
+                    .setNotes(txtNotes.getText())
+                    .setTitle(cbxTitles.getValue())
+                    .createProfile();
 
-    void setEditFlag(boolean value) {
-        this.EDIT = true;
-    }
- 
-    void setProfile(Profile p) {
-        this.profile = profile;
+            if ( p == null ) {
+                RESULT = false;
+                stage.close();
+            }
+
+            result = dao.createProfile(p);
+            
+            if (result) {
+                newProfile = p;
+                RESULT = true;
+            }
+        
+        } catch (Exception e) {
+            System.out.println("DB Error");
+        }
+    
+        stage.close();
     }
 }
