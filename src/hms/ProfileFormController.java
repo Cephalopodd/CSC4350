@@ -25,6 +25,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * FXML Controller class
@@ -73,6 +75,13 @@ public class ProfileFormController implements Initializable {
     private Button btnSave;
     @FXML
     private Button btnCancel;
+    @FXML
+    private Label phoneLabel;
+    @FXML
+    private Label emailLabel;
+    @FXML
+    private Label zipLabel;
+    
     
     private Stage stage;
     private FrontDeskDAO dao;
@@ -84,6 +93,8 @@ public class ProfileFormController implements Initializable {
     
     private ObservableList<String> states;
     private ObservableList<String> titles;
+    
+    
     
     /**
      * Initializes the controller class.
@@ -143,7 +154,31 @@ public class ProfileFormController implements Initializable {
 
     @FXML
     private void onActionSave(ActionEvent event) {
-       
+        phoneLabel.setText(null);
+        emailLabel.setText(null);
+        zipLabel.setText(null);
+        
+        if (txtPhoneNumber.getText().isEmpty() ){
+            phoneLabel.setText("Please enter your phone number");
+        }
+        if (!validatePhoneNumber(txtPhoneNumber.getText()) ){
+            phoneLabel.setText("Please enter correct phone number");
+        }
+        if (txtEmail.getText().isEmpty() ){
+            emailLabel.setText("Please enter your email");
+        }
+        if (!isEmailValid(txtEmail.getText())){
+            emailLabel.setText("Please enter correct email");
+        }
+        if (txtZip.getText().isEmpty() ){
+            zipLabel.setText("Please enter your ZIP code");
+        }
+        String zipCodePattern = "\\d{5}(-\\d{4})?";
+        if (!txtZip.getText().matches(zipCodePattern)){
+            zipLabel.setText("Please enter correct ZIP code");
+        }
+        
+        /*
         //Verify fields are good
         if (verifyFields()) {
             // Edit or Create
@@ -153,6 +188,7 @@ public class ProfileFormController implements Initializable {
                 handleSaveNewProfile();
             }
         }
+        */
     }
 
     @FXML
@@ -296,5 +332,34 @@ public class ProfileFormController implements Initializable {
         }
     
         stage.close();
+    }
+    
+    //Checks phone number for validity
+    private boolean validatePhoneNumber(String phoneNo) {
+        //validate phone numbers of format "1234567890"
+        if (phoneNo.matches("\\d{10}")) return true;
+        //validating phone number with -, . or spaces
+        else if(phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return true;
+        //validating phone number with extension length from 3 to 5
+        else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) return true;
+        //validating phone number where area code is in braces ()
+        else if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) return true;
+        //return false if nothing matches the input
+        else return false;
+
+    }
+    //Checks email for validity
+    public boolean isEmailValid(String email) {
+        boolean isValid = false;
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
     }
 }
