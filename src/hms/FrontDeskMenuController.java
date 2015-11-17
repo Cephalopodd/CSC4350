@@ -360,9 +360,11 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
 
         int profileID = r.getProfileID();
-
-        boolean result = Forms.displayEditProfileForm(main, profileID);
-
+//
+        //NEEDTOFIXX ---
+    //    boolean result = Forms.displayEditProfileForm(main, );
+        boolean result = false;
+        
         if (result) {
             alert = new Alert(Alert.AlertType.INFORMATION,
                     "Profile edited Successfully.");

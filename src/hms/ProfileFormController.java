@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -30,12 +31,18 @@ import javafx.stage.Stage;
  * @author jgreene
  */
 public class ProfileFormController implements Initializable {
+    
+    public static String HEADING_NEW = "Create Guest Profile";
+    public static String HEADING_EDIT = "Edit Guest Profile";
+    
     @FXML
     private Text lblHeading;
     @FXML
     private TextField txtFirstName;
     @FXML
     private TextField txtLastName;
+    @FXML
+    private Label lblErrorMsg;
     
     @FXML
     private TextField txtStreet;
@@ -68,7 +75,10 @@ public class ProfileFormController implements Initializable {
     
     private Stage stage;
     private FrontDeskDAO dao;
-    private boolean result = false;
+    
+    private boolean RESULT = false;
+    private boolean EDIT = false;
+    private Profile profile;
     
     private ObservableList<String> states;
     private ObservableList<String> titles;
@@ -195,10 +205,9 @@ public class ProfileFormController implements Initializable {
     }
 
     boolean getResult() {
-        return result;
+        return RESULT;
     }
-
-    
+   
     void setNewProfile(boolean b) {
         this.newProfile = true;
     }
@@ -210,29 +219,30 @@ public class ProfileFormController implements Initializable {
 
     private void handleSaveUpdateProfile() {
  
-        try { 
-        Profile p = new ProfileBuilder()
-                .setFirstName(txtFirstName.getText())
-                .setLastName(txtLastName.getText())
-                .setEmail(txtEmail.getText())
-                .setPhoneNumber(txtPhoneNumber.getText())
-                .setStreet(txtStreet.getText())
-                .setApt(txtApt.getText())
-                .setCity(txtCity.getText())
-                .setState(cbxStates.getValue())
-                .setZip(txtZip.getText())
-                .setCountry(txtCountry.getText())
-                .setVIP(chkVIP.isSelected())
-                .setNotes(txtNotes.getText())
-                .setTitle(cbxTitles.getValue())
-                .createProfile();
-        
-        if ( p == null ) {
-            result = false;
-            stage.close();
-        }
-        
-        result = dao.updateProfile(p);
+        try {
+            boolean result = false;
+            Profile p = new ProfileBuilder()
+                    .setFirstName(txtFirstName.getText())
+                    .setLastName(txtLastName.getText())
+                    .setEmail(txtEmail.getText())
+                    .setPhoneNumber(txtPhoneNumber.getText())
+                    .setStreet(txtStreet.getText())
+                    .setApt(txtApt.getText())
+                    .setCity(txtCity.getText())
+                    .setState(cbxStates.getValue())
+                    .setZip(txtZip.getText())
+                    .setCountry(txtCountry.getText())
+                    .setVIP(chkVIP.isSelected())
+                    .setNotes(txtNotes.getText())
+                    .setTitle(cbxTitles.getValue())
+                    .createProfile();
+
+            if ( p == null ) {
+                result = false;
+                stage.close();
+            }
+
+            result = dao.updateProfile(p);
         
         } catch (Exception e) {
             System.out.println("DB Error");
@@ -240,5 +250,12 @@ public class ProfileFormController implements Initializable {
     
         stage.close();
     }
-   
+
+    void setEditFlag(boolean value) {
+        this.EDIT = true;
+    }
+ 
+    void setProfile(Profile p) {
+        this.profile = profile;
+    }
 }

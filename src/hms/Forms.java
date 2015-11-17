@@ -70,7 +70,7 @@ class Forms {
         
     }
     
-    static boolean displayEditProfileForm(MainMenuController main, int profileID) {
+    static boolean displayEditProfileForm(MainMenuController main, Profile p) {
         boolean result = false;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -84,11 +84,8 @@ class Forms {
             
             //Inject information into Form
             controller.setStage(stage);
-            if (profileID>0) {
-                controller.setProfileInformation(profileID);
-            } else {
-                controller.setNewProfile(true);
-            }
+            controller.setEditFlag(true);
+            controller.setProfile(p);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
@@ -175,8 +172,6 @@ class Forms {
         }
     }
     
-    
-    
     static void displayAddNewUser(MainMenuController main) {
            try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -200,5 +195,31 @@ class Forms {
         }
     }
     
+    static boolean displayCreateProfileForm(MainMenuController main) {
+        boolean result = false;
+        try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Load Form and get the controller
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ProfileForm.fxml"));
+            Parent parent = (Parent) loader.load();
+            ProfileFormController controller = ((ProfileFormController) loader.getController());
+            
+            //Inject information into Form
+            controller.setStage(stage);
 
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.showAndWait();
+            result = controller.getResult();
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
+    }
 }

@@ -175,12 +175,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickNewProfile(ActionEvent event) {
-        Forms.displayEditProfileForm(main, 0);
+        Forms.displayCreateProfileForm(main);
     }
 
     @FXML
     private void onClickEditProfile(ActionEvent event) {
-        Forms.displayEditProfileForm(main, 0);
+        Forms.displayCreateProfileForm(main);
     }
 
     @FXML
