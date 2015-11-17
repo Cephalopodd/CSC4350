@@ -372,7 +372,7 @@ public class ProfileFormController implements Initializable {
             isValid = true;
         }
         return isValid;
-
+    }
     public Profile getNewProfile() {
         return newProfile;
     }
