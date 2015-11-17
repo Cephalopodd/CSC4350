@@ -1,55 +1,85 @@
 package hms.model;
 
+import java.sql.*;
 import java.util.ArrayList;
 
 public class NewUserDAO {
     
     boolean resAccess, frontAccess, billAccess, roomsAccess, adminAccess;
+    Connection c;
+    Statement stmt;
+    ResultSet rs;
+  
+    private void closeAll() {
+        try {
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+        
+    private void createUser(String username, int pw, String permissions) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            stmt.executeUpdate("insert into user values (" + 
+                    username + "," + pw + permissions);
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+
+    }
+    
     
     public void createAdministratorUser(String userName, String pw){
-        
-        resAccess = true; 
-        frontAccess = true; 
-        billAccess = true; 
-        roomsAccess = true; 
-        adminAccess = true;
-        
-        //Create user in the database.
-        
+        createUser(userName, pw.hashCode(), ",1,1,1,1,1");
     }
     
     public void createManagerUser(String userName, String pw){
-        
-        resAccess = true; 
-        frontAccess = true; 
-        billAccess = true; 
-        roomsAccess = true; 
-        adminAccess = false;
-        
-        //Create user in the database.
-        
+        createUser(userName, pw.hashCode(), ",1,1,1,1,0");
     }
 
     public void createEmployeeUser(String userName, String pw) {
-        resAccess = true; 
-        frontAccess = true; 
-        billAccess = true; 
-        roomsAccess = true; 
-        adminAccess = false;
-        
-        //Create user in the database.
-        
+        createUser(userName, pw.hashCode(), ",1,1,1,1,0");
     }
 
     public boolean unTaken(String userName) {
-        //Check on the data base if this userName exsist.
-        //If it does then return true else return false.
-        
-        return true;
+        boolean result = false;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select login from user where login like " + userName);
+            result = !rs.next();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return result;
     }
 
     public void resetPassword(String userName, String pw) {
-        //reset password for the user name with the one provided.
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            stmt.executeUpdate("update user set pw = " + pw.hashCode() 
+                    + " where login like " + userName);
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
     }
     
     public ArrayList<String> getUsersDb(){
@@ -59,5 +89,4 @@ public class NewUserDAO {
         
         return user;
     }
-    
 }
