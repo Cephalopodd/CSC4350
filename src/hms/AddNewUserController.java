@@ -64,7 +64,9 @@ public class AddNewUserController implements Initializable {
         boolean passwordNotMatch = !pwdTxtField.getText().equals(confirmPwdTxtField.getText());
         boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
         boolean pwdTxtFieldBlank = pwdTxtField.getText().isEmpty();
-        boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();       
+        boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();
+        boolean allChkBoxSelected = chkManager.isSelected() && chkAdministrator.isSelected() && chkEmployee.isSelected();
+        boolean noChkBoxSelected = !chkManager.isSelected() && !chkAdministrator.isSelected() && !chkEmployee.isSelected();
         boolean unFieldPassed = true, pwdFieldPassed = true, confirmFieldPassed = true, notMatchedPassed = true, chkBoxPassed = true;
         user = new NewUserDAO();
         
@@ -98,12 +100,18 @@ public class AddNewUserController implements Initializable {
             notMatchedPassed = false;
         }
         
-        if(chkManager.isSelected()){
-            count++;
-        }else if(chkEmployee.isSelected()){
-            count++;
-        }else if(chkAdministrator.isSelected()){
-            count++;
+        if(allChkBoxSelected){
+            permissionLabel.setText("One permission level must be chosen!");
+            chkBoxPassed = false;
+        }else{
+            permissionLabel.setText(null);
+        }
+        
+        if(noChkBoxSelected){
+            permissionLabel.setText("One permission level must be chosen!");
+            chkBoxPassed = false;
+        }else{
+            permissionLabel.setText(null);
         }
         
         if(count != 1){

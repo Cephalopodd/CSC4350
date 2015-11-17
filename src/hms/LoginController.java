@@ -24,6 +24,8 @@ public class LoginController implements Initializable {
     LoginDAO dao;
     User user;
     
+    //Button used in the login form GUI.
+    //Located in the Login.fxml
     @FXML
     private TextField unTxtField;
     @FXML
@@ -67,41 +69,49 @@ public class LoginController implements Initializable {
         //Authenticate User
         user = dao.authenticateUser(unTxtField.getText(), pwdTxtField.getText().hashCode());
         
-        
-        
         //Process Login
         if (user == null){
-            processNoUserLoginError();
-        }else{
+            processLoginError();
+        } else{    
             processLogin(user);
         }
     }
     
-    private void processNoUserLoginError() {
+    private void processLoginError() {
         //Clear Login and Password and set Cusor back in Login field
         unTxtField.setText("");
         pwdTxtField.setText("");
         unTxtField.requestFocus();
-        unLabel.setText("Username not found.\n Please ask admin to create account.");
+ 
+        //Set Error Message
+        lblLoginError.setText("Incorrect Login name or Password");
+        
+        //Commented out the fading. Do not need it.
+        /*/Fade the error message in and back out
+        FadeTransition ft0 = new FadeTransition(Duration.millis(250), lblLoginError);
+        FadeTransition ft1 = new FadeTransition(Duration.millis(3000), lblLoginError);
+        FadeTransition ft2 = new FadeTransition(Duration.millis(250), lblLoginError);
+        ft0.setFromValue(0.0);
+        ft0.setToValue(1.0);
+        ft1.setFromValue(1.0);
+        ft1.setToValue(1.0);
+        ft2.setFromValue(1.0);
+        ft2.setToValue(0.0);
+        SequentialTransition st = new SequentialTransition(ft0,ft1,ft2);
+        st.play();*/
         
     }
     
     //Process login method. Gets the username and password enterned in to the text fields.
     private void processLogin(User user){
-        //Clear username, password and error message. Then login user.
+        //Clear user Name and Password
         unTxtField.setText("");
         pwdTxtField.setText("");
-        unLabel.setText("");
-        pwdLabel.setText("");
         HMSapp.doLogin(user);
-    }
-
-    private void processPasswordIncorrectError() {
-        //Clean 
-        unTxtField.setText("");
-        pwdTxtField.setText("");
-        unTxtField.requestFocus();
-        pwdLabel.setText("Incorrect Password! Try Again!");
+        
+        //If login successfull sets the message to blank.
+        //This way the message reset after login.
+        lblLoginError.setText(" ");
     }
     
 }
