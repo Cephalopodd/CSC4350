@@ -83,12 +83,21 @@ public class FrontDeskDAO {
         return result;
     }
 
+    public boolean createReservation(Reservation reservation) {
+        
+        //Create single reservation...
+        
+        return true;
+    }
+    
+    
     public boolean cancelReservation(int confirmation) {
         System.out.println("deleting reservation #" + confirmation);
         int rowsDeleted = 0;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
             stmt = c.createStatement();
             rowsDeleted = stmt.executeUpdate("delete from reservation where id = " 
                         + confirmation);
@@ -117,5 +126,147 @@ public class FrontDeskDAO {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
     }
-}
 
+    public CreditCard getCreditCard(int confirmation) {
+        CreditCard cc = null; 
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(
+                "select g.fname, g.lname, cc.card, cc.ccv, cc.exp from reservation r "
+                + "join guest g on g.id = r.g_id "
+                + "join cc on cc.g_id = g.id and cc.last4 = r.cc_last4");
+            if (rs.next()) {
+                String exp = rs.getString(5);
+                cc = new CreditCard(
+                    rs.getString(1) + " " + rs.getString(2),
+                    rs.getString(3),
+                    CreditCardType.VISA,
+                    rs.getString(4),
+                    Integer.parseInt(exp.substring(0,2)),
+                    Integer.parseInt(exp.substring(3)) + 2000
+                );
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return cc;
+    }
+
+    public boolean setCreditCard(int confirmation, CreditCard verifiedCC) {
+        PreparedStatement ps = null;
+        String ccn = verifiedCC.getCCNumber();
+        String last4 = ccn.substring(ccn.length() - 4);
+        System.out.println("changing reservation #" + confirmation +
+                " to use card ending in " + last4);
+        int rowsChanged = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            ps = c.prepareStatement("update reservation "
+                    + "set cc_last4 = '?' where id = ?");
+            ps.setString(1, last4);
+            ps.setInt(2, confirmation);
+            rowsChanged = ps.executeUpdate();
+            c.commit();
+            ps.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return (rowsChanged > 0);
+    }
+
+    public Profile getProfile(int profileID) {
+        Profile guest = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select * from guest where id = " + profileID);
+            if (rs.next()) {
+                guest = new ProfileBuilder()
+                    .setMemberID(rs.getInt("id"))
+                    .setFirstName(rs.getString("fname"))
+                    .setLastName(rs.getString("lname"))
+                    .setPhoneNumber(rs.getString("phone"))
+                    .setEmail(rs.getString("email"))
+                    .setStreet(rs.getString("addr1"))
+                    .setApt(rs.getString("addr2"))
+                    .setCity(rs.getString("city"))
+                    .setState(rs.getString("state"))
+                    .setZip(rs.getString("zip"))
+                    .setVIP(rs.getBoolean("vip"))
+                    .setNotes(rs.getString("notes"))
+                    .createProfile();
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return guest;
+    }
+
+    public boolean updateProfile(Profile p) {
+        System.out.println("updating guest #" + p.getMemberID());
+        int rowsChanged = 0;
+        PreparedStatement ps = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            ps = c.prepareStatement("update guest set fname = '?', lname = '?', "
+                + "phone = '?', email = '?', addr1 = '?', addr2 = '?', city = '?', "
+                + "state = '?', zip = '?', vip = ?, notes = '?', where id = ?");
+            ps.setString(1,p.getFirstName());
+            ps.setString(2,p.getLastName());
+            ps.setString(3,p.getPhoneNumber());
+            ps.setString(4,p.getEmail());
+            ps.setString(5,p.getStreet());
+            ps.setString(6,p.getApt());
+            ps.setString(7,p.getCity());
+            ps.setString(8,p.getState());
+            ps.setString(9,p.getZip());
+            ps.setInt(10,(p.isVIP() ? 1 : 0));
+            ps.setString(11,p.getNotes());
+            ps.setInt(12,p.getMemberID());
+            rowsChanged = ps.executeUpdate();
+            c.commit();
+            ps.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return (rowsChanged > 0);
+    }
+
+    public boolean createProfile(Profile p) {
+        //Send you a profile to add to database
+        //You add Profile
+        //Return boolean result
+        return true;
+    }
+    
+    public ObservableList queryProfiles(ProfileSearchDTO dto) {
+        
+        ObservableList<Profile> profiles = FXCollections.observableArrayList();
+        
+        //Receive profile search dto
+        // QUery profiles
+        //Return observableList<Profile>
+        profiles.add(new ProfileBuilder()
+                .setFirstName("Test")
+                .setLastName("User")
+                .createProfile());
+                
+        
+        return profiles;
+    }
+}

@@ -9,24 +9,17 @@ import hms.model.CreditCardType;
 import hms.model.CreditCard;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -61,13 +54,18 @@ public class CheckInFormController implements Initializable {
     private ObservableList<Integer> months;
     private ObservableList<Integer> years;
     private ObservableList<String> ccTypes;
+    
     private Stage stage;
-
+    private boolean accepted;
+    private CreditCard cc;
+    private int roomNumber;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        accepted = false;
         months = FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9,10,11,12);
         years = FXCollections.observableArrayList(2015,2016,2017,2018,2019,
                 2020,2021,2022,2023,2024,2025);
@@ -83,20 +81,51 @@ public class CheckInFormController implements Initializable {
 
     @FXML
     private void onClickOK(ActionEvent event) {
+        accepted = true;
         stage.close();
     }
 
     @FXML
     private void onClickCancel(ActionEvent event) {
+        accepted = false;
         stage.close();
     }
-   
-    public void setFields(int room, CreditCard cc) {
-        
-    }
-
+  
     void setStage(Stage stage) {
         this.stage = stage;
+    }
+    
+    void setCC(CreditCard cc) {
+        this.cc = cc;
+        if (cc == null)
+            return;
+        
+        txtCCNumber.setText("");
+        txtNameOnCC.setText(cc.getName());
+        txtCCID.setText(cc.getCode());
+        cbxCCType.setValue(cc.getType());
+        cbxMonth.setValue(cc.getExpMonth());
+        cbxYear.setValue(cc.getExpYear());
+    }
+    
+    CreditCard getCC() {
+        return new CreditCard(
+                txtNameOnCC.getText(),
+                txtCCNumber.getText(),
+                txtCCID.getText(),
+                cbxCCType.getValue(),
+                cbxMonth.getValue(),
+                cbxYear.getValue()
+        );
+    }
+    
+    void setRoomNumber(int roomNumber){
+        this.roomNumber = roomNumber;
+        lblRoomNumber.setText(roomNumber+"");
+    }
+    
+    boolean getResult() {
+        return accepted;
     }
     
 }

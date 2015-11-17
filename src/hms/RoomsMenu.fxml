@@ -1,30 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.RoomsMenuController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.RoomsMenuController">
    <children>
-      <TableView fx:id="table0" prefHeight="223.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-        </columns>
-      </TableView>
-      <Label text="Rooms Menu PlaceHolder" GridPane.rowIndex="1" />
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;">
          <children>
-            <Button fx:id="button1" mnemonicParsing="false" onAction="#onClickButton1" text="Button" />
-         </children></HBox>
-      <DatePicker fx:id="datePiceker0" GridPane.columnIndex="1" />
+            <Rectangle arcHeight="5.0" fill="#ffffff00" height="213.0" layoutX="14.0" layoutY="36.0" stroke="#c9c3c3" strokeType="INSIDE" strokeWidth="3.0" width="201.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="33.0" layoutX="25.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="154.0" />
+            <Text layoutX="33.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room Information" wrappingWidth="147.21875">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text fill="#23ab2e" layoutX="25.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Active Rooms">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Text>
+            <Text fill="#b21e1e" layoutX="25.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Occupied">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Text>
+            <Text fill="#141313" layoutX="25.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maintenance">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Text>
+            <Text fill="#2041c6" layoutX="25.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Housekeeping">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Text>
+            <Text fill="#f2df16" layoutX="25.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Text>
+            <Label fx:id="activeRmCount" layoutX="170.0" layoutY="66.0" text="00" textFill="#0dc936">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="occupiedRmCount" layoutX="170.0" layoutY="102.0" text="00" textFill="#0dc936">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="maintenanceRmCount" layoutX="170.0" layoutY="139.0" text="00" textFill="#0dc936">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="hkRmCount" layoutX="170.0" layoutY="176.0" text="00" textFill="#0dc936">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalRoomCount" layoutX="170.0" layoutY="208.0" text="00" textFill="#0dc936">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Rectangle fx:id="rm100" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="110.0" layoutX="291.0" layoutY="37.0" onMouseClicked="#onMouseClick" stroke="BLACK" strokeType="INSIDE" width="130.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="110.0" layoutX="446.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="130.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="110.0" layoutX="446.0" layoutY="173.0" stroke="BLACK" strokeType="INSIDE" width="130.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="110.0" layoutX="291.0" layoutY="173.0" stroke="BLACK" strokeType="INSIDE" width="130.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="110.0" layoutX="596.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="130.0" />
+            <Text layoutX="335.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text layoutX="490.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text layoutX="335.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text layoutX="490.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text layoutX="640.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
    </children>
-</GridPane>
+</StackPane>
