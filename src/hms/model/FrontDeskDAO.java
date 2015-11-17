@@ -33,7 +33,7 @@ public class FrontDeskDAO {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
     }
-
+        
     public ObservableList queryArrivals(FrontDeskArrivalsDTO dto) {
         
         ObservableList<Reservation> result = FXCollections.observableArrayList();
@@ -95,11 +95,17 @@ public class FrontDeskDAO {
         return result;
     }
 
-    public boolean createReservation(Reservation reservation) {
+      /**
+         *   This method takes a profile, a room , arrival date, departure date
+         * creates a reservation
+         *  and returns a reservationNumber
+         */
+    public int createReservation(Profile profile, Room room, String arrival, String departure) {
         
-        //Create single reservation...
+        int reservationNumber=0;
         
-        return true;
+        
+        return reservationNumber;
     }
     
     public boolean cancelReservation(int confirmation) {
@@ -256,7 +262,7 @@ public class FrontDeskDAO {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
             closeAll();
-        }
+    }
         return (rowsInserted > 0);
     }
     
@@ -291,7 +297,7 @@ public class FrontDeskDAO {
             if (filters.length() > 0) filters.replace(0, 4, " WHERE");
             System.out.println("where");
             System.out.println(filters);
-			
+        
             rs = stmt.executeQuery("select * from guest " + filters);
             System.out.println("test 4");
             while (rs.next()) {
@@ -305,21 +311,51 @@ public class FrontDeskDAO {
         return profiles;
     }
 
-	private Profile parseProfile(ResultSet rs) throws Exception {
-            Profile guest = new ProfileBuilder()
-                .setMemberID(rs.getInt("id"))
-                .setFirstName(rs.getString("fname"))
-                .setLastName(rs.getString("lname"))
-                .setPhoneNumber(rs.getString("phone"))
-                .setEmail(rs.getString("email"))
-                .setStreet(rs.getString("addr1"))
-                .setApt(rs.getString("addr2"))
-                .setCity(rs.getString("city"))
-                .setState(rs.getString("state"))
-                .setZip(rs.getString("zip"))
-                .setVIP(rs.getBoolean("vip"))
-                .setNotes(rs.getString("notes"))
-                .createProfile();
-            return guest;
+    private Profile parseProfile(ResultSet rs) throws Exception {
+        Profile guest = new ProfileBuilder()
+            .setMemberID(rs.getInt("id"))
+            .setFirstName(rs.getString("fname"))
+            .setLastName(rs.getString("lname"))
+            .setPhoneNumber(rs.getString("phone"))
+            .setEmail(rs.getString("email"))
+            .setStreet(rs.getString("addr1"))
+            .setApt(rs.getString("addr2"))
+            .setCity(rs.getString("city"))
+            .setState(rs.getString("state"))
+            .setZip(rs.getString("zip"))
+            .setVIP(rs.getBoolean("vip"))
+            .setNotes(rs.getString("notes"))
+            .createProfile();
+        return guest;
+    }
+
+    public ObservableList<Room> queryRoomAvailability(String roomType, String arrivalDate, String departureDate) {
+    
+        //This is called from the Room Reservation Creation Form
+        //IT takes RoomType, Arrival Date as string, and Departure date as string
+        //It returns an observable list of available rooms.
+        
+        ObservableList<Room> rooms = FXCollections.observableArrayList();
+        
+        //fake tset room
+        rooms.add(new RoomBuilder()
+                .setCost(158.23)
+                .setHandicapAccess(false)
+                .setNumber(113)
+                .setType(RoomType.DBLNS)
+                .setOccupied(false)
+                .setStatus(RoomStatus.CLEAN)
+                .createRoom());
+        rooms.add(new RoomBuilder()
+                .setCost(143.23)
+                .setHandicapAccess(false)
+                .setNumber(116)
+                .setType(RoomType.QUEENNS)
+                .setOccupied(false)
+                .setStatus(RoomStatus.CLEAN)
+                .createRoom());
+        
+        return rooms;
+    
     }
 }

@@ -6,6 +6,7 @@
 package hms;
 
 import hms.model.FrontDeskDAO;
+import hms.model.Reservation;
 import hms.model.Room;
 import hms.model.RoomType;
 import java.net.URL;
@@ -16,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -33,6 +35,9 @@ import javafx.stage.Stage;
  */
 public class ReserveRoomFormController implements Initializable {
 
+    public static String HEADING_NEW = "Create Room Reservation";
+    public static String HEADING_EDIT = "Edit Room Reservation";
+    
     @FXML
     private Text lblHeading;
     @FXML
@@ -66,6 +71,10 @@ public class ReserveRoomFormController implements Initializable {
 
     private Stage stage;
     private FrontDeskDAO dao;
+    private Reservation reservation;
+            
+    private boolean EDIT = false;
+    private boolean SUCCESS = false;
 
     private ObservableList<String> roomTypes;
     private ObservableList<Integer> numAdults;
@@ -85,7 +94,25 @@ public class ReserveRoomFormController implements Initializable {
 
     @FXML
     private void onActionSave(ActionEvent event) {
-        stage.close();
+        
+        Room room = tblRooms.getSelectionModel().getSelectedItem();
+        
+        //Check for null room
+        if ( room == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+            "Please search for and select a room");
+            alert.showAndWait();
+            return;
+        }
+        
+        if (EDIT) {
+            
+            handleUpdateReservation();
+        } else {        
+       //     dao.createReservation(profile, room, arrivalDate, departureDate);
+    
+        }
+            
     }
 
     @FXML
@@ -95,10 +122,15 @@ public class ReserveRoomFormController implements Initializable {
 
     @FXML
     private void onClickFindRooms(ActionEvent event) {
-    }
-
-    void setStage(Stage stage) {
-        this.stage = stage;
+        //Checking input
+        if (!verifyInput()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+            "Input not valid, please check the form"
+                    + "for errors" );
+            alert.showAndWait();
+            return;
+        }
+        handleFindRoom();
     }
 
     private void initChoiceBoxes() {
@@ -111,7 +143,7 @@ public class ReserveRoomFormController implements Initializable {
         cbxRoomType.setItems(roomTypes);
         cbxAdults.setItems(numAdults);
         cbxChildren.setItems(numChildren);
-        
+
         cbxRoomType.setValue(RoomType.KINGNS);
         cbxAdults.setValue(1);
         cbxChildren.setValue(0);
@@ -119,9 +151,9 @@ public class ReserveRoomFormController implements Initializable {
     }
 
     private void initTableColumns() {
-        
+
         tblRooms.setItems(roomList);
-        
+
         colRoom.setCellValueFactory(
                 new PropertyValueFactory<>("Number"));
         colType.setCellValueFactory(
@@ -133,4 +165,47 @@ public class ReserveRoomFormController implements Initializable {
         );
     }
 
+    void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    void setEditFlag(boolean value) {
+        EDIT = value;
+        if (EDIT)
+            lblHeading.setText(HEADING_EDIT);
+        else
+            lblHeading.setText(HEADING_NEW);
+    }
+
+    private boolean verifyInput() {
+        return true;
+    }
+   
+    private void handleFindRoom(){
+        
+        ObservableList<Room> results = FXCollections.observableArrayList();
+        
+        try {
+            results = dao.queryRoomAvailability(
+                    cbxRoomType.getValue(),
+                    dateArrival.getValue().toString(),
+                    dateDeparture.getValue().toString()
+            );
+            
+        } catch (Exception e) {
+            System.out.println("Error finding a room");
+        }
+        
+        if (results != null) {
+            tblRooms.setItems(results);
+        }
+        
+    }
+
+    private void handleUpdateReservation() {
+    
+    }
+
+    private void handleCreateReservation() {
+    }
 }

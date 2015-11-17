@@ -205,7 +205,7 @@ public class ReservationsMenuController implements Initializable, SubMenu {
 
     private void handleSearch() {
         if (!validateFields()) {
-            System.out.println("error validatiting fields");
+            System.out.println("error validating fields");
             return;
         }
 
