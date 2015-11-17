@@ -30,7 +30,10 @@
             <TextField id="unTxtField" fx:id="unTxtField" layoutX="55.0" layoutY="162.0" prefHeight="55.0" prefWidth="390.0" promptText="Username">
                <effect>
                   <DropShadow />
-               </effect></TextField>
+               </effect>
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
             <Text fill="WHITE" layoutX="55.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
@@ -39,7 +42,10 @@
             <PasswordField id="pwdTxtField" fx:id="pwdTxtField" layoutX="55.0" layoutY="279.0" prefHeight="55.0" prefWidth="390.0" promptText="Password">
                <effect>
                   <DropShadow />
-               </effect></PasswordField>
+               </effect>
+               <font>
+                  <Font size="18.0" />
+               </font></PasswordField>
             <Text fill="WHITE" layoutX="55.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="125.21875">
                <font>
                   <Font size="24.0" />
@@ -62,6 +68,16 @@
                </effect>
             </Button>
             <Label fx:id="lblLoginError" layoutX="55.0" layoutY="355.0" prefHeight="20.0" prefWidth="390.0" textFill="#d2290b" />
+            <Label fx:id="unLabel" layoutX="55.0" layoutY="219.0" prefHeight="17.0" prefWidth="390.0" textFill="#ff0606">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="pwdLabel" layoutX="55.0" layoutY="335.0" prefHeight="17.0" prefWidth="390.0" textFill="#ff0606">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
