@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
-import javafx.scene.shape.Rectangle;
 
 public class RoomsMenuController implements Initializable,SubMenu {
     
@@ -78,14 +77,15 @@ public class RoomsMenuController implements Initializable,SubMenu {
     }
     
     public void tilePaneDisplay(){
-        tilePane.setVgap(20.0);
-        tilePane.setHgap(20.0);
+        tilePane.setVgap(12.0);
+        tilePane.setHgap(12.0);
         tilePane.setPrefColumns(5);
         
         Button [] roomBtn = new Button[dao.getTotalRoomCount()];
         for(int i = 0; i < dao.getTotalRoomCount(); i++){
             int roomNumberStart = 100;
             roomBtn[i] = new Button("Room\n" + (roomNumberStart += i));
+            roomBtn[i].setStyle("-fx-font-size: 16px; -fx-text-fill: BLACK;");
             
             if(dao.isOccupied(i)){
                 roomBtn[i].setStyle("-fx-background-color: #ff4e50; -fx-font-size: 16px; -fx-text-fill: WHITE;");

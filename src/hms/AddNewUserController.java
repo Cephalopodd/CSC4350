@@ -16,7 +16,6 @@ public class AddNewUserController implements Initializable {
     
     private Stage stage;
     
-
     @FXML
     private TextField unTxtField;
     @FXML
@@ -55,6 +54,7 @@ public class AddNewUserController implements Initializable {
         boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
         boolean pwdTxtFieldBlank = pwdTxtField.getText().isEmpty();
         boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();
+        boolean noCheckBoxSelected = !chkManager.isSelected() && !chkEmployee.isSelected() && !chkAdministrator.isSelected();
         
         if(unTxtFieldBlank){
             unLabel.setText("Username must be entered!");
@@ -77,6 +77,12 @@ public class AddNewUserController implements Initializable {
         if(passwordNotMatch){
             pwdLabel.setText("Passwords do not match!");
             confirmLabel.setText("Passwords do not match!");
+        }
+        
+        if(noCheckBoxSelected){
+            permissionLabel.setText("Permission level must be checked.");
+        }else{
+            permissionLabel.setText(null);
         }
         
     }
