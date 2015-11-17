@@ -14,8 +14,8 @@ package hms.model;
  */
 public class Room {
 
-    private int number;
-    private String type = RoomType.DBLNS;
+    private int number = 0;
+    private String type = RoomType.DNN;
     private String status = RoomStatus.CLEAN;
     private boolean handicapAccess = false;
     private boolean occupied = false;
@@ -39,6 +39,17 @@ public class Room {
         this.occupied = occupied;
     }
 
+     public Room(int number, String type, String status, boolean handicapAccess, boolean occupied, double cost) {
+        this.number = number;
+        this.type = type;
+        this.status = status;
+        this.handicapAccess = handicapAccess;
+        this.occupied = occupied;
+        this.cost = cost;
+    }
+
+    
+    
     /**
      * @return the number
      */

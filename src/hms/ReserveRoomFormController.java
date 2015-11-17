@@ -6,9 +6,12 @@
 package hms;
 
 import hms.model.FrontDeskDAO;
+import hms.model.Profile;
+import hms.model.Reservation;
 import hms.model.Room;
 import hms.model.RoomType;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -16,12 +19,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -33,8 +39,17 @@ import javafx.stage.Stage;
  */
 public class ReserveRoomFormController implements Initializable {
 
+    public static String HEADING_NEW = "Create Room Reservation";
+    public static String HEADING_EDIT = "Edit Room Reservation";
+
     @FXML
     private Text lblHeading;
+    @FXML
+    private Label lblErrorMsg;
+    @FXML
+    private Label lblGuestName;
+    @FXML
+    private TextArea txtNotes;
     @FXML
     private Button btnSave;
     @FXML
@@ -66,11 +81,20 @@ public class ReserveRoomFormController implements Initializable {
 
     private Stage stage;
     private FrontDeskDAO dao;
+    private Reservation reservation;
+    private Profile profile;
+
+    private boolean EDIT = false;
+    private boolean SUCCESS = false;
 
     private ObservableList<String> roomTypes;
     private ObservableList<Integer> numAdults;
     private ObservableList<Integer> numChildren;
     private ObservableList<Room> roomList;
+    private String searchedArrival;
+    private String searchedDeparture;
+    private int newReservationNumber = 0;
+    private int newRoomNumber = 0;
 
     /**
      * Initializes the controller class.
@@ -85,6 +109,49 @@ public class ReserveRoomFormController implements Initializable {
 
     @FXML
     private void onActionSave(ActionEvent event) {
+
+        Room room = tblRooms.getSelectionModel().getSelectedItem();
+
+        //Check for null room
+        if (room == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Please search for and select a room");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            if (EDIT) {
+                //Update Reservation
+                reservation.setCheckinDate(dateArrival.getValue().toString());
+                reservation.setCheckoutDate(dateDeparture.getValue().toString());
+                reservation.setRoomNumber(room.getNumber());
+                reservation.setNumberAdults(cbxAdults.getValue());
+                reservation.setNumberChildren(cbxChildren.getValue());
+                reservation.setRoomType(cbxRoomType.getValue());
+                reservation.setComments(txtNotes.getText());
+
+                //Send to DB
+                boolean result = dao.updateReservation(reservation);
+                if (result){
+                    SUCCESS = true;
+                    newRoomNumber = room.getNumber();
+                    newReservationNumber = reservation.getConfirmation();
+                }
+                
+            } else {
+                int resNo = dao.createReservation(profile, room, searchedArrival, searchedDeparture);
+                if (resNo > 0) {
+                    SUCCESS = true;
+                    newRoomNumber = room.getNumber();
+                    newReservationNumber = resNo;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error creating room");
+        }
+        
+        //CLose window
         stage.close();
     }
 
@@ -95,33 +162,46 @@ public class ReserveRoomFormController implements Initializable {
 
     @FXML
     private void onClickFindRooms(ActionEvent event) {
-    }
-
-    void setStage(Stage stage) {
-        this.stage = stage;
+        //Checking input
+        if (!verifyInput()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Input not valid, please check the form"
+                    + "for errors");
+            alert.showAndWait();
+            return;
+        }
+        
+        if (dateArrival.getValue().isBefore(LocalDate.now()))
+        {
+            System.out.println("time cannot flow backward");
+        }
+        if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
+        {
+           System.out.println("cannot checkout in the past");
+        }
+        
+        handleFindRoom();
     }
 
     private void initChoiceBoxes() {
-        roomTypes = FXCollections.observableArrayList(RoomType.DBLNS,
-                RoomType.DBLS, RoomType.KINGNS, RoomType.KINGS,
-                RoomType.QUEENNS, RoomType.QUEENS);
+        roomTypes = FXCollections.observableArrayList(RoomType.getRoomTypes());
         numAdults = FXCollections.observableArrayList(1, 2, 3, 4);
         numChildren = FXCollections.observableArrayList(0, 1, 2, 3);
 
         cbxRoomType.setItems(roomTypes);
         cbxAdults.setItems(numAdults);
         cbxChildren.setItems(numChildren);
-        
-        cbxRoomType.setValue(RoomType.KINGNS);
+
+        cbxRoomType.setValue(RoomType.DNN);
         cbxAdults.setValue(1);
         cbxChildren.setValue(0);
 
     }
 
     private void initTableColumns() {
-        
+
         tblRooms.setItems(roomList);
-        
+
         colRoom.setCellValueFactory(
                 new PropertyValueFactory<>("Number"));
         colType.setCellValueFactory(
@@ -133,4 +213,96 @@ public class ReserveRoomFormController implements Initializable {
         );
     }
 
+    void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    void setEditFlag(boolean value) {
+        EDIT = value;
+        if (EDIT) {
+            lblHeading.setText(HEADING_EDIT);
+        } else {
+            lblHeading.setText(HEADING_NEW);
+        }
+    }
+
+    private boolean verifyInput() {
+        //set lblErrorMsg ...
+        return true;
+    }
+
+    private void handleFindRoom() {
+
+        ObservableList<Room> results = FXCollections.observableArrayList();
+
+        try {
+            //Remember search criteria...
+            searchedArrival = dateArrival.getValue().toString();
+            searchedDeparture = dateDeparture.getValue().toString();
+
+            //Query Database
+            results = dao.queryRoomAvailability(
+                    cbxRoomType.getValue(),
+                    searchedArrival,
+                    searchedDeparture);
+
+        } catch (Exception e) {
+            System.out.println("Error finding a room");
+        }
+
+        if (results != null) {
+            tblRooms.setItems(results);
+        }
+        
+    }
+
+    private void handleUpdateReservation() {
+        System.out.println("Updated Reservation");
+    }
+
+    private void handleCreateReservation() {
+        System.out.println("Created Reservation");
+    }
+
+    void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+        cbxRoomType.setValue(reservation.getRoomType());
+        cbxAdults.setValue(reservation.getNumberAdults());
+        cbxChildren.setValue(reservation.getNumberChildren());
+        txtNotes.setText(reservation.getComments());
+
+        lblGuestName.setText(reservation.getFirstName()
+                + " " + reservation.getLastName());
+        //No way to set Accessible
+
+        //Set Room Type?
+        System.out.println(reservation.getRoomType() + " roomtype");
+        System.out.println(reservation.getCheckinDate());
+        try {
+            dateArrival.setValue(LocalDate.parse(reservation.getCheckinDate()));
+            dateDeparture.setValue(LocalDate.parse(reservation.getCheckoutDate()));
+        } catch (Exception e) {
+            System.out.println("Could not set date fields");
+        }
+
+    }
+
+    void setProfile(Profile profile) {
+        this.profile = profile;
+        lblGuestName.setText(profile.getFirstName()
+                + " " + profile.getLastName());
+
+    }
+
+    int getNewReservationNumber() {
+        return newReservationNumber;
+    }
+    
+    boolean getSuccess() {
+        return SUCCESS;
+    }
+    
+    int getNewRoomNumber() {
+        return newRoomNumber;
+    }
 }

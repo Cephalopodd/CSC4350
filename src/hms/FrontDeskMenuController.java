@@ -360,9 +360,11 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
 
         int profileID = r.getProfileID();
-
-        boolean result = Forms.displayEditProfileForm(main, profileID);
-
+//
+        //NEEDTOFIXX ---
+    //    boolean result = Forms.displayEditProfileForm(main, );
+        boolean result = false;
+        
         if (result) {
             alert = new Alert(Alert.AlertType.INFORMATION,
                     "Profile edited Successfully.");
@@ -376,7 +378,14 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private void handleEditReservation() {
-        Forms.displayEditReservationForm(main);
+        Reservation reservation = tblFrontDesk.getSelectionModel().getSelectedItem();
+        if ( reservation == null ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+            "Please select a reservation");
+            alert.showAndWait();
+            return;
+        }
+        Forms.displayReserveRoomForm(main, reservation);
     }
 
 }

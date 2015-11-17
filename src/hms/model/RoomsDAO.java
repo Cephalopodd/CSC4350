@@ -2,6 +2,7 @@ package hms.model;
 
 import java.time.LocalDate;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class RoomsDAO {
 
@@ -61,31 +62,42 @@ public class RoomsDAO {
         return getRoomCount("where status like 'dirty'");
     }
 
-    public boolean isOccupied(int roomNumber) {
-        if(roomNumber == 0)
-            return true;
-        else
-            return false;
-    }
-
-    public boolean isActive(int roomNumber) {
-        if(roomNumber == 1)
-            return true;
-        else
-            return false;
-    }
-
-    public boolean isInMaintenance(int roomNumber) {
-        if(roomNumber == 2)
-            return true;
-        else
-            return false;
+    public ArrayList<Integer> getRoomList(String condition) {
+        ArrayList roomList = new ArrayList();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select number from room " + condition);
+            while (rs.next()) {
+                roomList.add(rs.getInt("number"));
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return roomList;
     }
     
-    public boolean isInHousekeeping(int roomNumber) {
-        if(roomNumber == 3)
-            return true;
-        else
-            return false;
+    public ArrayList<Integer> getTotalRmList() {
+        return getRoomList("");
+    }
+
+    public ArrayList<Integer> getActiveRmList() {
+        return getRoomList("where status not like 'dirty' "
+                + "and status not like 'out' and occupied = 0");
+    }
+
+    public ArrayList<Integer> getOccupiedRmList() {
+        return getRoomList("where occupied = 1");
+    }
+    
+    public ArrayList<Integer> getMaintRmList() {
+        return getRoomList("where status like 'out'");
+    }
+
+    public ArrayList<Integer> getHkRmList() {
+        return getRoomList("where status like 'dirty'");
     }
 }

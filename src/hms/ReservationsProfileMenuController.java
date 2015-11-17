@@ -158,24 +158,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickNewReservation(ActionEvent event) {
-        handleEditReservations(null);
+        handleNewReservation();
     }
 
     @FXML
     private void onClickEditReservation(ActionEvent event) {
-
-        //Get Selected Reservation
-        Reservation r = tblReservations.getSelectionModel().getSelectedItem();
-
-        //Prompt and return if a reservation is not selected.
-        if (r == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Reservation not Selected");
-            alert.showAndWait();
-            return;
-        }
-
-        handleEditReservations(r);
+        handleEditReservation();
     }
 
     @FXML
@@ -186,17 +174,17 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickNewProfile(ActionEvent event) {
-        //TODO
+        handleNewProfile();
     }
 
     @FXML
     private void onClickEditProfile(ActionEvent event) {
-        //TODO
+        handleEditProfile();
     }
 
     @FXML
     private void onClickDeleteProfile(ActionEvent event) {
-        //TODO
+        handleDeleteProfile();
     }
 
     @FXML
@@ -204,6 +192,19 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearchProfiles();
     }
 
+    
+    
+    
+    @Override
+    public void setSubMenuParent(MainMenuController main) {
+        this.main = main;
+    }
+
+    @Override
+    public void setUser(User e) {
+        this.user = user;
+    }
+    
     private void setupReservationsTable() {
 
         reservations = FXCollections.observableArrayList();
@@ -256,65 +257,15 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("Notes"));
     }
 
-    @Override
-    public void setSubMenuParent(MainMenuController main) {
-        this.main = main;
-    }
+    
+    
 
-    @Override
-    public void setUser(User e) {
-        this.user = user;
-    }
-
-    private void handleSearchReservations() {
-
-        try {
-            if (!validateReservationFields()) {
-                System.out.println("error validatiting fields");
-                return;
-            }
-
-            ObservableList<Reservation> result;
-            
-            String arriveDate;
-            String departDate;
-            try {
-                arriveDate = dateArrival.getValue().toString();
-            } catch (Exception ex) {
-                arriveDate = "";
-            }
-            
-            try {
-                departDate = dateDeparture.getValue().toString();
-            } catch (Exception e){
-               departDate = "";
-            }
-            
-            
-            FrontDeskArrivalsDTO dto
-                    = new FrontDeskArrivalsDTOBuilder()
-                    .setFirstName(txtFirstName.getText())
-                    .setLastName(txtLastName.getText())
-                    .setCompanyName(txtCompanyName.getText())
-                    .setGroupName(txtGroupName.getText())
-                    .setConfirmation(txtConfirmation.getText())
-                    .setPhoneNumber(txtPhoneNumber.getText())
-                    .setArrivalDate(arriveDate)
-                    .setDepartureDate(departDate)
-                    .createQueryArrivalsDTO();
-       
-            result = dao.queryArrivals(dto);
-
-            if (result != null) {
-                reservations.setAll(result);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error processing query");
-        }
-    }
 
     private void handleClear() {
+
+        //Clear Garbage Text from Date Field
+        dateArrival.setValue(LocalDate.now());
+        dateArrival.setValue(LocalDate.now());
 
         //Clear Reservations
         reservations.clear();
@@ -333,11 +284,74 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtPhoneNumber.clear();
         txtMemberID.clear();
     }
+    
 
     private boolean validateReservationFields() {
+        //Set lblErrorMsg
         return true;
     }
 
+    private void handleSearchReservations() {
+
+        try {
+            if (!validateReservationFields()) {
+                System.out.println("error validatiting fields");
+                return;
+            }
+
+            ObservableList<Reservation> result;
+
+            String arriveDate;
+            String departDate;
+            try {
+                arriveDate = dateArrival.getValue().toString();
+            } catch (Exception ex) {
+                arriveDate = "";
+            }
+
+            try {
+                departDate = dateDeparture.getValue().toString();
+            } catch (Exception e) {
+                departDate = "";
+            }
+
+            FrontDeskArrivalsDTO dto
+                    = new FrontDeskArrivalsDTOBuilder()
+                    .setFirstName(txtFirstName.getText())
+                    .setLastName(txtLastName.getText())
+                    .setCompanyName(txtCompanyName.getText())
+                    .setGroupName(txtGroupName.getText())
+                    .setConfirmation(txtConfirmation.getText())
+                    .setPhoneNumber(txtPhoneNumber.getText())
+                    .setArrivalDate(arriveDate)
+                    .setDepartureDate(departDate)
+                    .createQueryArrivalsDTO();
+
+            result = dao.queryArrivals(dto);
+
+            if (result != null) {
+                reservations.setAll(result);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error processing query");
+        }
+    }
+
+    private void handleNewReservation() {
+        Profile p = tblProfiles.getSelectionModel().getSelectedItem();
+        
+        //Prompt and return if a reservation is not selected.
+        if (p == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Please select a guest profile for \n"
+                            + "for the reservation");
+            alert.showAndWait();
+            return;
+        }
+        Forms.displayReserveRoomForm(main, p);
+    }
+    
     private void handleCancelReservation() {
 
         Alert alert;
@@ -392,27 +406,57 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     }
 
-    private void handleEditReservations(Reservation r) {
-        Forms.displayEditProfileForm(main, 0);
+    private void handleEditReservation() {
+        
+        //Get Selected Reservation
+        Reservation r = tblReservations.getSelectionModel().getSelectedItem();
+
+        //Prompt and return if a reservation is not selected.
+        if (r == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Reservation not Selected");
+            alert.showAndWait();
+            return;
+        }
+
+        //Check to make sure that the status is pending
+        if (!r.getStatus().equals(ReservationStatus.PENDING)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Only reservations that are PENDING \n"
+                    + "can be edited");
+            alert.showAndWait();
+            return;
+        }
+        
+        Forms.displayReserveRoomForm(main, r);
+        
     }
 
-    private void handleSearchProfiles() {
+
+    private boolean validateProfileFields() {
+        //Set lblErrorMsg
+        return true;
+    }
     
+    private void handleSearchProfiles() {
+
         try {
             if (!validateProfileFields()) {
-                System.out.println("error validatiting fields");
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "error validatiting fields");
+                alert.showAndWait();
                 return;
             }
 
             ObservableList<Profile> result;
-            
+
             ProfileSearchDTO dto = new ProfileSearchDTOBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
                     .setMemberID(txtEmail.getText())
                     .setPhoneNumber(txtPhoneNumber.getText())
                     .createProfileSearchDTO();
-       
+
             result = dao.queryProfiles(dto);
 
             if (result != null) {
@@ -424,8 +468,31 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
     }
 
-    private boolean validateProfileFields() {
-        return true;
+    private void handleNewProfile() {
+       Profile newProfile = Forms.displayCreateProfileForm(main);
+       if (newProfile != null) {
+           tblProfiles.getItems().add(newProfile);
+       }
+    }
+    
+    private void handleDeleteProfile() {
+        //TO BE IMPLEMENTED - Shouldn't delete with Checked in guest....
+    }
+    
+    private void handleEditProfile() {
+        Profile p = tblProfiles.getSelectionModel().getSelectedItem();
+        
+        if ( p == null ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+            "Please select a profile to edit");
+            alert.showAndWait();
+            return;
+        }
+        Profile newProfile = Forms.displayEditProfileForm(main, p);
+        if ( newProfile != null ) {
+            tblProfiles.getItems().remove(p);
+            tblProfiles.getItems().add(newProfile);
+        }
     }
 
 }

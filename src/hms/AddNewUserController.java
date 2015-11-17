@@ -1,5 +1,6 @@
 package hms;
 
+import hms.model.NewUserDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,8 +16,8 @@ import javafx.stage.Stage;
 public class AddNewUserController implements Initializable {
     
     private Stage stage;
+    NewUserDAO user;
     
-
     @FXML
     private TextField unTxtField;
     @FXML
@@ -45,31 +46,51 @@ public class AddNewUserController implements Initializable {
     //Initializes the controller class.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
 
     @FXML
     private void onClickFinish(ActionEvent event) {
+        
+        if(addNewUserValidation() == true){
+            createNewUser();
+        }
+        
+    }
+    
+    public boolean addNewUserValidation(){
+        
         //Boolean bindings.
         boolean passwordNotMatch = !pwdTxtField.getText().equals(confirmPwdTxtField.getText());
         boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
         boolean pwdTxtFieldBlank = pwdTxtField.getText().isEmpty();
         boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();
+        boolean noCheckBoxSelected = !chkManager.isSelected() && !chkEmployee.isSelected() && !chkAdministrator.isSelected();
+        
+        boolean unFieldPassed = true, pwdFieldPassed = true, confirmFieldPassed = true, notMatchedPassed = true, chkBoxPassed = true;
+        
+        user = new NewUserDAO();
         
         if(unTxtFieldBlank){
             unLabel.setText("Username must be entered!");
+            unFieldPassed = false;
+        }else if(user.unTaken(unTxtField.getText())){
+            unLabel.setText("Username is already taken!\n Please choose another.");
+            unFieldPassed = false;
         }else{
             unLabel.setText(null);
         }
         
         if(pwdTxtFieldBlank){
             pwdLabel.setText("Password must be entered!");
+            pwdFieldPassed = false;
         }else{
             pwdLabel.setText(null);
         }
         
         if(confirmPwdTxtFieldBlank){
             confirmLabel.setText("Password must be entered!");
+            confirmFieldPassed = false;
         }else{
             confirmLabel.setText(null);
         }
@@ -77,8 +98,33 @@ public class AddNewUserController implements Initializable {
         if(passwordNotMatch){
             pwdLabel.setText("Passwords do not match!");
             confirmLabel.setText("Passwords do not match!");
+            notMatchedPassed = false;
         }
         
+        if(noCheckBoxSelected){
+            permissionLabel.setText("Permission level must be checked.");
+            chkBoxPassed = false;
+        }else{
+            permissionLabel.setText(null);
+        }
+        
+        if(unFieldPassed && pwdFieldPassed && confirmFieldPassed && notMatchedPassed && chkBoxPassed){
+            return true;
+        } else{
+            return false;
+        }
+        
+    }
+    
+    public void createNewUser(){
+        user = new NewUserDAO();
+        if(chkAdministrator.isSelected()){
+            user.createAdministratorUser(unTxtField.getText(), pwdTxtField.getText());
+        }else if(chkManager.isSelected()){
+            user.createManagerUser(unTxtField.getText(), pwdTxtField.getText());
+        }else if(chkEmployee.isSelected()){
+            user.createEmployeeUser(unTxtField.getText(), pwdTxtField.getText());
+        }
     }
 
     @FXML
@@ -89,4 +135,6 @@ public class AddNewUserController implements Initializable {
     void setStage(Stage stage){
         this.stage = stage;
     }
+    
+    
 }
