@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane id="backGrdPne" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.InvoiceController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="10.0" prefWidth="800.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="289.0" minWidth="0.0" prefWidth="0.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="129.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="439.0" minHeight="10.0" prefHeight="439.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="77.0" minHeight="0.0" prefHeight="22.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="78.0" prefWidth="600.0" style="-fx-background-color: blue;">
+         <children>
+            <ImageView fitHeight="63.0" fitWidth="158.0" layoutX="32.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../NetBeansProjects/CSC4350/src/resource/images/money_Icon.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="154.0" layoutY="42.0" text="Grand Larceny" textFill="#f8f6f6">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="371.0" layoutY="34.0" text="25 Park Place 734" textFill="#fcf3f3" />
+            <Label layoutX="371.0" layoutY="49.0" text="Atlanta, GA 30301" textFill="#fcf3f3" />
+            <Label layoutX="371.0" layoutY="62.0" text="404-413-5720" textFill="#fcf3f3" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="backgrdPane" fx:id="invoiceStage" prefHeight="0.0" prefWidth="600.0" style="-fx-background-color: white;" GridPane.rowIndex="2">
+         <children>
+            <Label layoutX="91.0" layoutY="15.0" text="Thank You For Staying With Us!" textFill="#d31717">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="372.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <children>
+            <Label fx:id="addressLbl" layoutX="55.0" layoutY="60.0" text="Street Address" />
+            <Label fx:id="lastNamelbl" layoutX="55.0" layoutY="35.0" text="Last Name," />
+            <Label fx:id="firstNamelbl" layoutX="127.0" layoutY="35.0" text="First Name" />
+            <Label fx:id="cityLbl" layoutX="55.0" layoutY="83.0" text="City" />
+            <Label fx:id="stateLbl" layoutX="83.0" layoutY="83.0" text="State" />
+            <Label fx:id="zipLbl" layoutX="127.0" layoutY="83.0" text="Zip" />
+            <Label layoutX="294.0" layoutY="35.0" text="Check In Date:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="checkInLbl" layoutX="389.0" layoutY="35.0" text="---" />
+            <Label layoutX="294.0" layoutY="60.0" text="Check Out Date:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="checkInLbl" layoutX="405.0" layoutY="60.0" text="---" />
+            <Label layoutX="294.0" layoutY="83.0" text="Room:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="roomNumLbl" layoutX="338.0" layoutY="83.0" text="---" />
+            <TableView fx:id="invoiceCharges" layoutX="25.0" layoutY="113.0" prefHeight="271.0" prefWidth="705.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="113.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Date" />
+                <TableColumn prefWidth="514.0" text="Description" />
+                  <TableColumn prefWidth="115.0" text="Total" />
+              </columns>
+            </TableView>
+            <Label layoutX="475.0" layoutY="417.0" text="Balance:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="balanceOwed" graphicTextGap="5.0" layoutX="555.0" layoutY="417.0" text="0.00" />
+            <Label layoutX="72.0" layoutY="417.0" text="Payment Method:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <MenuButton fx:id="paymentTypeMenu" layoutX="192.0" layoutY="412.0" mnemonicParsing="false" text="Payment">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <Label fx:id="chargedAmt" layoutX="320.0" layoutY="417.0" text="0.00" />
+            <Label layoutX="530.0" layoutY="27.0" text="Total Charges:">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="totCharges" layoutX="560.0" layoutY="72.0" text="\$ 0.00">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>
