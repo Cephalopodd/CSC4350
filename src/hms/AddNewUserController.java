@@ -49,6 +49,13 @@ public class AddNewUserController implements Initializable {
 
     @FXML
     private void onClickFinish(ActionEvent event) {
+        
+        addNewUserValidation();
+        
+    }
+    
+    public void addNewUserValidation(){
+        
         //Boolean bindings.
         boolean passwordNotMatch = !pwdTxtField.getText().equals(confirmPwdTxtField.getText());
         boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
@@ -95,4 +102,6 @@ public class AddNewUserController implements Initializable {
     void setStage(Stage stage){
         this.stage = stage;
     }
+    
+    
 }
