@@ -3,6 +3,7 @@ package hms;
 import hms.model.NewUserDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +19,7 @@ public class ResetPasswordController implements Initializable {
     NewUserDAO user;
     
     @FXML
-    private ChoiceBox<?> unDropDown;
+    private ChoiceBox<String> unDropDown;
     @FXML
     private PasswordField pwdTxtField;
     @FXML
@@ -37,7 +38,8 @@ public class ResetPasswordController implements Initializable {
     //Initializes the controller class.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        user = new NewUserDAO();
+        unDropDown.setItems(FXCollections.observableArrayList(user.getUsersDb()));
     }    
 
     @FXML

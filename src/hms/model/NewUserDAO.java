@@ -1,5 +1,7 @@
 package hms.model;
 
+import java.util.ArrayList;
+
 public class NewUserDAO {
     
     boolean resAccess, frontAccess, billAccess, roomsAccess, adminAccess;
@@ -48,6 +50,14 @@ public class NewUserDAO {
 
     public void resetPassword(String userName, String pw) {
         //reset password for the user name with the one provided.
+    }
+    
+    public ArrayList<String> getUsersDb(){
+        ArrayList user = new ArrayList();
+        user.add("Thug Life");
+        user.add("Pikachu");
+        
+        return user;
     }
     
 }
