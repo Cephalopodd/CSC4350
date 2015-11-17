@@ -11,7 +11,7 @@ public class ProfileSearchDTOBuilder {
     private String lastName = "";
     private String memberID = "";
     private String phoneNumber = "";
-    private String email;
+    private String email = "";
 
     public ProfileSearchDTOBuilder() {
     }

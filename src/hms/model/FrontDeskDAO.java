@@ -190,20 +190,7 @@ public class FrontDeskDAO {
             stmt = c.createStatement();
             rs = stmt.executeQuery("select * from guest where id = " + profileID);
             if (rs.next()) {
-                guest = new ProfileBuilder()
-                    .setMemberID(rs.getInt("id"))
-                    .setFirstName(rs.getString("fname"))
-                    .setLastName(rs.getString("lname"))
-                    .setPhoneNumber(rs.getString("phone"))
-                    .setEmail(rs.getString("email"))
-                    .setStreet(rs.getString("addr1"))
-                    .setApt(rs.getString("addr2"))
-                    .setCity(rs.getString("city"))
-                    .setState(rs.getString("state"))
-                    .setZip(rs.getString("zip"))
-                    .setVIP(rs.getBoolean("vip"))
-                    .setNotes(rs.getString("notes"))
-                    .createProfile();
+                guest = parseProfile(rs);
             }
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -255,18 +242,65 @@ public class FrontDeskDAO {
     }
     
     public ObservableList queryProfiles(ProfileSearchDTO dto) {
-        
+        System.out.println("querying profiles");
         ObservableList<Profile> profiles = FXCollections.observableArrayList();
-        
-        //Receive profile search dto
-        // QUery profiles
-        //Return observableList<Profile>
-        profiles.add(new ProfileBuilder()
-                .setFirstName("Test")
-                .setLastName("User")
-                .createProfile());
-                
-        
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            StringBuilder filters = new StringBuilder();
+            if (!dto.getMemberID().equals("")) {
+                filters.append(" AND id = " + Integer.parseInt(dto.getMemberID()));
+            }
+            System.out.println("member id");
+            if (!dto.getFirstName().equals("")) {
+                filters.append(" AND fname like '" + dto.getFirstName() + "'");
+            }
+            System.out.println("first");
+            if (!dto.getLastName().equals("")) {
+                filters.append(" AND lname like '" + dto.getLastName() + "'");
+            }
+            System.out.println("last");
+            if (!dto.getPhoneNumber().equals("")) {
+                filters.append(" AND phone like '" + dto.getPhoneNumber() + "'");
+            }
+            System.out.println("phone");
+            if (!dto.getEmail().equals("")) { 
+                filters.append(" AND email like '" + dto.getEmail() + "'");
+            }
+            System.out.println("email");
+            if (filters.length() > 0) filters.replace(0, 4, " WHERE");
+            System.out.println("where");
+            System.out.println(filters);
+			
+            rs = stmt.executeQuery("select * from guest " + filters);
+            System.out.println("test 4");
+            while (rs.next()) {
+                profiles.add(parseProfile(rs));
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
         return profiles;
+    }
+
+	private Profile parseProfile(ResultSet rs) throws Exception {
+            Profile guest = new ProfileBuilder()
+                .setMemberID(rs.getInt("id"))
+                .setFirstName(rs.getString("fname"))
+                .setLastName(rs.getString("lname"))
+                .setPhoneNumber(rs.getString("phone"))
+                .setEmail(rs.getString("email"))
+                .setStreet(rs.getString("addr1"))
+                .setApt(rs.getString("addr2"))
+                .setCity(rs.getString("city"))
+                .setState(rs.getString("state"))
+                .setZip(rs.getString("zip"))
+                .setVIP(rs.getBoolean("vip"))
+                .setNotes(rs.getString("notes"))
+                .createProfile();
+            return guest;
     }
 }
