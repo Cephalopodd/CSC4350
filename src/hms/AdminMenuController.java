@@ -3,14 +3,25 @@ package hms;
 import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class AdminMenuController implements Initializable, SubMenu {
     
     private MainMenuController main;
+    @FXML
+    private TableView<?> userListTable;
+    @FXML
+    private TableColumn<?, ?> tblUn;
+    @FXML
+    private TableColumn<?, ?> tblEmployee;
+    @FXML
+    private TableColumn<?, ?> tblManager;
+    @FXML
+    private TableColumn<?, ?> tblAdmin;
     
     //Initializes the controller class.
     @Override
@@ -27,11 +38,15 @@ public class AdminMenuController implements Initializable, SubMenu {
     public void setUser(User e) {
        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    //Launches the add new user form when button is clicked.
+
     @FXML
-    private void onMouseClickedAddNewUser(MouseEvent event) {
+    private void onMouseClickedAddNewUser(ActionEvent event) {
         Forms.displayAddNewUser(main);
+    }
+
+    @FXML
+    private void onClickResetPw(ActionEvent event) {
+        //Forms.displayResetPassword(main);
     }
     
 }
