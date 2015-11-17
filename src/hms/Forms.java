@@ -70,7 +70,7 @@ class Forms {
         
     }
     
-    static boolean displayEditProfileForm(MainMenuController main, Profile p) {
+    static Profile displayEditProfileForm(MainMenuController main, Profile p) {
         boolean result = false;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -93,11 +93,23 @@ class Forms {
             stage.setScene(scene);
             stage.showAndWait();
             result = controller.getResult();
+            
+            //Check Success
+            if (controller.getResult()) {
+                p = controller.getNewProfile();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Your Profile was successful edited");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                "Your profile could not be edited");
+                alert.showAndWait();
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return result;
+        return p;
     }
 
     static void displayReserveRoomForm(MainMenuController main, Reservation reservation) {
@@ -195,8 +207,9 @@ class Forms {
         }
     }
     
-    static boolean displayCreateProfileForm(MainMenuController main) {
+    static Profile displayCreateProfileForm(MainMenuController main) {
         boolean result = false;
+        Profile p = null;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -216,10 +229,24 @@ class Forms {
             stage.setScene(scene);
             stage.showAndWait();
             result = controller.getResult();
+            Profile newProfile = controller.getNewProfile();
+            
+            //Check Success
+            if (controller.getResult()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Your Profile was successful created");
+                alert.showAndWait();
+                p = newProfile;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                "Your profile could not be created");
+                alert.showAndWait();
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return result;
+        return p;
     }
 }

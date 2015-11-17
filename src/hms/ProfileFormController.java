@@ -297,4 +297,8 @@ public class ProfileFormController implements Initializable {
     
         stage.close();
     }
+
+    public Profile getNewProfile() {
+        return newProfile;
+    }
 }
