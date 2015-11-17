@@ -434,8 +434,17 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
 
     private boolean validateProfileFields() {
-        //Set lblErrorMsg
-        return true;
+        if (dateArrival.getValue().isBefore(LocalDate.now()))
+        {
+            return false;
+        }
+        else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
+        {
+           return false;
+        }
+        else{
+            return true;
+        }  
     }
     
     private void handleSearchProfiles() {
