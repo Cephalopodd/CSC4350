@@ -170,6 +170,16 @@ public class ReserveRoomFormController implements Initializable {
             alert.showAndWait();
             return;
         }
+        
+        if (dateArrival.getValue().isBefore(LocalDate.now()))
+        {
+            System.out.println("serious error2");
+        }
+        if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
+        {
+           System.out.println("serious error");
+        }
+        
         handleFindRoom();
     }
 
@@ -243,7 +253,7 @@ public class ReserveRoomFormController implements Initializable {
         if (results != null) {
             tblRooms.setItems(results);
         }
-
+        
     }
 
     private void handleUpdateReservation() {
