@@ -60,14 +60,12 @@ public class AddNewUserController implements Initializable {
     }
     
     public boolean addNewUserValidation(){
-
         //Boolean bindings.
         boolean passwordNotMatch = !pwdTxtField.getText().equals(confirmPwdTxtField.getText());
         boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
         boolean pwdTxtFieldBlank = pwdTxtField.getText().isEmpty();
         boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();       
         boolean unFieldPassed = true, pwdFieldPassed = true, confirmFieldPassed = true, notMatchedPassed = true, chkBoxPassed = true;
-        
         user = new NewUserDAO();
         
         if(unTxtFieldBlank){
@@ -102,22 +100,18 @@ public class AddNewUserController implements Initializable {
         
         if(chkManager.isSelected()){
             count++;
-            System.out.println(count);
         }else if(chkEmployee.isSelected()){
             count++;
-            System.out.println(count);
         }else if(chkAdministrator.isSelected()){
             count++;
-            System.out.println(count);
         }
         
         if(count != 1){
             permissionLabel.setText("One permission level must be chosen!");
             chkBoxPassed = false;
-        }else{
+        }else if(count == 1){
             permissionLabel.setText(null);
         }
-        
         
         if(unFieldPassed && pwdFieldPassed && confirmFieldPassed && notMatchedPassed && chkBoxPassed){
             return true;
