@@ -173,11 +173,11 @@ public class ReserveRoomFormController implements Initializable {
         
         if (dateArrival.getValue().isBefore(LocalDate.now()))
         {
-            System.out.println("serious error2");
+            System.out.println("time cannot flow backward");
         }
         if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
         {
-           System.out.println("serious error");
+           System.out.println("cannot checkout in the past");
         }
         
         handleFindRoom();
