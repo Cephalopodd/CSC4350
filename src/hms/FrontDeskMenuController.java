@@ -231,7 +231,17 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private boolean validateFields() {
-        return true;
+        if (dateArrival.getValue().isBefore(LocalDate.now()))
+        {
+            return false;
+        }
+        else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
+        {
+           return false;
+        }
+        else{
+            return true;
+        }  
     }
 
     private void handleCancel() {
