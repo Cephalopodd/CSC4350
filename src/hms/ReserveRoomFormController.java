@@ -6,6 +6,7 @@
 package hms;
 
 import hms.model.FrontDeskDAO;
+import hms.model.Profile;
 import hms.model.Reservation;
 import hms.model.Room;
 import hms.model.RoomType;
@@ -22,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -40,6 +42,8 @@ public class ReserveRoomFormController implements Initializable {
     
     @FXML
     private Text lblHeading;
+    @FXML
+    private Label lblErrorMsg;
     @FXML
     private Button btnSave;
     @FXML
@@ -72,6 +76,7 @@ public class ReserveRoomFormController implements Initializable {
     private Stage stage;
     private FrontDeskDAO dao;
     private Reservation reservation;
+    private Profile profile;
             
     private boolean EDIT = false;
     private boolean SUCCESS = false;
@@ -178,6 +183,7 @@ public class ReserveRoomFormController implements Initializable {
     }
 
     private boolean verifyInput() {
+        //set lblErrorMsg ...
         return true;
     }
    
@@ -203,9 +209,21 @@ public class ReserveRoomFormController implements Initializable {
     }
 
     private void handleUpdateReservation() {
-    
+        System.out.println("Updated Reservation");
     }
 
     private void handleCreateReservation() {
+        System.out.println("Created Reservation");
+    }
+
+    void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+        cbxRoomType.setValue(reservation.getRoomType());
+        cbxAdults.setValue(reservation.getNumberAdults());
+        cbxChildren.setValue(reservation.getNumberChildren());
+    }
+
+    void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

@@ -158,8 +158,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickNewReservation(ActionEvent event) {
-
-        Forms.displayReserveRoomForm(main);
+        handleNewReservation();
     }
 
     @FXML
@@ -406,6 +405,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             alert.showAndWait();
             return;
         }
+        
+        Forms.displayReserveRoomForm(main, r);
+        
     }
 
     private void handleSearchProfiles() {
@@ -438,6 +440,20 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     private boolean validateProfileFields() {
         return true;
+    }
+
+    private void handleNewReservation() {
+        Profile p = tblProfiles.getSelectionModel().getSelectedItem();
+        
+        //Prompt and return if a reservation is not selected.
+        if (p == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Please select a guest profile for \n"
+                            + "for the reservation");
+            alert.showAndWait();
+            return;
+        }
+        Forms.displayReserveRoomForm(main, p);
     }
 
 }

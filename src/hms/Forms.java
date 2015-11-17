@@ -7,6 +7,7 @@ package hms;
 
 import hms.model.CreditCard;
 import hms.model.FrontDeskDAO;
+import hms.model.Profile;
 import hms.model.Reservation;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -101,7 +102,7 @@ class Forms {
         return result;
     }
 
-    static void displayReserveRoomForm(MainMenuController main) {
+    static void displayReserveRoomForm(MainMenuController main, Reservation reservation) {
            try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -113,6 +114,8 @@ class Forms {
             
             ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
             controller.setStage(stage);
+            controller.setReservation(reservation);
+            controller.setEditFlag(true);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
@@ -123,6 +126,33 @@ class Forms {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    static void displayReserveRoomForm(MainMenuController main, Profile profile) {
+           try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Inject Link to HMSapp into Login And Main Menu Screen
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReserveRoomForm.fxml"));
+            Parent parent = (Parent) loader.load();
+            
+            ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
+            controller.setStage(stage);
+            controller.setProfile(profile);
+            controller.setEditFlag(false);
+            
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     
     static void displayAddNewUser(MainMenuController main) {
            try {

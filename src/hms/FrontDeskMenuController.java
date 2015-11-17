@@ -376,7 +376,14 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private void handleEditReservation() {
-        Forms.displayReserveRoomForm(main);
+        Reservation reservation = tblFrontDesk.getSelectionModel().getSelectedItem();
+        if ( reservation == null ) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+            "Please select a reservation");
+            alert.showAndWait();
+            return;
+        }
+        Forms.displayReserveRoomForm(main, reservation);
     }
 
 }
