@@ -469,7 +469,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleNewProfile() {
-       Forms.displayCreateProfileForm(main); 
+       Profile newProfile = Forms.displayCreateProfileForm(main);
+       if (newProfile != null) {
+           tblProfiles.getItems().add(newProfile);
+       }
     }
     
     private void handleDeleteProfile() {
@@ -485,7 +488,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             alert.showAndWait();
             return;
         }
-        Forms.displayEditProfileForm(main, p);
+        Profile newProfile = Forms.displayEditProfileForm(main, p);
+        if ( newProfile != null ) {
+            tblProfiles.getItems().remove(p);
+            tblProfiles.getItems().add(newProfile);
+        }
     }
 
 }

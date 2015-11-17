@@ -263,6 +263,9 @@ public class ProfileFormController implements Initializable {
     private void handleSaveNewProfile() {
          try {
             boolean result = false;
+            System.out.println("Handling SaveNewProfile");
+            
+            System.out.println("Creating profile from fields");
             Profile p = new ProfileBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
@@ -279,16 +282,28 @@ public class ProfileFormController implements Initializable {
                     .setTitle(cbxTitles.getValue())
                     .createProfile();
 
+            
+            System.out.println("Checking null p");
             if ( p == null ) {
+                
+            System.out.println("P could not be created by the form fields");
                 RESULT = false;
                 stage.close();
             }
-
+            
+            System.out.println("Sending p to db" + p.getFirstName() + p.getLastName());
             result = dao.createProfile(p);
             
+            System.out.println("Result" + result);
             if (result) {
+                
+            System.out.println("If DB result true, save and set p");
+            System.out.println("");
                 newProfile = p;
                 RESULT = true;
+            } else {
+                
+            System.out.println("New Profile not pass db..");
             }
         
         } catch (Exception e) {
