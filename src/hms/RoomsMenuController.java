@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class RoomsMenuController implements Initializable,SubMenu {
     
@@ -81,22 +83,22 @@ public class RoomsMenuController implements Initializable,SubMenu {
         tilePane.setHgap(12.0);
         tilePane.setPrefColumns(5);
         
-        Button [] roomBtn = new Button[dao.getTotalRoomCount()];
-        for(int i = 0; i < dao.getTotalRoomCount(); i++){
-            int roomNumberStart = 100;
-            roomBtn[i] = new Button("Room\n" + (roomNumberStart += i));
-            roomBtn[i].setStyle("-fx-font-size: 16px; -fx-text-fill: BLACK;");
-            
-            if(dao.isOccupied(i)){
-                roomBtn[i].setStyle("-fx-background-color: #ff4e50; -fx-font-size: 16px; -fx-text-fill: WHITE;");
-            }else if(dao.isActive(i)){
-                roomBtn[i].setStyle("-fx-background-color: #84aa05; -fx-font-size: 16px; -fx-text-fill: WHITE;");
-            }else if(dao.isInMaintenance(i)){
-                roomBtn[i].setStyle("-fx-background-color: #524656; -fx-font-size: 16px; -fx-text-fill: WHITE;");
-            }else if(dao.isInHousekeeping(i)){
-                roomBtn[i].setStyle("-fx-background-color: #49708a; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+        HashMap<Integer, Button> roomBtn = new HashMap(dao.getTotalRoomCount());
+        ArrayList active = dao.getActiveRmList(), occ = dao.getOccupiedRmList(),
+                maint = dao.getMaintRmList(), hk = dao.getHkRmList();
+        for (int i : dao.getTotalRmList()) {
+            roomBtn.put(i, new Button("Room\n" + i));
+            roomBtn.get(i).setStyle("-fx-font-size: 16px; -fx-text-fill: BLACK;");
+            if(occ.contains(i)){
+                roomBtn.get(i).setStyle("-fx-background-color: #ff4e50; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            }else if(active.contains(i)){
+                roomBtn.get(i).setStyle("-fx-background-color: #84aa05; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            }else if(maint.contains(i)){
+                roomBtn.get(i).setStyle("-fx-background-color: #524656; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            }else if(hk.contains(i)){
+                roomBtn.get(i).setStyle("-fx-background-color: #49708a; -fx-font-size: 16px; -fx-text-fill: WHITE;");
             }
-            tilePane.getChildren().add(roomBtn[i]);
+            tilePane.getChildren().add(roomBtn.get(i));
         }
     }
     
