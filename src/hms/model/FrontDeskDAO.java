@@ -342,7 +342,7 @@ public class FrontDeskDAO {
                 .setCost(158.23)
                 .setHandicapAccess(false)
                 .setNumber(113)
-                .setType(RoomType.DBLNS)
+                .setType(RoomType.DNN)
                 .setOccupied(false)
                 .setStatus(RoomStatus.CLEAN)
                 .createRoom());
@@ -350,7 +350,7 @@ public class FrontDeskDAO {
                 .setCost(143.23)
                 .setHandicapAccess(false)
                 .setNumber(116)
-                .setType(RoomType.QUEENNS)
+                .setType(RoomType.QNH)
                 .setOccupied(false)
                 .setStatus(RoomStatus.CLEAN)
                 .createRoom());
