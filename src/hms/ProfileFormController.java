@@ -166,8 +166,7 @@ public class ProfileFormController implements Initializable {
     }
 
     void setProfileInformation(Profile p) {
-      
-        try {
+      System.out.println("Setting profile info");
             txtFirstName.setText(p.getFirstName());
             txtLastName.setText(p.getLastName());
             txtPhoneNumber.setText(p.getPhoneNumber());
@@ -181,11 +180,8 @@ public class ProfileFormController implements Initializable {
             txtCity.setText(p.getCity());
             txtZip.setText(p.getZip());
             txtCountry.setText(p.getCountry());
-
-        } catch (Exception e) {
-            System.out.println("Error parsing Profile");
-        }
-  
+            
+            System.out.println("p:" + p.getFirstName());
     }
 
    
