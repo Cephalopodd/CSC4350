@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hms;
 
 import java.net.URL;
@@ -14,14 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author Fenil
- */
 public class ResetPasswordController implements Initializable {
-
+    
+    private Stage stage;
+    
     @FXML
     private ChoiceBox<?> unDropDown;
     @FXML
@@ -53,6 +46,11 @@ public class ResetPasswordController implements Initializable {
 
     @FXML
     private void onClickCancel(ActionEvent event) {
+        stage.close();
+    }
+    
+    void setStage(Stage stage){
+        this.stage = stage;
     }
     
 }

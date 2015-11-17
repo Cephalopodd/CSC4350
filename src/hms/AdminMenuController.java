@@ -46,7 +46,7 @@ public class AdminMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickResetPw(ActionEvent event) {
-        //Forms.displayResetPassword(main);
+        Forms.displayResetPassword(main);
     }
     
 }
