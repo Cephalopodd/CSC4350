@@ -376,7 +376,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private void handleEditReservation() {
-        Forms.displayEditReservationForm(main);
+        Forms.displayReserveRoomForm(main);
     }
 
 }

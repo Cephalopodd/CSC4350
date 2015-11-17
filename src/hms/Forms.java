@@ -101,7 +101,7 @@ class Forms {
         return result;
     }
 
-    static void displayEditReservationForm(MainMenuController main) {
+    static void displayReserveRoomForm(MainMenuController main) {
            try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);

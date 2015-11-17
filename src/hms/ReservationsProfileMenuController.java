@@ -159,7 +159,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     @FXML
     private void onClickNewReservation(ActionEvent event) {
 
-        Forms.displayEditReservationForm(main);
+        Forms.displayReserveRoomForm(main);
     }
 
     @FXML

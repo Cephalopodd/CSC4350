@@ -17,7 +17,7 @@
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
                 </Button>
-                <Button fx:id="btnCheckIn" mnemonicParsing="false" onAction="#onClickCheckIn" prefHeight="60.0" prefWidth="100.0" text="Check In&#10;&#10;&#10;" textAlignment="CENTER">
+                <Button fx:id="btnCheckIn" mnemonicParsing="false" onAction="#onClickCheckIn" prefHeight="60.0" prefWidth="110.0" text="Check In&#10;&#10;&#10;" textAlignment="CENTER">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
@@ -26,19 +26,19 @@
                     </effect>
             
                 </Button>
-                <Button fx:id="btnEditReservation" mnemonicParsing="false" onAction="#onClickEditReservation" prefHeight="60.0" prefWidth="100.0" text="Edit&#10;Reservation" textAlignment="CENTER">
+                <Button fx:id="btnEditReservation" mnemonicParsing="false" onAction="#onClickEditReservation" prefHeight="60.0" prefWidth="110.0" text="Edit&#10;Reservation" textAlignment="CENTER">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
                 </Button>
             
-                <Button fx:id="btnCancelReservation" mnemonicParsing="false" onAction="#onClickCancelReservation" prefHeight="60.0" prefWidth="100.0" text="Cancel&#10;Reservation" textAlignment="CENTER">
+                <Button fx:id="btnCancelReservation" mnemonicParsing="false" onAction="#onClickCancelReservation" prefHeight="60.0" prefWidth="110.0" text="Cancel&#10;Reservation" textAlignment="CENTER">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
                 </Button>
             
-                <Button fx:id="btnEditProfile" layoutX="20.0" layoutY="451.0" mnemonicParsing="false" onAction="#onClickEditProfile" prefHeight="60.0" prefWidth="100.0" text="Edit Guest&#10;Profile" textAlignment="CENTER">
+                <Button fx:id="btnEditProfile" layoutX="20.0" layoutY="451.0" mnemonicParsing="false" onAction="#onClickEditProfile" prefHeight="60.0" prefWidth="110.0" text="Update Guest&#10;Profile" textAlignment="CENTER">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
