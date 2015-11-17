@@ -34,7 +34,7 @@ public class MainMenuController implements Initializable {
     private HMS HMSapp;
     private User user;
     private final HashMap<Enum, Node> subMenus = new HashMap<>();
-    private BillingMenuController bmc;
+    //private BillingMenuController bmc;
             
 
     @FXML
@@ -123,7 +123,7 @@ public class MainMenuController implements Initializable {
             addSubMenu(MenuType.ROOMS, "RoomsMenu.fxml");
             addSubMenu(MenuType.ADMIN, "AdminMenu.fxml");
             addSubMenu(MenuType.PROFILE, "ProfileMenu.fxml");
-            addSubMenu(MenuType.INVOICE, "Invoice.fxml");
+          //  addSubMenu(MenuType.INVOICE, "Invoice.fxml");
         } catch (Exception e) {
             System.out.println("Error loading menus:" + e.getMessage());
         }
@@ -169,9 +169,9 @@ public class MainMenuController implements Initializable {
             case RESERVATIONS:
                 btnReservations.fire();
                 btnReservations.requestFocus();
-            case INVOICE:
-                bmc.btnMakePay.fire();
-                bmc.btnMakePay.requestFocus();
+       //     case INVOICE:
+       //         bmc.btnMakePay.fire();
+       //         bmc.btnMakePay.requestFocus();
                 break;
             default :
                 break;

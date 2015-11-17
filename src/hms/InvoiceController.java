@@ -29,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author admin
  */
-public class InvoiceController implements Initializable {
+public class InvoiceController implements Initializable, SubMenu {
 
     ObservableList<String> payTypeList = FXCollections
             .observableArrayList("Cash", "Credit Card", "Check");
