@@ -156,7 +156,7 @@ public class ProfileFormController implements Initializable {
     private void onActionSave(ActionEvent event) {        
         
         //Verify fields are good
-        if (verifyFields()) {
+        if (true) {
             // Edit or Create
             if (EDIT) {
                 handleSaveEditProfile();
@@ -209,6 +209,7 @@ public class ProfileFormController implements Initializable {
     }
 
     private boolean verifyFields() {
+        
         if (txtPhoneNumber.getText().isEmpty() ){
             phoneLabel.setText("Please enter your phone number");
             return false;
