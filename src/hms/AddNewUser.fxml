@@ -8,59 +8,78 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.AddNewUserController">
    <children>
       <StackPane>
          <children>
-            <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="323.0">
+            <AnchorPane id="AnchorPane" prefHeight="425.0" prefWidth="350.0">
                <children>
-                  <TextField fx:id="unTxtField" layoutX="24.0" layoutY="107.0" prefHeight="25.0" prefWidth="304.0" promptText="Username" />
-                  <TextField fx:id="pwdTxtField1" layoutX="24.0" layoutY="170.0" prefHeight="25.0" prefWidth="304.0" promptText="Password" />
-                  <CheckBox fx:id="chkManager" layoutX="24.0" layoutY="300.0" mnemonicParsing="false" text="Manager">
+                  <TextField fx:id="unTxtField" layoutX="25.0" layoutY="95.0" prefHeight="25.0" prefWidth="300.0" promptText="Username" />
+                  <PasswordField fx:id="pwdTxtField" layoutX="25.0" layoutY="169.0" prefHeight="25.0" prefWidth="300.0" promptText="Password" />
+                  <PasswordField fx:id="confirmPwdTxtField" layoutX="25.0" layoutY="245.0" prefHeight="25.0" prefWidth="300.0" promptText="Confirm Password" />
+                  <CheckBox fx:id="chkManager" layoutX="25.0" layoutY="330.0" mnemonicParsing="false" text="Manager">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="chkEmployee" layoutX="124.0" layoutY="300.0" mnemonicParsing="false" text="Employee">
+                  <CheckBox fx:id="chkEmployee" layoutX="118.0" layoutY="330.0" mnemonicParsing="false" text="Employee">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </CheckBox>
-                  <Button fx:id="btnFinish" defaultButton="true" layoutX="160.0" layoutY="351.0" mnemonicParsing="false" onAction="#onClickFinish" prefHeight="25.0" prefWidth="81.0" text="Finish" />
-                  <Button fx:id="btnCancel" cancelButton="true" defaultButton="true" layoutX="256.0" layoutY="351.0" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="25.0" prefWidth="88.0" text="Cancel" />
-                  <Rectangle fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="370.0" />
-                  <Text fill="WHITE" layoutX="151.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New User">
+                  <CheckBox fx:id="chkAdministrator" layoutX="215.0" layoutY="330.0" mnemonicParsing="false" text="Administrator">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+                  <Button fx:id="btnFinish" defaultButton="true" layoutX="110.0" layoutY="380.0" mnemonicParsing="false" onAction="#onClickFinish" prefHeight="30.0" prefWidth="100.0" text="Finish" />
+                  <Button fx:id="btnCancel" layoutX="230.0" layoutY="380.0" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="30.0" prefWidth="100.0" text="Cancel" />
+                  <Rectangle fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="350.0" />
+                  <Text fill="WHITE" layoutX="121.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New User">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <Text layoutX="24.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:">
+                  <Text layoutX="25.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <Text layoutX="24.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
+                  <Text layoutX="25.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="confirmPwdTxtField" layoutX="24.0" layoutY="231.0" prefHeight="25.0" prefWidth="304.0" promptText="Password" />
-                  <Text layoutX="24.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password:">
+                  <Text layoutX="25.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password:">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <CheckBox fx:id="chkAdministrator" layoutX="234.0" layoutY="300.0" mnemonicParsing="false" text="Administrator">
+                  <Text layoutX="25.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Permission Level:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <Label fx:id="unLabel" layoutX="25.0" layoutY="120.0" prefHeight="20.0" prefWidth="300.0" textFill="#ae2323">
                      <font>
                         <Font size="14.0" />
                      </font>
-                  </CheckBox>
-                  <Text layoutX="24.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Permission Level:">
+                  </Label>
+                  <Label fx:id="pwdLabel" layoutX="25.0" layoutY="194.0" prefHeight="20.0" prefWidth="300.0" textFill="#ae2323">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="14.0" />
                      </font>
-                  </Text>
+                  </Label>
+                  <Label fx:id="confirmLabel" layoutX="25.0" layoutY="270.0" prefHeight="20.0" prefWidth="300.0" textFill="#ae2323">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="permissionLabel" layoutX="25.0" layoutY="350.0" prefHeight="20.0" prefWidth="300.0" textFill="#ae2323">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
