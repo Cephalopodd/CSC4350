@@ -209,7 +209,7 @@ class Forms {
     
     static Profile displayCreateProfileForm(MainMenuController main) {
         boolean result = false;
-        Profile p = null;
+        Profile newProfile = null;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -222,21 +222,22 @@ class Forms {
             
             //Inject information into Form
             controller.setStage(stage);
+            controller.setEditFlag(false);
 
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
             
             stage.setScene(scene);
             stage.showAndWait();
+            
             result = controller.getResult();
-            Profile newProfile = controller.getNewProfile();
             
             //Check Success
             if (controller.getResult()) {
+                newProfile = controller.getNewProfile();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Your Profile was successful created");
                 alert.showAndWait();
-                p = newProfile;
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                 "Your profile could not be created");
@@ -247,7 +248,7 @@ class Forms {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return p;
+        return newProfile;
     }
 
     static void displayResetPassword(MainMenuController main) {
