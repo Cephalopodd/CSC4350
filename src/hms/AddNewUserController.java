@@ -7,32 +7,41 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AddNewUserController implements Initializable {
     
+    private Stage stage;
+    
+
     @FXML
     private TextField unTxtField;
     @FXML
-    private TextField pwdTxtField1;
+    private PasswordField pwdTxtField;
     @FXML
-    private Button btnFinish;
-    @FXML
-    private Button btnCancel;
+    private PasswordField confirmPwdTxtField;
     @FXML
     private CheckBox chkManager;
     @FXML
     private CheckBox chkEmployee;
     @FXML
-    private TextField confirmPwdTxtField;
-    @FXML
     private CheckBox chkAdministrator;
-    
-    private Stage stage;
-    
-    
-    
+    @FXML
+    private Button btnFinish;
+    @FXML
+    private Button btnCancel;
+    @FXML
+    private Label unLabel;
+    @FXML
+    private Label pwdLabel;
+    @FXML
+    private Label confirmLabel;
+    @FXML
+    private Label permissionLabel;
+
     //Initializes the controller class.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,6 +50,35 @@ public class AddNewUserController implements Initializable {
 
     @FXML
     private void onClickFinish(ActionEvent event) {
+        //Boolean bindings.
+        boolean passwordNotMatch = !pwdTxtField.getText().equals(confirmPwdTxtField.getText());
+        boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
+        boolean pwdTxtFieldBlank = pwdTxtField.getText().isEmpty();
+        boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();
+        
+        if(unTxtFieldBlank){
+            unLabel.setText("Username must be entered!");
+        }else{
+            unLabel.setText(null);
+        }
+        
+        if(pwdTxtFieldBlank){
+            pwdLabel.setText("Password must be entered!");
+        }else{
+            pwdLabel.setText(null);
+        }
+        
+        if(confirmPwdTxtFieldBlank){
+            confirmLabel.setText("Password must be entered!");
+        }else{
+            confirmLabel.setText(null);
+        }
+        
+        if(passwordNotMatch){
+            pwdLabel.setText("Passwords do not match!");
+            confirmLabel.setText("Passwords do not match!");
+        }
+        
     }
 
     @FXML
@@ -48,8 +86,7 @@ public class AddNewUserController implements Initializable {
         stage.close();
     }
     
-    void setStage(Stage stage) {
+    void setStage(Stage stage){
         this.stage = stage;
     }
-    
 }

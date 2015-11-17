@@ -5,6 +5,7 @@
  */
 package hms.model;
 
+import java.sql.*;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,50 +16,43 @@ import javafx.collections.ObservableList;
  */
 public class BillingMenuDAO {
 
+    Connection c;
+    Statement stmt;
+    ResultSet rs;
+
+    private void closeAll() {
+        try {
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
     public ObservableList queryCharges(int confirmation) {
 
         //Receive Reservation confirmation number
         //Return Observable list of pending Folio Charges
         ObservableList<FolioCharge> result = FXCollections.observableArrayList();
-
-        //Execute Query Here from FolioCharges  Information
-        //Build folio charges objects from Results:
-        //Return Observalble list of results
-        
-        result = getFakeData();
-        
-        
-        return result;
-
-    }
-
-    private ObservableList<FolioCharge> getFakeData() {
-        ObservableList<FolioCharge> result = FXCollections.observableArrayList();
-        result.addAll( new FolioCharge(BillingCode.FOOD, "Steak", LocalDate.now().toString(), 12.00),
-            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
-            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
-            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 89.00),
-            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 35.00),
-            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
-            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00),
-            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
-            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
-            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00),
-            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
-            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
-            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 45.00),
-            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
-            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
-            new FolioCharge(BillingCode.PARKING, "Parking", LocalDate.now().toString(), 50.00),
-            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
-            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 24.34),
-            new FolioCharge(BillingCode.RESORTFEE, "Internet", LocalDate.now().toString(), 50.00),
-            new FolioCharge(BillingCode.MOVIE, "Movie in Room", LocalDate.now().toString(), 10.00),
-            new FolioCharge(BillingCode.GIFTSHOP, "Candy", LocalDate.now().toString(), 6.00),
-            new FolioCharge(BillingCode.ROOM, "Room 506", LocalDate.now().toString(), 287.00)
-        
-        );
-        
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select code, descrip, date, amount "
+                    + "from charge where r_id = " + confirmation);
+            while (rs.next()) {
+                result.add(new FolioCharge(
+                    rs.getString("code"),
+                    rs.getString("descrip"),
+                    rs.getString("date"),
+                    rs.getDouble("amount")));
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
         return result;
     }
 }

@@ -12,6 +12,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Rectangle;
 
 public class RoomsMenuController implements Initializable,SubMenu {
@@ -19,8 +20,6 @@ public class RoomsMenuController implements Initializable,SubMenu {
     RoomsDAO dao;
     int activeCount, occupiedCount, mainCount, hkCount, totalCount;
     
-    @FXML
-    private Rectangle rm100;
     @FXML
     private Label activeRmCount;
     @FXML
@@ -31,9 +30,10 @@ public class RoomsMenuController implements Initializable,SubMenu {
     private Label hkRmCount;
     @FXML
     private Label totalRoomCount;
+    @FXML
+    private TilePane tilePane;
     
     //Initializes the controller class.
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -43,10 +43,10 @@ public class RoomsMenuController implements Initializable,SubMenu {
         maintenanceRmCount();
         hkRmCount();
         totalRoomCount();
+        tilePaneDisplay();
         
-    }    
-
-
+    }
+    
     @Override
     public void setSubMenuParent(MainMenuController main) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -55,11 +55,6 @@ public class RoomsMenuController implements Initializable,SubMenu {
     @Override
     public void setUser(User e) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @FXML
-    private void onMouseClick(MouseEvent event) {
-        
     }
     
     public void activeRmCount(){
@@ -80,6 +75,29 @@ public class RoomsMenuController implements Initializable,SubMenu {
     
     public void totalRoomCount(){
         totalRoomCount.setText(Integer.toString(dao.getTotalRoomCount()));
+    }
+    
+    public void tilePaneDisplay(){
+        tilePane.setVgap(20.0);
+        tilePane.setHgap(20.0);
+        tilePane.setPrefColumns(5);
+        
+        Button [] roomBtn = new Button[dao.getTotalRoomCount()];
+        for(int i = 0; i < dao.getTotalRoomCount(); i++){
+            int roomNumberStart = 100;
+            roomBtn[i] = new Button("Room\n" + (roomNumberStart += i));
+            
+            if(dao.isOccupied(i)){
+                roomBtn[i].setStyle("-fx-background-color: #ff4e50; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            }else if(dao.isActive(i)){
+                roomBtn[i].setStyle("-fx-background-color: #84aa05; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            }else if(dao.isInMaintenance(i)){
+                roomBtn[i].setStyle("-fx-background-color: #524656; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            }else if(dao.isInHousekeeping(i)){
+                roomBtn[i].setStyle("-fx-background-color: #49708a; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            }
+            tilePane.getChildren().add(roomBtn[i]);
+        }
     }
     
 }
