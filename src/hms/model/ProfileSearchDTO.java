@@ -9,7 +9,7 @@ package hms.model;
  *
  * @author jgreene
  */
-class ProfileSearchDTO {
+public class ProfileSearchDTO {
     private String firstName;
     private String lastName;
     private String memberID;

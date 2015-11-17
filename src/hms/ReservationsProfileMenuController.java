@@ -7,6 +7,8 @@ package hms;
 
 import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskArrivalsDTOBuilder;
+import hms.model.ProfileSearchDTOBuilder;
+import hms.model.ProfileSearchDTO;
 import hms.model.FrontDeskDAO;
 import hms.model.Profile;
 import hms.model.Reservation;
@@ -199,7 +201,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickSearchProfiles(ActionEvent event) {
-        //TODO
+        handleSearchProfiles();
     }
 
     private void setupReservationsTable() {
@@ -267,7 +269,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     private void handleSearchReservations() {
 
         try {
-            if (!validateFields()) {
+            if (!validateReservationFields()) {
                 System.out.println("error validatiting fields");
                 return;
             }
@@ -332,34 +334,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtMemberID.clear();
     }
 
-    private void handleSearch() {
-        if (!validateFields()) {
-            System.out.println("error validatiting fields");
-            return;
-        }
-
-        ObservableList<Reservation> result;
-
-        FrontDeskArrivalsDTO dto
-                = new FrontDeskArrivalsDTOBuilder()
-                .setFirstName(txtFirstName.getText())
-                .setLastName(txtLastName.getText())
-                .setCompanyName(txtCompanyName.getText())
-                .setGroupName(txtGroupName.getText())
-                .setConfirmation(txtConfirmation.getText())
-                .setPhoneNumber(txtPhoneNumber.getText())
-                .setArrivalDate(dateArrival.getValue() == null ? "" : dateArrival.getValue().toString())
-                .setDepartureDate(dateDeparture.getValue() == null ? "" : dateArrival.getValue().toString())
-                .createQueryArrivalsDTO();
-
-        result = dao.queryArrivals(dto);
-
-        if (result != null) {
-            reservations.setAll(result);
-        }
-    }
-
-    private boolean validateFields() {
+    private boolean validateReservationFields() {
         return true;
     }
 
@@ -418,7 +393,39 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleEditReservations(Reservation r) {
-        //TODO
+        Forms.displayEditProfileForm(main, 0);
+    }
+
+    private void handleSearchProfiles() {
+    
+        try {
+            if (!validateProfileFields()) {
+                System.out.println("error validatiting fields");
+                return;
+            }
+
+            ObservableList<Profile> result;
+            
+            ProfileSearchDTO dto = new ProfileSearchDTOBuilder()
+                    .setFirstName(txtFirstName.getText())
+                    .setLastName(txtLastName.getText())
+                    .setMemberID(txtEmail.getText())
+                    .setPhoneNumber(txtPhoneNumber.getText())
+                    .createProfileSearchDTO();
+       
+            result = dao.queryProfiles(dto);
+
+            if (result != null) {
+                profiles.setAll(result);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error processing query");
+        }
+    }
+
+    private boolean validateProfileFields() {
+        return true;
     }
 
 }

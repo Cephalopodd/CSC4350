@@ -82,7 +82,11 @@ class Forms {
             
             //Inject information into Form
             controller.setStage(stage);
-            controller.setProfileInformation(profileID);
+            if (profileID>0) {
+                controller.setProfileInformation(profileID);
+            } else {
+                controller.setNewProfile(true);
+            }
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
