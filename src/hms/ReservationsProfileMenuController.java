@@ -303,18 +303,22 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
             String arriveDate;
             String departDate;
+            
+            System.out.println("1");
             try {
                 arriveDate = dateArrival.getValue().toString();
             } catch (Exception ex) {
                 arriveDate = "";
             }
 
+            System.out.println("2");
             try {
                 departDate = dateDeparture.getValue().toString();
             } catch (Exception e) {
                 departDate = "";
             }
 
+            System.out.println("3");
             FrontDeskArrivalsDTO dto
                     = new FrontDeskArrivalsDTOBuilder()
                     .setFirstName(txtFirstName.getText())
@@ -327,12 +331,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                     .setDepartureDate(departDate)
                     .createQueryArrivalsDTO();
 
+            System.out.println("3.5");
             result = dao.queryArrivals(dto);
 
+            System.out.println("4");
             if (result != null) {
                 reservations.setAll(result);
             }
-
+            System.out.println("5");
         } catch (Exception e) {
             System.out.println("Error processing query");
         }
@@ -434,6 +440,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
 
     private boolean validateProfileFields() {
+        try {
         if (dateArrival.getValue().isBefore(LocalDate.now()))
         {
             return false;
@@ -444,12 +451,18 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
         else{
             return true;
-        }  
+        }
+        } catch (Exception e) {
+            System.out.println("Error form field checking");
+        }
+        return true;
     }
     
     private void handleSearchProfiles() {
 
         try {
+            
+            System.out.println("1");
             if (!validateProfileFields()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                     "error validatiting fields");
@@ -457,8 +470,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 return;
             }
 
+            System.out.println("2");
             ObservableList<Profile> result;
 
+            System.out.println("3");
             ProfileSearchDTO dto = new ProfileSearchDTOBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
@@ -466,12 +481,19 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                     .setPhoneNumber(txtPhoneNumber.getText())
                     .createProfileSearchDTO();
 
+            System.out.println("4");
             result = dao.queryProfiles(dto);
 
+            System.out.println("5");
             if (result != null) {
+                
+            System.out.println("6");
                 profiles.setAll(result);
+                
+            System.out.println("7");
             }
 
+            System.out.println("8");
         } catch (Exception e) {
             System.out.println("Error processing query");
         }

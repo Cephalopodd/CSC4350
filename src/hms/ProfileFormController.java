@@ -268,7 +268,7 @@ public class ProfileFormController implements Initializable {
         }
     }
  
-    void setProfile(Profile p) {
+    void setProfile(Profile profile) {
         this.profile = profile;
     }
 
