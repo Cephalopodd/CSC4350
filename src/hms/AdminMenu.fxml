@@ -27,8 +27,8 @@
                   <TableColumn fx:id="tblAdmin" prefWidth="114.0" text="Admin" />
               </columns>
             </TableView>
-            <Button layoutX="213.0" layoutY="60.0" mnemonicParsing="false" onAction="#onMouseClickedAddNewUser" text="Add New User" />
-            <Button layoutX="333.0" layoutY="60.0" mnemonicParsing="false" onAction="#onClickResetPw" text="Reset Password" />
+            <Button layoutX="240.0" layoutY="60.0" mnemonicParsing="false" onAction="#onMouseClickedAddNewUser" text="Add New User" />
+            <Button layoutX="351.0" layoutY="60.0" mnemonicParsing="false" onAction="#onClickResetPw" text="Reset Password" />
             <TitledPane animated="false" collapsible="false" layoutX="474.0" layoutY="33.0" prefHeight="552.0" prefWidth="500.0" text="Weekly Sales">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
