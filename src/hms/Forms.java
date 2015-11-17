@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -121,7 +122,18 @@ class Forms {
             Scene scene = new Scene(parent);
             
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
+            
+            //Check Success
+            if (controller.getSuccess()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Your Reservation was successful completed\n"
+                        + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
+                        + "Room Number: " + controller.getNewRoomNumber()
+                );
+                alert.showAndWait();
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -146,7 +158,18 @@ class Forms {
             Scene scene = new Scene(parent);
             
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
+            
+             //Check Success
+            if (controller.getSuccess()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Your new reservation was successfully created\n"
+                        + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
+                        + "Room Number: " + controller.getNewRoomNumber()
+                );
+                alert.showAndWait();
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }

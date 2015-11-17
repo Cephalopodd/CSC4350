@@ -38,13 +38,17 @@
                      </font>
                   </Label>
                   <DatePicker fx:id="dateArrival" layoutX="18.0" layoutY="103.0" prefHeight="26.0" prefWidth="141.0" />
-                  <TableView fx:id="tblRooms" layoutX="347.0" layoutY="107.0" prefHeight="181.0" prefWidth="227.0">
-                    <columns>
-                      <TableColumn fx:id="colRoom" prefWidth="75.0" text="Room" />
-                        <TableColumn fx:id="colType" prefWidth="75.0" text="Type" />
-                      <TableColumn fx:id="colCost" prefWidth="75.0" text="Cost" />
-                    </columns>
-                  </TableView>
+                  <ScrollPane layoutX="347.0" layoutY="107.0">
+                     <content>
+                        <TableView fx:id="tblRooms" prefHeight="181.0" prefWidth="227.0">
+                          <columns>
+                            <TableColumn fx:id="colRoom" prefWidth="75.0" text="Room" />
+                              <TableColumn fx:id="colType" prefWidth="75.0" text="Type" />
+                            <TableColumn fx:id="colCost" prefWidth="75.0" text="Cost" />
+                          </columns>
+                        </TableView>
+                     </content>
+                  </ScrollPane>
                   <DatePicker fx:id="dateDeparture" layoutX="182.0" layoutY="103.0" prefHeight="26.0" prefWidth="141.0" />
                   <CheckBox fx:id="chkAccessible" layoutX="197.0" layoutY="148.0" mnemonicParsing="false" text="Accessible" />
                   <Button fx:id="btnFindRooms" defaultButton="true" layoutX="471.0" layoutY="72.0" mnemonicParsing="false" onAction="#onClickFindRooms" prefHeight="26.0" prefWidth="100.0" text="Find Rooms&#10;&#10;&#10;" textAlignment="CENTER" />
