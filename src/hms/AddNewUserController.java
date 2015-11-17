@@ -17,6 +17,7 @@ public class AddNewUserController implements Initializable {
     
     private Stage stage;
     NewUserDAO user;
+    int count = 0;
     
     @FXML
     private TextField unTxtField;
@@ -59,14 +60,12 @@ public class AddNewUserController implements Initializable {
     }
     
     public boolean addNewUserValidation(){
-        
+
         //Boolean bindings.
         boolean passwordNotMatch = !pwdTxtField.getText().equals(confirmPwdTxtField.getText());
         boolean unTxtFieldBlank = unTxtField.getText().isEmpty();
         boolean pwdTxtFieldBlank = pwdTxtField.getText().isEmpty();
-        boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();
-        boolean noCheckBoxSelected = !chkManager.isSelected() && !chkEmployee.isSelected() && !chkAdministrator.isSelected();
-        
+        boolean confirmPwdTxtFieldBlank = confirmPwdTxtField.getText().isEmpty();       
         boolean unFieldPassed = true, pwdFieldPassed = true, confirmFieldPassed = true, notMatchedPassed = true, chkBoxPassed = true;
         
         user = new NewUserDAO();
@@ -101,12 +100,24 @@ public class AddNewUserController implements Initializable {
             notMatchedPassed = false;
         }
         
-        if(noCheckBoxSelected){
-            permissionLabel.setText("Permission level must be checked.");
+        if(chkManager.isSelected()){
+            count++;
+            System.out.println(count);
+        }else if(chkEmployee.isSelected()){
+            count++;
+            System.out.println(count);
+        }else if(chkAdministrator.isSelected()){
+            count++;
+            System.out.println(count);
+        }
+        
+        if(count != 1){
+            permissionLabel.setText("One permission level must be chosen!");
             chkBoxPassed = false;
         }else{
             permissionLabel.setText(null);
         }
+        
         
         if(unFieldPassed && pwdFieldPassed && confirmFieldPassed && notMatchedPassed && chkBoxPassed){
             return true;

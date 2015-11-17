@@ -68,4 +68,10 @@ public class LoginDAO {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
     }
+    
+    //Can I please get a query that will return the user password.
+    public String getUsersPassword(String userName){
+        
+        return userName;
+    }
 }
