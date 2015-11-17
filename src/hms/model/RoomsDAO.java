@@ -60,4 +60,32 @@ public class RoomsDAO {
     public int getHkRmCount(){
         return getRoomCount("where status like 'dirty'");
     }
+
+    public boolean isOccupied(int roomNumber) {
+        if(roomNumber == 0)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isActive(int roomNumber) {
+        if(roomNumber == 1)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isInMaintenance(int roomNumber) {
+        if(roomNumber == 2)
+            return true;
+        else
+            return false;
+    }
+    
+    public boolean isInHousekeeping(int roomNumber) {
+        if(roomNumber == 3)
+            return true;
+        else
+            return false;
+    }
 }
