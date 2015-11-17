@@ -234,6 +234,21 @@ public class ProfileFormController implements Initializable {
             zipLabel.setText("Please enter correct ZIP code");
             return false;
         }
+        if (!txtFirstName.getText().isEmpty()){
+            return false;
+        }
+        if (!txtLastName.getText().isEmpty()){
+            return false;
+        }
+        if (!txtStreet.getText().isEmpty()){
+            return false;
+        }
+        if (!txtCity.getText().isEmpty()){
+            return false;
+        }
+        if (!cbxStates.getValue().isEmpty()){
+            return false;
+        }
         else{
             return true;
         }
