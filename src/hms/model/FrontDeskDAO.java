@@ -20,14 +20,12 @@ public class FrontDeskDAO {
     
     Connection c;
     Statement stmt;
-    PreparedStatement ps;
     ResultSet rs;
   
     private void closeAll() {
         try {
             rs.close();
             stmt.close();
-            ps.close();
             c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -173,11 +171,9 @@ public class FrontDeskDAO {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             c.setAutoCommit(false);
-            ps = c.prepareStatement("update reservation "
-                    + "set cc_last4 = '?' where id = ?");
-            ps.setString(1, last4);
-            ps.setInt(2, confirmation);
-            rowsChanged = ps.executeUpdate();
+            stmt = c.createStatement();
+            rowsChanged = stmt.executeUpdate("update reservation "
+                + "set cc_last4 = '" + last4 + "' where id = " + confirmation);
             c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -212,22 +208,22 @@ public class FrontDeskDAO {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             c.setAutoCommit(false);
-            ps = c.prepareStatement("update guest set fname = '?', lname = '?', "
-                + "phone = '?', email = '?', addr1 = '?', addr2 = '?', city = '?', "
-                + "state = '?', zip = '?', vip = ?, notes = '?', where id = ?");
-            ps.setString(1,p.getFirstName());
-            ps.setString(2,p.getLastName());
-            ps.setString(3,p.getPhoneNumber());
-            ps.setString(4,p.getEmail());
-            ps.setString(5,p.getStreet());
-            ps.setString(6,p.getApt());
-            ps.setString(7,p.getCity());
-            ps.setString(8,p.getState());
-            ps.setString(9,p.getZip());
-            ps.setInt(10,(p.isVIP() ? 1 : 0));
-            ps.setString(11,p.getNotes());
-            ps.setInt(12,p.getMemberID());
-            rowsChanged = ps.executeUpdate();
+            stmt = c.createStatement();
+            StringBuilder sql = new StringBuilder("update guest set ");
+            sql.append("fname = '" + p.getFirstName())
+                .append("',lname = '" + p.getLastName())
+                .append("',phone = '" + p.getPhoneNumber())
+                .append("',email = '" + p.getEmail())
+                .append("',addr1 = '" + p.getStreet())
+                .append("',addr2 = '" + p.getApt())
+                .append("',city = '" + p.getCity())
+                .append("',state = '" + p.getState())
+                .append("',zip = '" + p.getZip())
+                .append("',vip = " + (p.isVIP() ? 1 : 0))
+                .append(",notes = '" + p.getNotes())
+        	.append("',where id = " + p.getMemberID());
+            System.out.println(sql);
+            rowsChanged = stmt.executeUpdate(sql.toString());
             c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -237,33 +233,38 @@ public class FrontDeskDAO {
         return (rowsChanged > 0);
     }
 
-    public boolean createProfile(Profile p) {
-        int rowsInserted = 0;
+    public int createProfile(Profile p) {
+        int profileID = 0;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             c.setAutoCommit(false);
-            ps = c.prepareStatement("insert into guest "
-                    + "values(null,'?','?','?','?','?','?','?','?','?',?,'?')");
-            ps.setString(1,p.getFirstName());
-            ps.setString(2,p.getLastName());
-            ps.setString(3,p.getPhoneNumber());
-            ps.setString(4,p.getEmail());
-            ps.setString(5,p.getStreet());
-            ps.setString(6,p.getApt());
-            ps.setString(7,p.getCity());
-            ps.setString(8,p.getState());
-            ps.setString(9,p.getZip());
-            ps.setInt(10,(p.isVIP() ? 1 : 0));
-            ps.setString(11,p.getNotes());
-            rowsInserted = ps.executeUpdate();
+            stmt = c.createStatement();
+            StringBuilder sql = new StringBuilder(
+                    "insert into guest values(null,");
+            sql.append("'" + p.getFirstName() + "',")
+                .append("'" + p.getLastName() + "',")
+                .append("'" + p.getPhoneNumber() + "',")
+                .append("'" + p.getEmail() + "',")
+                .append("'" + p.getStreet() + "',")
+                .append("'" + p.getApt() + "',")
+                .append("'" + p.getCity() + "',")
+                .append("'" + p.getState() + "',")
+                .append("'" + p.getZip() + "',")
+                .append((p.isVIP() ? 1 : 0))
+                .append(",'" + p.getNotes() + "')");
+            System.out.println(sql);
+            if (stmt.executeUpdate(sql.toString()) > 0) {
+                rs = stmt.executeQuery("select last_insert_rowid()");
+                profileID = rs.getInt(1);
+            } 
             c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
             closeAll();
     }
-        return (rowsInserted > 0);
+        return profileID;
     }
     
     public ObservableList queryProfiles(ProfileSearchDTO dto) {
@@ -358,4 +359,4 @@ public class FrontDeskDAO {
         return rooms;
     
     }
-}
+}	
