@@ -14,42 +14,46 @@
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Text layoutX="10.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Dashboard">
+            <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Dashboard">
                <font>
-                  <Font name="System Bold" size="28.0" />
+                  <Font name="System Bold" size="32.0" />
                </font>
             </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#edeff2" height="100.0" layoutX="10.0" layoutY="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="440.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="20.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
-            <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="29.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resource/images/add-user.png" />
-               </image>
-            </ImageView>
-            <Text fill="WHITE" layoutX="99.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New User" textAlignment="CENTER" wrappingWidth="114.3671875">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="80.0" layoutX="20.0" layoutY="60.0" onMouseClicked="#onMouseClickedAddNewUser" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="232.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
-            <ImageView fitHeight="64.0" fitWidth="62.0" layoutX="242.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resource/images/password.png" />
-               </image>
-            </ImageView>
-            <Text fill="WHITE" layoutX="311.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reset Password" textAlignment="CENTER" wrappingWidth="114.3671875">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="80.0" layoutX="232.0" layoutY="60.0" onMouseClicked="#onMouseClickedAddNewUser" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
-            <TableView fx:id="userListTable" layoutX="10.0" layoutY="165.0" prefHeight="420.0" prefWidth="440.0">
+            <TableView fx:id="userListTable" layoutX="10.0" layoutY="95.0" prefHeight="491.0" prefWidth="440.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="tblUn" prefWidth="112.0" text="Username" />
+                  <TableColumn fx:id="tblEmployee" prefWidth="106.0" text="Employee" />
+                <TableColumn fx:id="tblManager" prefWidth="107.0" text="Manager" />
+                  <TableColumn fx:id="tblAdmin" prefWidth="114.0" text="Admin" />
               </columns>
             </TableView>
+            <Button layoutX="213.0" layoutY="60.0" mnemonicParsing="false" onAction="#onMouseClickedAddNewUser" text="Add New User" />
+            <Button layoutX="333.0" layoutY="60.0" mnemonicParsing="false" onAction="#onClickResetPw" text="Reset Password" />
+            <TitledPane animated="false" collapsible="false" layoutX="474.0" layoutY="33.0" prefHeight="552.0" prefWidth="500.0" text="Weekly Sales">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <LineChart fx:id="weeklySales" layoutX="7.0" layoutY="22.0" prefHeight="480.0" prefWidth="484.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" layoutX="989.0" layoutY="33.0" prefHeight="275.0" prefWidth="270.0" text="Check In vs Check Out">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <PieChart fx:id="checkStatsPieChart" layoutY="4.0" prefHeight="240.0" prefWidth="270.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </TitledPane>
          </children></AnchorPane>
    </children>
 </StackPane>
