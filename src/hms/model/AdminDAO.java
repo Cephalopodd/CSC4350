@@ -23,7 +23,6 @@ public class AdminDAO {
                     + "dep like '" + today.toString() + "'");
             rs.next();
             checkOutToday = rs.getInt(1);
-            System.out.println("Check Outs: " + checkOutToday);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
@@ -46,7 +45,6 @@ public class AdminDAO {
                     + "arr like '" + today.toString() + "'");
             rs.next();
             checkInToday = rs.getInt(1);
-            System.out.println("Check Ins: " + checkInToday);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
@@ -70,7 +68,6 @@ public class AdminDAO {
                     + "where date like '" + date.toString() + "'");
             rs.next();
             sales = rs.getDouble(1);
-            System.out.println("Total sales: " + sales);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
