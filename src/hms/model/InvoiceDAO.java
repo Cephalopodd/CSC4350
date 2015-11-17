@@ -5,6 +5,8 @@
  */
 package hms.model;
 
+import java.sql.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -12,15 +14,49 @@ import javafx.collections.ObservableList;
  * @author admin
  */
 public class InvoiceDAO {
+    
+    Connection c;
+    Statement stmt;
+    ResultSet rs;
 
-    public InvoiceDAO() {
-    }
-
-    public ObservableList<FolioCharge> queryCharges(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void closeAll() {
+        try {
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
     }
     
+    public ObservableList queryCharges(int totalBill) {
+    
+    //NEED UPDATE!!!
     //Needs query to link all data fields to print the final invoice
+    //Receive Reservation confirmation number
+        //Return Observable list of pending Folio Charges
+        ObservableList<FolioCharge> result = FXCollections.observableArrayList();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            
+            /*
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                result.add(new FolioCharge(
+                    rs.getString("code"))),
+                   
+            }
+            */
+                    
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return result;
     
-    
+    }    
 }
+  
