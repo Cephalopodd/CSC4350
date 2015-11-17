@@ -5,13 +5,23 @@
  */
 package hms;
 
+import hms.model.BillingMenuDAO;
+import hms.model.FolioCharge;
+import hms.model.InvoiceDAO;
+import hms.model.Reservation;
+import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -20,41 +30,94 @@ import javafx.scene.layout.AnchorPane;
  * @author admin
  */
 public class InvoiceController implements Initializable {
+
+    ObservableList<String> payTypeList = FXCollections
+            .observableArrayList("Cash", "Credit Card", "Check");
+
     @FXML
     private AnchorPane invoiceStage;
     @FXML
-    private Label addressLbl;
+    private Label lblAddress;
     @FXML
-    private Label lastNamelbl;
+    private Label lblLastName;
     @FXML
-    private Label firstNamelbl;
+    private Label lblFirstName;
     @FXML
-    private Label cityLbl;
+    private Label lblCity;
     @FXML
-    private Label stateLbl;
+    private Label lblState;
     @FXML
-    private Label zipLbl;
+    private Label lblZip;
     @FXML
-    private Label checkInLbl;
+    private Label lblCheckInDate;
     @FXML
-    private Label roomNumLbl;
+    private Label lblCheckOutDate;
     @FXML
-    private TableView<?> invoiceCharges;
+    private Label lblRoomNum;
     @FXML
-    private Label balanceOwed;
+    private TableView<FolioCharge> tblInvoiceCharges;
     @FXML
-    private MenuButton paymentTypeMenu;
+    private Label lblBalanceOwed;
     @FXML
-    private Label chargedAmt;
+    private Label lblChargedAmt;
     @FXML
-    private Label totCharges;
+    private Label lblTotCharges;
+    @FXML
+    private ChoiceBox<String> payTypeMenu;
+    @FXML
+    private TableColumn<FolioCharge, String> colDescription;
+    @FXML
+    private TableColumn<FolioCharge, String> colDate;
+    @FXML
+    private TableColumn<FolioCharge, String> colAmount;
+
+    Reservation reservation;
+    InvoiceDAO dao;
+    User user;
+    MainMenuController main;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        dao = new InvoiceDAO();
+        setupColumns();
+        getCharges();
+        payTypeMenu.setItems(payTypeList);
+    }
+
+    private void setupColumns() {
+
+        colDescription.setCellValueFactory(
+                new PropertyValueFactory<>("Description"));
+        colDate.setCellValueFactory(
+                new PropertyValueFactory<>("Date"));
+        colAmount.setCellValueFactory(
+                new PropertyValueFactory<>("Amount"));
+        colAmount.setCellValueFactory(cellData
+                -> Bindings.format("%.2f", cellData.getValue().getAmount())
+        );
+
+    }
+
+    public void getCharges() {
+        ObservableList<FolioCharge> charges = FXCollections.observableArrayList();
+        charges = dao.queryCharges(1234);
+        tblInvoiceCharges.setItems(charges);
+
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    public void setUser(User e) {
+        this.user = e;
+    }
+
+    public void setSubMenuParent(MainMenuController main) {
+        this.main = main;
+    }
+
 }

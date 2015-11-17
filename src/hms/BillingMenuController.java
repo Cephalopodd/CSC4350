@@ -7,6 +7,7 @@ package hms;
 
 import hms.model.BillingMenuDAO;
 import hms.model.FolioCharge;
+import hms.model.MenuType;
 import hms.model.Reservation;
 import hms.model.User;
 import java.net.URL;
@@ -43,8 +44,7 @@ public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private Label lblTotal, lblSubTotal,lblTaxes;
     @FXML
-    private Button makePayBtn, printInvoiceBtn; 
-    
+    public Button  btnMakePay, btnPrintInvoice;
      
     Reservation reservation;
     BillingMenuDAO dao;
@@ -63,7 +63,8 @@ public class BillingMenuController implements Initializable, SubMenu {
     }    
 
     @FXML
-    private void onClickPrintInvoice(ActionEvent event) {
+    private void onClickPrintInvoice(ActionEvent event) {       
+        main.displaySubMenu(MenuType.INVOICE);
     }
 
     @FXML
