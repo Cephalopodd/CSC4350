@@ -1,7 +1,6 @@
 package hms.model;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class NewUserDAO {
     
@@ -80,13 +79,5 @@ public class NewUserDAO {
         } finally {
             closeAll();
         }
-    }
-    
-    public ArrayList<String> getUsersDb(){
-        ArrayList user = new ArrayList();
-        user.add("Thug Life");
-        user.add("Pikachu");
-        
-        return user;
     }
 }
