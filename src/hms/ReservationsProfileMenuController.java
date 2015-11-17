@@ -158,24 +158,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickNewReservation(ActionEvent event) {
-        handleEditReservations(null);
+
+        Forms.displayEditReservationForm(main);
     }
 
     @FXML
     private void onClickEditReservation(ActionEvent event) {
 
-        //Get Selected Reservation
-        Reservation r = tblReservations.getSelectionModel().getSelectedItem();
-
-        //Prompt and return if a reservation is not selected.
-        if (r == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Reservation not Selected");
-            alert.showAndWait();
-            return;
-        }
-
-        handleEditReservations(r);
+        handleEditReservations();
     }
 
     @FXML
@@ -186,12 +176,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickNewProfile(ActionEvent event) {
-        //TODO
+        Forms.displayEditProfileForm(main, 0);
     }
 
     @FXML
     private void onClickEditProfile(ActionEvent event) {
-        //TODO
+        Forms.displayEditProfileForm(main, 0);
     }
 
     @FXML
@@ -275,7 +265,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             }
 
             ObservableList<Reservation> result;
-            
+
             String arriveDate;
             String departDate;
             try {
@@ -283,14 +273,13 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             } catch (Exception ex) {
                 arriveDate = "";
             }
-            
+
             try {
                 departDate = dateDeparture.getValue().toString();
-            } catch (Exception e){
-               departDate = "";
+            } catch (Exception e) {
+                departDate = "";
             }
-            
-            
+
             FrontDeskArrivalsDTO dto
                     = new FrontDeskArrivalsDTOBuilder()
                     .setFirstName(txtFirstName.getText())
@@ -302,7 +291,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                     .setArrivalDate(arriveDate)
                     .setDepartureDate(departDate)
                     .createQueryArrivalsDTO();
-       
+
             result = dao.queryArrivals(dto);
 
             if (result != null) {
@@ -315,6 +304,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleClear() {
+
+        //Clear Garbage Text from Date Field
+        dateArrival.setValue(LocalDate.now());
+        dateArrival.setValue(LocalDate.now());
 
         //Clear Reservations
         reservations.clear();
@@ -392,12 +385,31 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     }
 
-    private void handleEditReservations(Reservation r) {
-        Forms.displayEditProfileForm(main, 0);
+    private void handleEditReservations() {
+        
+        //Get Selected Reservation
+        Reservation r = tblReservations.getSelectionModel().getSelectedItem();
+
+        //Prompt and return if a reservation is not selected.
+        if (r == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Reservation not Selected");
+            alert.showAndWait();
+            return;
+        }
+
+        //Check to make sure that the status is pending
+        if (!r.getStatus().equals(ReservationStatus.PENDING)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Only reservations that are PENDING \n"
+                    + "can be edited");
+            alert.showAndWait();
+            return;
+        }
     }
 
     private void handleSearchProfiles() {
-    
+
         try {
             if (!validateProfileFields()) {
                 System.out.println("error validatiting fields");
@@ -405,14 +417,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             }
 
             ObservableList<Profile> result;
-            
+
             ProfileSearchDTO dto = new ProfileSearchDTOBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
                     .setMemberID(txtEmail.getText())
                     .setPhoneNumber(txtPhoneNumber.getText())
                     .createProfileSearchDTO();
-       
+
             result = dao.queryProfiles(dto);
 
             if (result != null) {

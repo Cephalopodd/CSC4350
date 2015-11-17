@@ -22,7 +22,7 @@ public class FrontDeskDAO {
     Statement stmt;
     ResultSet rs;
   
-    public ObservableList queryArrivals(FrontDeskArrivalsDTO dto) {
+    public ObservableList<Reservation> queryArrivals(FrontDeskArrivalsDTO dto) {
         
         ObservableList<Reservation> result = FXCollections.observableArrayList();
         String sql = "select g.fname, g.lname, r.rm_num, r.roomtype, r2.rate, "
@@ -83,11 +83,17 @@ public class FrontDeskDAO {
         return result;
     }
 
-    public boolean createReservation(Reservation reservation) {
+      /**
+         *   This method takes a profile, a room , arrival date, departure date
+         * creates a reservation
+         *  and returns a reservationNumber
+         */
+    public int createReservation(Profile profile, Room room, String arrival, String departure) {
         
-        //Create single reservation...
+        int reservationNumber=0;
         
-        return true;
+        
+        return reservationNumber;
     }
     
     
@@ -254,7 +260,7 @@ public class FrontDeskDAO {
         return true;
     }
     
-    public ObservableList queryProfiles(ProfileSearchDTO dto) {
+    public ObservableList<Profile> queryProfiles(ProfileSearchDTO dto) {
         
         ObservableList<Profile> profiles = FXCollections.observableArrayList();
         
@@ -269,4 +275,36 @@ public class FrontDeskDAO {
         
         return profiles;
     }
+
+    public ObservableList<Room> queryRoomAvailability(String roomType, String arrivalDate, String departureDate) {
+    
+        //This is called from the Room Reservation Creation Form
+        //IT takes RoomType, Arrival Date as string, and Departure date as string
+        //It returns an observable list of available rooms.
+        
+        ObservableList<Room> rooms = FXCollections.observableArrayList();
+        
+        //fake tset room
+        rooms.add(new RoomBuilder()
+                .setCost(158.23)
+                .setHandicapAccess(false)
+                .setNumber(113)
+                .setType(RoomType.DBLNS)
+                .setOccupied(false)
+                .setStatus(RoomStatus.CLEAN)
+                .createRoom());
+        rooms.add(new RoomBuilder()
+                .setCost(143.23)
+                .setHandicapAccess(false)
+                .setNumber(116)
+                .setType(RoomType.QUEENNS)
+                .setOccupied(false)
+                .setStatus(RoomStatus.CLEAN)
+                .createRoom());
+        
+        return rooms;
+    
+    }
+
+    
 }
