@@ -8,7 +8,7 @@ package hms.model;
 
 public class RoomBuilder {
     private int number = 0;
-    private String type = RoomType.DBLNS;
+    private String type = RoomType.DNN;
     private String status = "";
     private boolean handicapAccess = false;
     private boolean occupied = false;

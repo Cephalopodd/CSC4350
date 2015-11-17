@@ -145,9 +145,7 @@ public class ReserveRoomFormController implements Initializable {
     }
 
     private void initChoiceBoxes() {
-        roomTypes = FXCollections.observableArrayList(RoomType.DBLNS,
-                RoomType.DBLS, RoomType.KINGNS, RoomType.KINGS,
-                RoomType.QUEENNS, RoomType.QUEENS);
+        roomTypes = FXCollections.observableArrayList(RoomType.getRoomTypes());
         numAdults = FXCollections.observableArrayList(1, 2, 3, 4);
         numChildren = FXCollections.observableArrayList(0, 1, 2, 3);
 
@@ -155,7 +153,7 @@ public class ReserveRoomFormController implements Initializable {
         cbxAdults.setItems(numAdults);
         cbxChildren.setItems(numChildren);
 
-        cbxRoomType.setValue(RoomType.KINGNS);
+        cbxRoomType.setValue(RoomType.DNN);
         cbxAdults.setValue(1);
         cbxChildren.setValue(0);
 

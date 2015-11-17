@@ -15,7 +15,7 @@ package hms.model;
 public class Room {
 
     private int number = 0;
-    private String type = RoomType.DBLNS;
+    private String type = RoomType.DNN;
     private String status = RoomStatus.CLEAN;
     private boolean handicapAccess = false;
     private boolean occupied = false;
