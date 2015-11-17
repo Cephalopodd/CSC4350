@@ -86,6 +86,7 @@ class Forms {
             controller.setStage(stage);
             controller.setEditFlag(true);
             controller.setProfile(p);
+            controller.setProfileInformation(p);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
