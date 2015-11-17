@@ -153,32 +153,8 @@ public class ProfileFormController implements Initializable {
     }
 
     @FXML
-    private void onActionSave(ActionEvent event) {
-        phoneLabel.setText(null);
-        emailLabel.setText(null);
-        zipLabel.setText(null);
+    private void onActionSave(ActionEvent event) {        
         
-        if (txtPhoneNumber.getText().isEmpty() ){
-            phoneLabel.setText("Please enter your phone number");
-        }
-        if (!validatePhoneNumber(txtPhoneNumber.getText()) ){
-            phoneLabel.setText("Please enter correct phone number");
-        }
-        if (txtEmail.getText().isEmpty() ){
-            emailLabel.setText("Please enter your email");
-        }
-        if (!isEmailValid(txtEmail.getText())){
-            emailLabel.setText("Please enter correct email");
-        }
-        if (txtZip.getText().isEmpty() ){
-            zipLabel.setText("Please enter your ZIP code");
-        }
-        String zipCodePattern = "\\d{5}(-\\d{4})?";
-        if (!txtZip.getText().matches(zipCodePattern)){
-            zipLabel.setText("Please enter correct ZIP code");
-        }
-        
-        /*
         //Verify fields are good
         if (verifyFields()) {
             // Edit or Create
@@ -188,7 +164,7 @@ public class ProfileFormController implements Initializable {
                 handleSaveNewProfile();
             }
         }
-        */
+       
     }
 
     @FXML
@@ -233,7 +209,34 @@ public class ProfileFormController implements Initializable {
     }
 
     private boolean verifyFields() {
-        return true;
+        if (txtPhoneNumber.getText().isEmpty() ){
+            phoneLabel.setText("Please enter your phone number");
+            return false;
+        }
+        if (!validatePhoneNumber(txtPhoneNumber.getText()) ){
+            phoneLabel.setText("Please enter correct phone number");
+            return false;
+        }
+        if (txtEmail.getText().isEmpty() ){
+            emailLabel.setText("Please enter your email");
+            return false;
+        }
+        if (!isEmailValid(txtEmail.getText())){
+            emailLabel.setText("Please enter correct email");
+            return false;
+        }
+        if (txtZip.getText().isEmpty() ){
+            zipLabel.setText("Please enter your ZIP code");
+            return false;
+        }
+        String zipCodePattern = "\\d{5}(-\\d{4})?";
+        if (!txtZip.getText().matches(zipCodePattern)){
+            zipLabel.setText("Please enter correct ZIP code");
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     boolean getResult() {
