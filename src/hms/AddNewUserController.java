@@ -55,8 +55,8 @@ public class AddNewUserController implements Initializable {
         //count = 0;
         if(addNewUserValidation() == true){
             createNewUser();
+            stage.close();
         }
-        stage.close();
         
     }
     
