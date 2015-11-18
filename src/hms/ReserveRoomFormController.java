@@ -95,6 +95,7 @@ public class ReserveRoomFormController implements Initializable {
     private String searchedDeparture;
     private int newReservationNumber = 0;
     private int newRoomNumber = 0;
+    private Reservation newReservation;
 
     /**
      * Initializes the controller class.
@@ -143,6 +144,7 @@ public class ReserveRoomFormController implements Initializable {
                     SUCCESS = true;
                     newRoomNumber = room.getNumber();
                     newReservationNumber = reservation.getConfirmation();
+                    newReservation = reservation;
                 }
                 
             } else {
@@ -151,10 +153,12 @@ public class ReserveRoomFormController implements Initializable {
                 int resNo = dao.createReservation(profile, room, searchedArrival, searchedDeparture);
                 if (resNo > 0) {
                     System.out.print("5");
+                    System.out.print("The system returned: " + resNo);
                 
                     SUCCESS = true;
                     newRoomNumber = room.getNumber();
                     newReservationNumber = resNo;
+                    newReservation = dao.getReservation(resNo);
                 }
             }
         } catch (Exception e) {

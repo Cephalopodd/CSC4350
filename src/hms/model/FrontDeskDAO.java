@@ -390,4 +390,12 @@ public class FrontDeskDAO {
         }
         return rooms;
     }
+
+    //Needed for the Reservation Edit
+    public Reservation getReservation(int resNo) {
+        
+        return new ReservationBuilder()
+                .setFirstName("Test").setLastName("User").createReservation();
+    
+    }
 }	

@@ -11,7 +11,7 @@
     <right>
         <VBox spacing="15.0" BorderPane.alignment="CENTER">
             <children>
-                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="90.0" prefWidth="14.0" />
+                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="164.0" prefWidth="14.0" />
                 <Button fx:id="btnWalkIn" mnemonicParsing="false" onAction="#onClickWalkIn" prefHeight="60.0" prefWidth="100.0" text="Walk In" textAlignment="CENTER" visible="false">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
@@ -38,7 +38,7 @@
                     </effect>
                 </Button>
             
-                <Button fx:id="btnEditProfile" layoutX="20.0" layoutY="451.0" mnemonicParsing="false" onAction="#onClickEditProfile" prefHeight="60.0" prefWidth="110.0" text="Update Guest&#10;Profile" textAlignment="CENTER">
+                <Button fx:id="btnEditProfile" layoutX="20.0" layoutY="451.0" mnemonicParsing="false" onAction="#onClickEditProfile" prefHeight="60.0" prefWidth="110.0" text="Update Guest&#10;Profile" textAlignment="CENTER" visible="false">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
