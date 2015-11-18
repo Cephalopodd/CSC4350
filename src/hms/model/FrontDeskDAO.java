@@ -98,12 +98,38 @@ public class FrontDeskDAO {
          * creates a reservation
          *  and returns a reservationNumber
          */
-    public int createReservation(Profile profile, Room room, String arrival, String departure) {
-        
-        int reservationNumber=0;
-        
-        
-        return reservationNumber;
+    public int createReservation(Profile p, Room r, String arrival, String departure) {
+        int confirmation = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            StringBuilder sql = new StringBuilder(
+                    "insert into reservation values(null,");
+            sql.append(p.getMemberID() + ",")
+                .append("'" + arrival + "',")
+                .append("'" + departure + "',")
+                .append("'rack',1,0,'9999',")
+                .append("")
+                .append("")
+                .append("")
+                .append("'" + r.getType() + "',")
+                .append("'" + r.getNumber() + "',")
+                .append("'PENDING','')")
+                .append("");
+            System.out.println(sql);
+            if (stmt.executeUpdate(sql.toString()) > 0) {
+                rs = stmt.executeQuery("select last_insert_rowid()");
+                confirmation = rs.getInt(1);
+            } 
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+    }
+        return confirmation;
     }
     
     public boolean cancelReservation(int confirmation) {
@@ -330,7 +356,8 @@ public class FrontDeskDAO {
         return guest;
     }
 
-    public ObservableList<Room> queryRoomAvailability(String roomType, String arrivalDate, String departureDate) {
+    public ObservableList<Room> queryRoomAvailability(String roomType, 
+            String arrivalDate, String departureDate) {
         ObservableList<Room> rooms = FXCollections.observableArrayList();
         try {
             double cost = 0.0;
@@ -362,6 +389,5 @@ public class FrontDeskDAO {
             closeAll();
         }
         return rooms;
-    
     }
 }	
