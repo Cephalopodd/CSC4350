@@ -55,12 +55,12 @@
                         <TextField fx:id="txtLastName" onAction="#onClickSearchReservations" promptText="Last Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="txtCompanyName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField fx:id="txtGroupName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservations" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtMemberID" onAction="#onClickSearchReservations" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                        <DatePicker fx:id="dateArrival" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                        <DatePicker fx:id="dateDeparture" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="125.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="128.0" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservations" promptText="Confirmation" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtMemberID" onAction="#onClickSearchReservations" promptText="Member ID" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="dateArrival" promptText="Arrival Date" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="dateDeparture" promptText="Departure Date" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="125.0" promptText="Email Address" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="128.0" promptText="Phone Number" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                         
                         
                         <Label text="Phone#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />

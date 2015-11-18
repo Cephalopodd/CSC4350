@@ -296,12 +296,13 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
     
     private void handleSearchReservations() {
+        
+        if (!validateReservationFields()){
+            System.out.println("error validatiting fields");
+            return;
+        }
 
         try {
-            if (!validateReservationFields()) {
-                System.out.println("error validatiting fields");
-                return;
-            }
 
             ObservableList<Reservation> result;
 
@@ -512,11 +513,43 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private boolean validateReservationFields() {
-        return true;
+        boolean valid = true;
+        
+        //Check From Data < To Date
+        
+        //Check First Name
+        
+        //Check Last Name
+        
+        //Check Confirm Number
+        
+       return valid;
     }
 
     private boolean validateProfileFields() {
-        return true;
+        boolean valid = true;
+        
+        //Check email
+        
+        //Check PhoneNumber
+        
+        //Check MemberID
+        
+        //Check FirstName
+        
+        //Check LastName
+        
+        return valid;
+    }
+    
+    private void markInvalid(TextField t){
+        t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        
+    }
+    
+    private void markValid(TextField t) {
+        t.setStyle("");
+      
     }
 
 }
