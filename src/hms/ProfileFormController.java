@@ -292,6 +292,9 @@ public class ProfileFormController implements Initializable {
                     .setTitle(cbxTitles.getValue())
                     .createProfile();
 
+            //Restore Profile ID
+            p.setMemberID(profile.getMemberID());
+            
             if ( p == null ) {
                 RESULT = false;
                 stage.close();

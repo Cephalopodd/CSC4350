@@ -204,10 +204,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     private void handleSearch() {
 
-        if (!validateFields()) {
-            System.out.println("error validatiting fields");
-            return;
-        }
+//        if (!validateFields()) {
+//            System.out.println("error validatiting fields");
+//            return;
+//        }
 
         ObservableList<Reservation> result;
 
@@ -232,7 +232,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private boolean validateFields() {
-        try {
+      try {
           if (dateArrival.getValue().isBefore(LocalDate.now())){
             return false;
           } else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) ) {
