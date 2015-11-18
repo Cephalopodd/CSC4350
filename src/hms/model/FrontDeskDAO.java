@@ -331,31 +331,36 @@ public class FrontDeskDAO {
     }
 
     public ObservableList<Room> queryRoomAvailability(String roomType, String arrivalDate, String departureDate) {
-    
-        //This is called from the Room Reservation Creation Form
-        //IT takes RoomType, Arrival Date as string, and Departure date as string
-        //It returns an observable list of available rooms.
-        
         ObservableList<Room> rooms = FXCollections.observableArrayList();
-        
-        //fake tset room
-        rooms.add(new RoomBuilder()
-                .setCost(158.23)
-                .setHandicapAccess(false)
-                .setNumber(113)
-                .setType(RoomType.DNN)
-                .setOccupied(false)
-                .setStatus(RoomStatus.CLEAN)
-                .createRoom());
-        rooms.add(new RoomBuilder()
-                .setCost(143.23)
-                .setHandicapAccess(false)
-                .setNumber(116)
-                .setType(RoomType.QNH)
-                .setOccupied(false)
-                .setStatus(RoomStatus.CLEAN)
-                .createRoom());
-        
+        try {
+            double cost = 0.0;
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select rate from rate join roomtype "
+                    + "on rate.roomtype like roomtype.beds where roomtype.type like '" 
+                    + roomType + "' and ratecode like 'rack'");
+            if (rs.next()) cost = rs.getDouble(1);
+            
+            rs = stmt.executeQuery(
+                "select number from room where roomtype = '" + roomType + "' "
+                + "except select rm_num from reservation "
+                + "where (arr between '"+ arrivalDate + "' and '" + departureDate + "') "
+                + "or (dep between '"+ arrivalDate + "' and '" + departureDate + "') "
+                + "or ((arr < '"+ arrivalDate + "') and (dep > '" + departureDate + "'))");
+            while (rs.next()) {
+                rooms.add(new RoomBuilder()
+                    .setNumber(rs.getInt("number"))
+                    .setCost(cost)
+                    .setType(roomType)
+                    .createRoom()
+                );
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
         return rooms;
     
     }
