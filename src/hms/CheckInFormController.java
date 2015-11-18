@@ -50,6 +50,8 @@ public class CheckInFormController implements Initializable {
     private Button btnOK;
     @FXML
     private Button btnCancel;
+    @FXML
+    private Label validatorMessage;
     
     private ObservableList<Integer> months;
     private ObservableList<Integer> years;
@@ -81,8 +83,15 @@ public class CheckInFormController implements Initializable {
 
     @FXML
     private void onClickOK(ActionEvent event) {
-        accepted = true;
-        stage.close();
+        //if invalid entry detected, print error message
+        if (!validateFields() ) {
+            System.out.println("error validating fields");
+            return;
+        }
+        else {
+            accepted = true;
+            stage.close();
+        }
     }
 
     @FXML
@@ -128,4 +137,90 @@ public class CheckInFormController implements Initializable {
         return accepted;
     }
     
+    //validate all entry
+    private boolean validateFields() {
+        if (txtNameOnCC.getText().isEmpty() || txtCCNumber.getText().isEmpty() || txtCCID.getText().isEmpty() || cbxCCType.getValue().isEmpty() || 
+                cbxMonth.getValue().toString().isEmpty() || cbxYear.getValue().toString().isEmpty() ){
+            validatorMessage.setText("Please enter credit card number");
+            return false;
+        }
+        if (luhnTest(txtCCNumber.getText().toString() ) ){
+            validatorMessage.setText("Please enter correct credit card number");            
+            return false;
+        }
+        if ( (cardTypeTest(txtCCNumber.getText().toString()) ).equals("invalid card") ){
+            validatorMessage.setText("Please enter correct credit card number");            
+            return false;
+        }else {
+            return true;
+        }
+    }    
+    
+    //method to test credit card numbers
+    public boolean luhnTest(String number){
+        //even digits are doubled, odd digits are left alone
+        int s1 = 0, s2 = 0;
+        //reverse String
+        String reverse = new StringBuffer(number).reverse().toString();
+        for(int i = 0 ;i < reverse.length();i++){
+            //takes a character, then returns equivalent numerical value in base 10
+            int digit = Character.digit(reverse.charAt(i), 10);
+            //for odd digits, they are 1-indexed in the algorithm
+            if(i % 2 == 0){
+                s1 += digit;
+            //add 2 * digit for 0-4, add 2 * digit - 9 for 5-9    
+            }else{
+                s2 += 2 * digit;
+                //if result is greater than or equal to 5, then 9 is subtracted (i.e. 14 is considered 1+4 = 5, or 14-9 = 5)
+                if(digit >= 5){
+                    s2 -= 9;
+                }
+            }
+            //System.out.println(digit);
+        }
+        //if mod 10 is zero, card number is valid
+        return (s1 + s2) % 10 == 0;
+    }
+    
+    //method to find out credit card type
+    public String cardTypeTest(String number){
+        String reverse = new StringBuffer(number).reverse().toString();
+        
+        //Amex has 15 digits
+        if (reverse.length() == 15){
+            if (reverse.charAt(14) == '3'){
+                return "Amex";
+            }else
+                return "invalid Amex card";
+        }
+        //Visa has 13 or 16 digits, and starts with 4
+        else if ((reverse.length() == 13) && (reverse.charAt(12) == '4')){
+            return "Visa";
+        }else if ((reverse.length() == 16) && (reverse.charAt(15) == '4')){
+            return "Visa";
+        }
+        //Discover or Mastercard has 16 digits    
+        else if ((reverse.length() == 16) && (reverse.charAt(15) == '6')){
+            //Mastercard starts with 5
+            if (reverse.charAt(15) == '5'){                
+                return "Mastercard";
+            }else if (reverse.charAt(15) == '6'){
+                //6011 Discover
+                if ((reverse.charAt(14) == '0') && (reverse.charAt(13) == '1') && (reverse.charAt(12) == '1')){
+                    return "Discover";   
+                //644 Discover
+                }else if ((reverse.charAt(14) == '4') && (reverse.charAt(13) == '4')){
+                    return "Discover";
+                //65 Discover
+                }else if (reverse.charAt(14) == '5'){
+                    return "Discover";
+                }else
+                    return "invalid card";  
+            }else
+                return "invalid card";
+        }else{
+            return "invalid card";
+        } 
+                
+    }
 }
