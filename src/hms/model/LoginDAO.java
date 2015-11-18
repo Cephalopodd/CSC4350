@@ -70,8 +70,32 @@ public class LoginDAO {
     }
     
     //Can I please get a query that will return the user password.
-    public String getUsersPassword(String userName){
+    public boolean matchPassword(String userName, Integer pwHash){
         
-        return userName;
+        User authenticatedUser = null;
+        boolean passwordMatched = true;
+        
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select * from user where login like '" + userName + "'");
+            if (rs.next()) {
+                if (pwHash == rs.getInt("pw")) {
+                    passwordMatched = true;
+                }else{
+                    passwordMatched = false;
+                }
+            }
+            
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        
+        return passwordMatched;
+        
     }
 }
