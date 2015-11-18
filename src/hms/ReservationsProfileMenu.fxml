@@ -41,20 +41,20 @@
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label prefHeight="10.0" prefWidth="62.0" text="Company" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                        <Label prefHeight="10.0" prefWidth="62.0" text="Company" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label text="Group" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                        <Label text="Group" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <TextField fx:id="txtFirstName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtLastName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtCompanyName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtGroupName" onAction="#onClickSearchReservations" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtFirstName" onAction="#onClickSearchReservations" promptText="First Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtLastName" onAction="#onClickSearchReservations" promptText="Last Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtCompanyName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtGroupName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservations" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <TextField fx:id="txtMemberID" onAction="#onClickSearchReservations" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                         <DatePicker fx:id="dateArrival" GridPane.columnIndex="5" GridPane.rowIndex="1" />

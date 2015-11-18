@@ -27,12 +27,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 
 /**
  * FXML Controller class
@@ -229,6 +231,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("Status"));
         colComments.setCellValueFactory(
                 new PropertyValueFactory<>("Comments"));
+    
+        Label msg = new Label("Reservations Search Table");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
     }
 
     private void setupProfilesTable() {
@@ -247,7 +253,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         colPhoneNumber.setCellValueFactory(
                 new PropertyValueFactory<>("PhoneNumber"));
         colNotes.setCellValueFactory(
-                new PropertyValueFactory<>("Message"));
+                new PropertyValueFactory<>("Notes"));
+        
+        Label msg = new Label("Profile Search Table");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
     }
 
     private void handleClear() {
