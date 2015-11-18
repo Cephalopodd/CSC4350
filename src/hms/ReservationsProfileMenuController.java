@@ -441,11 +441,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     private boolean validateProfileFields() {
         try {
-        if (dateArrival.getValue().isBefore(LocalDate.now()))
+        /*if (dateArrival.getValue().isBefore(LocalDate.now()))
         {
             return false;
         }
-        else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
+        else */if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
         {
            return false;
         }
