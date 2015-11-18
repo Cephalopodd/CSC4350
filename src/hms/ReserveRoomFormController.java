@@ -23,6 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -31,6 +32,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -104,6 +106,7 @@ public class ReserveRoomFormController implements Initializable {
         dao = new FrontDeskDAO();
         initChoiceBoxes();
         initTableColumns();
+        setCheckInCalendar();
 
     }
 
@@ -171,14 +174,14 @@ public class ReserveRoomFormController implements Initializable {
             return;
         }
         
-        if (dateArrival.getValue().isBefore(LocalDate.now()))
-        {
-            System.out.println("time cannot flow backward");
-        }
-        if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
-        {
-           System.out.println("cannot checkout in the past");
-        }
+//        if (dateArrival.getValue().isBefore(LocalDate.now()))
+//        {
+//            System.out.println("time cannot flow backward");
+//        }
+//        if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
+//        {
+//           System.out.println("cannot checkout in the past");
+//        }
         
         handleFindRoom();
     }
@@ -304,5 +307,50 @@ public class ReserveRoomFormController implements Initializable {
     
     int getNewRoomNumber() {
         return newRoomNumber;
+    }
+    
+    public void setCheckInCalendar(){
+        final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+                
+		@Override
+		public DateCell call(final DatePicker datePicker) {
+			return new DateCell(){
+			
+				@Override
+				public void updateItem(LocalDate item, boolean empty){
+					
+					super.updateItem(item, empty);
+				   
+					if(item.isBefore(LocalDate.now())){
+							setDisable(true);
+							setStyle("-fx-background-color: #ffc0cb;");
+					}   
+				}	
+			};
+		}
+        };
+        
+        final Callback<DatePicker, DateCell> dayCellFactory2 = new Callback<DatePicker, DateCell>() {
+                
+		@Override
+		public DateCell call(final DatePicker datePicker) {
+			return new DateCell(){
+			
+				@Override
+				public void updateItem(LocalDate item, boolean empty){
+					
+					super.updateItem(item, empty);
+				   
+					if(item.isBefore(LocalDate.now().plusDays(1))){
+							setDisable(true);
+							setStyle("-fx-background-color: #ffc0cb;");
+					}   
+				}	
+			};
+		}
+        };
+        
+        dateArrival.setDayCellFactory(dayCellFactory);
+        dateDeparture.setDayCellFactory(dayCellFactory2);
     }
 }

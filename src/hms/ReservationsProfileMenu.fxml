@@ -165,12 +165,8 @@
     <right>
         <VBox spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="186.0" prefWidth="10.0" />
-           
-                <Button fx:id="btnNewReservation" mnemonicParsing="false" onAction="#onClickNewReservation" prefHeight="60.0" prefWidth="100.0" text="New&#10;Reservation&#10;&#10;&#10;" textAlignment="CENTER">
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
+                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="106.0" prefWidth="13.0" />
+                <Button fx:id="btnDeleteProfile" mnemonicParsing="false" onAction="#onClickDeleteProfile" prefHeight="60.0" prefWidth="100.0" text="Delete&#10;Profile" textAlignment="CENTER" visible="false" wrapText="true">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
@@ -187,7 +183,16 @@
                 </Button>
              
                    
-                <Region prefHeight="63.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+                <Region prefHeight="44.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+           
+                <Button fx:id="btnNewReservation" mnemonicParsing="false" onAction="#onClickNewReservation" prefHeight="60.0" prefWidth="100.0" text="New&#10;Reservation&#10;&#10;&#10;" textAlignment="CENTER">
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                    <effect>
+                        <InnerShadow height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Button>
              
                        
                 <Button fx:id="btnNewProfile" mnemonicParsing="false" onAction="#onClickNewProfile" prefHeight="60.0" prefWidth="100.0" text="New&#10;Profile&#10;&#10;&#10;" textAlignment="CENTER">
@@ -199,11 +204,6 @@
                     </effect>
                 </Button>
                 <Button fx:id="btnEditProfile" mnemonicParsing="false" onAction="#onClickEditProfile" prefHeight="60.0" prefWidth="100.0" text="Edit&#10;Profile" textAlignment="CENTER" wrapText="true">
-                    <effect>
-                        <InnerShadow height="5.0" radius="2.0" width="5.0" />
-                    </effect>
-                </Button>
-                <Button fx:id="btnDeleteProfile" mnemonicParsing="false" onAction="#onClickDeleteProfile" prefHeight="60.0" prefWidth="100.0" text="Delete&#10;Profile" textAlignment="CENTER" wrapText="true">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
