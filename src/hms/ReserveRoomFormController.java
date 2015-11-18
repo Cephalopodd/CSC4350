@@ -95,7 +95,7 @@ public class ReserveRoomFormController implements Initializable {
     private String searchedDeparture;
     private int newReservationNumber = 0;
     private int newRoomNumber = 0;
-    private Reservation newReservation;
+    private Reservation newReservation = null;
 
     /**
      * Initializes the controller class.
@@ -145,6 +145,7 @@ public class ReserveRoomFormController implements Initializable {
                     newRoomNumber = room.getNumber();
                     newReservationNumber = reservation.getConfirmation();
                     newReservation = reservation;
+                    System.out.println("New Res: " + newReservation.getFirstName());
                 }
                 
             } else {
@@ -153,12 +154,13 @@ public class ReserveRoomFormController implements Initializable {
                 int resNo = dao.createReservation(profile, room, searchedArrival, searchedDeparture);
                 if (resNo > 0) {
                     System.out.print("5");
-                    System.out.print("The system returned: " + resNo);
+                    System.out.print("The resNo returned: " + resNo);
                 
                     SUCCESS = true;
                     newRoomNumber = room.getNumber();
                     newReservationNumber = resNo;
                     newReservation = dao.getReservation(resNo);
+                    System.out.println("New Res: " + newReservation.getFirstName());
                 }
             }
         } catch (Exception e) {
@@ -276,6 +278,10 @@ public class ReserveRoomFormController implements Initializable {
 
     void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+    
+    void setReservationInformation(Reservation reservation){
+        
         cbxRoomType.setValue(reservation.getRoomType());
         cbxAdults.setValue(reservation.getNumberAdults());
         cbxChildren.setValue(reservation.getNumberChildren());
@@ -293,6 +299,8 @@ public class ReserveRoomFormController implements Initializable {
             dateDeparture.setValue(LocalDate.parse(reservation.getCheckoutDate()));
         } catch (Exception e) {
             System.out.println("Could not set date fields");
+            dateArrival.setValue(LocalDate.now());
+            dateArrival.setValue(LocalDate.now());
         }
 
     }
@@ -418,5 +426,13 @@ public class ReserveRoomFormController implements Initializable {
         
         dateArrival.setDayCellFactory(dayCellFactory2);
         
+    }
+
+    public Reservation getNewReservation() {
+        return newReservation;
+    }
+
+    boolean getResult() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

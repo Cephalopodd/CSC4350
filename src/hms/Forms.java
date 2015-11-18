@@ -282,4 +282,93 @@ class Forms {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    static Reservation displayCreateReservationForm(MainMenuController main) {
+        
+        Reservation newReservation = null;
+        try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Load Form and get the controller
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReserveRoomForm.fxml"));
+            Parent parent = (Parent) loader.load();
+            ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
+            
+            //Inject information into Form
+            controller.setStage(stage);
+            controller.setEditFlag(false);
+
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.showAndWait();
+           
+            //Check Success
+            if (controller.getSuccess()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Your new reservation was successfully created\n"
+                        + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
+                        + "Room Number: " + controller.getNewRoomNumber()
+                );
+                alert.showAndWait();
+            }
+            
+            // Commented out alert on error
+//            else {
+//                Alert alert = new Alert(Alert.AlertType.ERROR,
+//                "Your profile could not be created");
+//                alert.showAndWait();
+//            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return newReservation;
+    }
+
+    static Reservation displayEditReservationForm(MainMenuController main, Reservation r) {
+        
+        try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Load Form and get the controller
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReserveRoomForm.fxml"));
+            Parent parent = (Parent) loader.load();
+            ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
+            
+            //Inject information into Form
+            controller.setStage(stage);
+            controller.setEditFlag(true);
+            controller.setReservation(r);
+            controller.setReservationInformation(r);
+            
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.showAndWait();
+            
+            //Check Success
+            if (controller.getResult()) {
+                r = controller.getNewReservation();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Your Reservation was successfully edited");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                "Your resservation could not be edited");
+                alert.showAndWait();
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return r;
+    }
 }

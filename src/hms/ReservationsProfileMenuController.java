@@ -443,8 +443,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             return;
         }
         
-        Forms.displayReserveRoomForm(main, r);
-        
+        //Forms.displayReserveRoomForm(main, r);
+        Reservation newReservation = Forms.displayEditReservationForm(main, r);
+        if ( newReservation != null ) {
+            tblReservations.getItems().remove(r);
+            tblReservations.getItems().add(newReservation);
+        }
     }
  
     private void handleSearchProfiles() {
