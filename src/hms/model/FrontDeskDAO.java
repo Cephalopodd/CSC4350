@@ -151,13 +151,35 @@ public class FrontDeskDAO {
         return (rowsDeleted > 0);
     }
 
-    public boolean updateReservation(Reservation r) {
-        //This should accept a reservation
-        //This should update the reservation
-        //This should return T/F outcome
-        return true;
-    }
-    
+public boolean updateReservation(Reservation r) {
+        System.out.println("updating reservation #" + r.getConfirmation());
+        int rowsChanged = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            StringBuilder sql = new StringBuilder("update reservation set ");
+                sql.append("arr = '" + r.getCheckinDate() + "',")
+                .append("dep = '" + r.getCheckoutDate() + "',")
+                .append("roomtype = '" + r.getRoomType() + "',")
+                .append("comments = '" + r.getComments() + "',")
+                .append("adults = " + r.getNumberAdults() + ",")
+                .append("kids = " + r.getNumberChildren() + ",")
+                .append("rm_num = " + r.getRoomNumber())
+                .append(" where id = " + r.getConfirmation());
+            System.out.println(sql);
+            rowsChanged += stmt.executeUpdate(sql.toString());
+            
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return (rowsChanged > 0);
+    }    
+
     public CreditCard getCreditCard(int confirmation) {
         CreditCard cc = null; 
         try {
@@ -359,16 +381,11 @@ public class FrontDeskDAO {
     public ObservableList<Room> queryRoomAvailability(String roomType, 
             String arrivalDate, String departureDate) {
         ObservableList<Room> rooms = FXCollections.observableArrayList();
+        double cost = queryRoomRate(roomType);
         try {
-            double cost = 0.0;
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             stmt = c.createStatement();
-            rs = stmt.executeQuery("select rate from rate join roomtype "
-                    + "on rate.roomtype like roomtype.beds where roomtype.type like '" 
-                    + roomType + "' and ratecode like 'rack'");
-            if (rs.next()) cost = rs.getDouble(1);
-            
             rs = stmt.executeQuery(
                 "select number from room where roomtype = '" + roomType + "' "
                 + "except select rm_num from reservation "
@@ -389,5 +406,23 @@ public class FrontDeskDAO {
             closeAll();
         }
         return rooms;
+    }
+    
+    public double queryRoomRate (String roomType) {
+        double cost = 0.0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select rate from rate join roomtype "
+                    + "on rate.roomtype like roomtype.beds where roomtype.type like '" 
+                    + roomType + "' and ratecode like 'rack'");
+            if (rs.next()) cost = rs.getDouble(1);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return cost;
     }
 }	
