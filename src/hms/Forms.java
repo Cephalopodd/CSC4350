@@ -113,7 +113,8 @@ class Forms {
         return p;
     }
 
-    static void displayReserveRoomForm(MainMenuController main, Reservation reservation) {
+    static boolean displayReserveRoomForm(MainMenuController main, Reservation reservation) {
+        boolean success = false;
            try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -136,6 +137,7 @@ class Forms {
             
             //Check Success
             if (controller.getSuccess()) {
+                success = true;
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Your Reservation was successful completed\n"
                         + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
@@ -147,6 +149,7 @@ class Forms {
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return success;
     }
     
     static void displayReserveRoomForm(MainMenuController main, Profile profile) {

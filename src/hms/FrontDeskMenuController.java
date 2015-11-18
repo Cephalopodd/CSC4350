@@ -11,6 +11,7 @@ import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskDAO;
 import hms.model.FrontDeskArrivalsDTOBuilder;
 import hms.model.MenuType;
+import hms.model.Profile;
 import hms.model.Reservation;
 import hms.model.ReservationStatus;
 import java.net.URL;
@@ -231,17 +232,21 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private boolean validateFields() {
-        if (dateArrival.getValue().isBefore(LocalDate.now()))
-        {
+        try {
+          if (dateArrival.getValue().isBefore(LocalDate.now())){
             return false;
-        }
-        else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
-        {
+          } else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) ) {
+       
            return false;
-        }
-        else{
+        }else{
             return true;
         }  
+    } catch (Exception e) {
+        
+        System.out.println("Exceptoin in searhc..");
+        return true;
+    }
+   
     }
 
     private void handleCancel() {
@@ -369,15 +374,21 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             return;
         }
 
-        int profileID = r.getProfileID();
-//
-        //NEEDTOFIXX ---
-    //    boolean result = Forms.displayEditProfileForm(main, );
-        boolean result = false;
+        //Get Profile From DB
+        Profile profile = null;
+        try {
+            profile = dao.getProfile(r.getProfileID());
+        } catch (Exception e) {
+            System.out.println("Could not get Profile from db");
+        }
+            
+        profile = Forms.displayEditProfileForm(main, profile);
         
-        if (result) {
+        
+        if (profile != null ) {
             alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Profile edited Successfully.");
+                    "Profile for " + profile.getFirstName() + 
+                            profile.getLastName() + "edited Successfully.");
             alert.showAndWait();
         } else {
             alert = new Alert(Alert.AlertType.ERROR,
@@ -395,7 +406,8 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             alert.showAndWait();
             return;
         }
-        Forms.displayReserveRoomForm(main, reservation);
+        boolean result = Forms.displayReserveRoomForm(main, reservation);
+        System.out.println("Result from handle reservation:" + result);
     }
 
 }
