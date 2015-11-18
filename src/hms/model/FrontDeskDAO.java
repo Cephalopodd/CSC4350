@@ -24,9 +24,9 @@ public class FrontDeskDAO {
   
     private void closeAll() {
         try {
-            rs.close();
-            stmt.close();
-            c.close();
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (c != null) c.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
@@ -221,7 +221,7 @@ public class FrontDeskDAO {
                 .append("',zip = '" + p.getZip())
                 .append("',vip = " + (p.isVIP() ? 1 : 0))
                 .append(",notes = '" + p.getNotes())
-        	.append("',where id = " + p.getMemberID());
+        	.append("' where id = " + p.getMemberID());
             System.out.println(sql);
             rowsChanged = stmt.executeUpdate(sql.toString());
             c.commit();
