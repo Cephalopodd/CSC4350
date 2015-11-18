@@ -424,6 +424,8 @@ public boolean updateReservation(Reservation r) {
                 + "join guest g on r.g_id = g.id where r.id = " + resNo);
             if (rs.next()) {
                 res = new ReservationBuilder()
+                    .setConfirmation(resNo)
+                    .setProfileID(rs.getInt("g.id"))
                     .setFirstName(rs.getString("g.fname"))
                     .setLastName(rs.getString("g.lname"))
                     .setCheckinDate(rs.getString("r.arr"))
