@@ -386,13 +386,14 @@ public class ProfileFormController implements Initializable {
     //Checks phone number for validity
     private boolean validatePhoneNumber(String phoneNo) {
         //validate phone numbers of format "1234567890"
-        if (phoneNo.matches("\\d{10}")) return true;
-        //validating phone number with -, . or spaces
-        else if(phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return true;
+        if (phoneNo.matches("\\d{10}")) {
+            convertPhoneNumber(phoneNo);
+            return true;
+        }     
         //validating phone number with extension length from 3 to 5
-        else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) return true;
-        //validating phone number where area code is in braces ()
-        else if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) return true;
+        else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}")) {
+            return true;
+        }
         //return false if nothing matches the input
         else return false;
 
@@ -411,6 +412,11 @@ public class ProfileFormController implements Initializable {
         }
         return isValid;
     }
+    public String convertPhoneNumber(String num)
+    {        
+           return num.substring(0, 3) + "-" + num.substring(3, 6) + "-" + num.substring(6);
+    }
+    
     public Profile getNewProfile() {
         return newProfile;
     }
