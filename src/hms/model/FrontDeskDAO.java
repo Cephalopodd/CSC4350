@@ -425,16 +425,16 @@ public boolean updateReservation(Reservation r) {
             if (rs.next()) {
                 res = new ReservationBuilder()
                     .setConfirmation(resNo)
-                    .setProfileID(rs.getInt("g.id"))
-                    .setFirstName(rs.getString("g.fname"))
-                    .setLastName(rs.getString("g.lname"))
-                    .setCheckinDate(rs.getString("r.arr"))
-                    .setCheckoutDate(rs.getString("r.dep"))
-                    .setRoomType(rs.getString("r.roomtype"))
-                    .setNumberAdults(rs.getInt("r.adults"))
-                    .setNumberChildren(rs.getInt("r.kids"))
-                    .setPhoneNumber(rs.getString("g.phone"))
-                    .setComments(rs.getString("r.comments"))
+                    .setProfileID(rs.getInt("g_id"))
+                    .setFirstName(rs.getString("fname"))
+                    .setLastName(rs.getString("lname"))
+                    .setCheckinDate(rs.getString("arr"))
+                    .setCheckoutDate(rs.getString("dep"))
+                    .setRoomType(rs.getString("roomtype"))
+                    .setNumberAdults(rs.getInt("adults"))
+                    .setNumberChildren(rs.getInt("kids"))
+                    .setPhoneNumber(rs.getString("phone"))
+                    .setComments(rs.getString("comments"))
                     .createReservation();
             }
         } catch ( Exception e ) {
