@@ -380,6 +380,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
     }
 
+    //Waiting on DB Connectivity
     private void handleEditProfile() {
         Alert alert;
         Optional<ButtonType> response;
@@ -402,9 +403,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Could not get Profile from db");
         }
-            
-        profile = Forms.displayEditProfileForm(main, profile);
         
+        if (profile!=null){
+            profile = Forms.displayEditProfileForm(main, profile);
+        }
         
         if (profile != null ) {
             alert = new Alert(Alert.AlertType.INFORMATION,
@@ -428,6 +430,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             return;
         }
         boolean result = Forms.displayReserveRoomForm(main, reservation);
+        
         System.out.println("Result from handle reservation:" + result);
     }
 
@@ -441,6 +444,40 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         txtConfirmation.setText("");
         dateArrival.setValue(null);
         dateDeparture.setValue(null);
+    }
+
+    private boolean validateReservationFields() {
+        boolean valid = true;
+        
+        try {
+        //Mark All Valid
+        markValid(txtFirstName);
+        markValid(txtLastName);
+        markValid(txtConfirmation);
+        
+        
+        //Check First Name
+        
+        //Check Last Name
+        
+        //Check Confirm Number
+        
+        //Check From Data < To Date
+        } catch (Exception e){
+            System.out.println("Error Validating Fields");
+        }
+        
+       return valid;
+    }
+
+    private void markInvalid(TextField t){
+        t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        
+    }
+    
+    private void markValid(TextField t) {
+        t.setStyle("");
+      
     }
 
 }

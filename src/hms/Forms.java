@@ -143,6 +143,7 @@ class Forms {
                         + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
                         + "Room Number: " + controller.getNewRoomNumber()
                 );
+                
                 alert.showAndWait();
             }
             
