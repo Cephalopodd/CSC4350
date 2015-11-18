@@ -446,9 +446,31 @@ public boolean updateReservation(Reservation r) {
         return res;
     }
 
-    public int registerCreditCard(int profileID, CreditCard cc) {
-        Random rand = new Random();
-        return rand.nextInt(100);
+    public String registerCreditCard(int profileID, CreditCard cc) {
+        String ccn = cc.getCCNumber();
+        String last4 = ccn.substring(ccn.length() - 4);
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            StringBuilder sql = new StringBuilder("insert into cc values(");
+            sql.append(profileID + ", ")
+                .append("'" + last4 + "', ")
+                .append("'" + ccn + "', ")
+                .append("'" + String.format("%02d/%02d", 
+                    cc.getExpMonth(), cc.getExpYear() % 100) + "', ")
+                .append("'" + cc.getCode() + "', ")
+                .append(")");
+            System.out.println(sql);
+            stmt.executeUpdate(sql.toString());
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return last4;
     }
 
     //Sets the room to occupied
