@@ -335,7 +335,7 @@ class Forms {
     }
 
     static Reservation displayEditReservationForm(MainMenuController main, Reservation reservation) {
-        Reservation newReservation = reservation;
+        
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -364,7 +364,6 @@ class Forms {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Your Reservation was successfully edited");
                 alert.showAndWait();
-                newReservation = controller.getNewReservation();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                 "Your resservation could not be edited");
@@ -374,6 +373,6 @@ class Forms {
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return newReservation;
+        return reservation;
     }
 }
