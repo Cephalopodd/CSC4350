@@ -359,12 +359,16 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         //Prompt and return if a reservation is not selected.
         if (p == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Please select a guest profile for \n"
-                            + "for the reservation");
+                    "Please select a guest profile to \n"
+                            + "attach to the reservation");
             alert.showAndWait();
             return;
         }
         Forms.displayReserveRoomForm(main, p);
+        Reservation newReservation = Forms.displayCreateReservationForm(main);
+        if (newReservation != null) {
+            tblReservations.getItems().add(newReservation);
+        }
     }
     
     private void handleCancelReservation() {
@@ -443,8 +447,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             return;
         }
         
-        Forms.displayReserveRoomForm(main, r);
-        
+        //Forms.displayReserveRoomForm(main, r);
+        Reservation newReservation = Forms.displayEditReservationForm(main, r);
+        if ( newReservation != null ) {
+            tblReservations.getItems().remove(r);
+            tblReservations.getItems().add(newReservation);
+        }
     }
  
     private void handleSearchProfiles() {
