@@ -142,10 +142,12 @@ public class ReserveRoomFormController implements Initializable {
                     System.out.print("3");
                 
                     SUCCESS = true;
-                    newRoomNumber = room.getNumber();
-                    newReservationNumber = reservation.getConfirmation();
                     newReservation = reservation;
-                    System.out.println("New Res: " + newReservation.getFirstName());
+                    //Dont get update from db..
+                 //   newRoomNumber = room.getNumber();
+                 //   newReservationNumber = reservation.getConfirmation();
+                 //   newReservation = reservation;
+                 //   System.out.println("New Res: " + newReservation.getFirstName());
                 }
                 
             } else {

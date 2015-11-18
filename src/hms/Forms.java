@@ -113,6 +113,7 @@ class Forms {
         return p;
     }
 
+    //Update Reservation
     static boolean displayReserveRoomForm(MainMenuController main, Reservation reservation) {
         boolean success = false;
            try {
@@ -127,6 +128,7 @@ class Forms {
             ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
             controller.setStage(stage);
             controller.setReservation(reservation);
+            controller.setReservationInformation(reservation);
             controller.setEditFlag(true);
             
             //Create Login and MainMenu Scene
@@ -330,7 +332,7 @@ class Forms {
         return newReservation;
     }
 
-    static Reservation displayEditReservationForm(MainMenuController main, Reservation r) {
+    static Reservation displayEditReservationForm(MainMenuController main, Reservation reservation) {
         
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -344,9 +346,9 @@ class Forms {
             
             //Inject information into Form
             controller.setStage(stage);
+            controller.setReservation(reservation);
+            controller.setReservationInformation(reservation);
             controller.setEditFlag(true);
-            controller.setReservation(r);
-            controller.setReservationInformation(r);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
@@ -355,8 +357,8 @@ class Forms {
             stage.showAndWait();
             
             //Check Success
-            if (controller.getResult()) {
-                r = controller.getNewReservation();
+            if (controller.getSuccess()) {
+                reservation = controller.getNewReservation();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Your Reservation was successfully edited");
                 alert.showAndWait();
@@ -369,6 +371,6 @@ class Forms {
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return r;
+        return reservation;
     }
 }
