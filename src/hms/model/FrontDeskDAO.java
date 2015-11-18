@@ -152,7 +152,7 @@ public class FrontDeskDAO {
         return (rowsDeleted > 0);
     }
 
-public boolean updateReservation(Reservation r) {
+    public boolean updateReservation(Reservation r) {
         System.out.println("updating reservation #" + r.getConfirmation());
         int rowsChanged = 0;
         try {
@@ -421,22 +421,10 @@ public boolean updateReservation(Reservation r) {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             stmt = c.createStatement();
-            rs = stmt.executeQuery("select * from reservation r "
+            rs = stmt.executeQuery("select r.id as r_id * from reservation r "
                 + "join guest g on r.g_id = g.id where r.id = " + resNo);
             if (rs.next()) {
-                res = new ReservationBuilder()
-                    .setConfirmation(resNo)
-                    .setProfileID(rs.getInt("g_id"))
-                    .setFirstName(rs.getString("fname"))
-                    .setLastName(rs.getString("lname"))
-                    .setCheckinDate(rs.getString("arr"))
-                    .setCheckoutDate(rs.getString("dep"))
-                    .setRoomType(rs.getString("roomtype"))
-                    .setNumberAdults(rs.getInt("adults"))
-                    .setNumberChildren(rs.getInt("kids"))
-                    .setPhoneNumber(rs.getString("phone"))
-                    .setComments(rs.getString("comments"))
-                    .createReservation();
+                res = parseReservation(rs);
             }
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -498,5 +486,40 @@ public boolean updateReservation(Reservation r) {
             closeAll();
         }
         return result;
+    }
+    
+    public ObservableList<Reservation> getAllCheckedIn(){
+        ObservableList<Reservation> result = FXCollections.observableArrayList();
+                try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select r.id as r_id * from reservation r "
+                + "join guest g on r.g_id = g.id where r.status like 'CHECKEDIN'");
+            if (rs.next()) {
+                result.add(parseReservation(rs));
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return result;
+    }
+    
+    private Reservation parseReservation(ResultSet rs) throws Exception {
+        return new ReservationBuilder()
+            .setConfirmation(rs.getInt("r_id"))
+            .setProfileID(rs.getInt("g_id"))
+            .setFirstName(rs.getString("fname"))
+            .setLastName(rs.getString("lname"))
+            .setCheckinDate(rs.getString("arr"))
+            .setCheckoutDate(rs.getString("dep"))
+            .setRoomType(rs.getString("roomtype"))
+            .setNumberAdults(rs.getInt("adults"))
+            .setNumberChildren(rs.getInt("kids"))
+            .setPhoneNumber(rs.getString("phone"))
+            .setComments(rs.getString("comments"))
+            .createReservation();
     }
 }	
