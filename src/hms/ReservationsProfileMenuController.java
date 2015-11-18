@@ -108,6 +108,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     @FXML
     private TableColumn<Profile, Integer> colLastNameProfile;
     @FXML
+    private TableColumn<Profile, Boolean> colVIP;
+    @FXML
     private TableColumn<Profile, String> colPhoneNumber;
     @FXML
     private TableColumn<Profile, String> colEmail;
@@ -245,6 +247,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
         colMemberID.setCellValueFactory(
                 new PropertyValueFactory<>("MemberID"));
+        colVIP.setCellValueFactory(
+                new PropertyValueFactory<>("VIP"));
         colFirstNameProfile.setCellValueFactory(
                 new PropertyValueFactory<>("FirstName"));
         colLastNameProfile.setCellValueFactory(
