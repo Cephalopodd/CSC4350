@@ -103,7 +103,6 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     public void initialize(URL url, ResourceBundle rb) {
 
         dao = new FrontDeskDAO();
-        dateArrival.setValue(LocalDate.now());
         setupTable();
 
     }
@@ -132,7 +131,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         txtCompanyName.setText("");
         txtPhoneNumber.setText("");
         txtConfirmation.setText("");
-        dateArrival.setValue(LocalDate.now());
+        dateArrival.setValue(null);
         dateDeparture.setValue(null);
     }
 
@@ -200,6 +199,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         colComments.setCellValueFactory(
                 new PropertyValueFactory<>("Comments"));
 
+    
+        //Populate with data
+        dateArrival.setValue(LocalDate.now());
+        handleSearch();
     }
 
     private void handleSearch() {
