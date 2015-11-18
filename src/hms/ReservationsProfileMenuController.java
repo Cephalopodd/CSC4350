@@ -232,9 +232,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         colComments.setCellValueFactory(
                 new PropertyValueFactory<>("Comments"));
     
-        Label msg = new Label("Reservations Search Table");
+        Label msg = new Label("Reservations");
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
+        tblReservations.setPlaceholder(msg);
     }
 
     private void setupProfilesTable() {
@@ -255,9 +256,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         colNotes.setCellValueFactory(
                 new PropertyValueFactory<>("Notes"));
         
-        Label msg = new Label("Profile Search Table");
+        Label msg = new Label("Profiles");
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
+        tblProfiles.setPlaceholder(msg);
     }
 
     private void handleClear() {

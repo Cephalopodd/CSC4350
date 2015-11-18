@@ -28,11 +28,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
@@ -110,6 +112,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
     private void onClickArrivals(ActionEvent event) {
         main.displaySubMenu(MenuType.FRONTDESK);
+        handleClear();
+        dateArrival.setValue(LocalDate.now());
+        handleSearch();
     }
 
     @FXML
@@ -124,15 +129,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickClear(ActionEvent event) {
-        data.clear();
-        txtFirstName.setText("");
-        txtLastName.setText("");
-        txtGroupName.setText("");
-        txtCompanyName.setText("");
-        txtPhoneNumber.setText("");
-        txtConfirmation.setText("");
-        dateArrival.setValue(null);
-        dateDeparture.setValue(null);
+        handleClear();
     }
 
     @FXML
@@ -199,6 +196,11 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         colComments.setCellValueFactory(
                 new PropertyValueFactory<>("Comments"));
 
+        //Set Default Message
+        Label msg = new Label("Reservations");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblFrontDesk.setPlaceholder(msg);
     
         //Populate with data
         dateArrival.setValue(LocalDate.now());
@@ -425,6 +427,18 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
         boolean result = Forms.displayReserveRoomForm(main, reservation);
         System.out.println("Result from handle reservation:" + result);
+    }
+
+    private void handleClear() {
+        data.clear();
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtGroupName.setText("");
+        txtCompanyName.setText("");
+        txtPhoneNumber.setText("");
+        txtConfirmation.setText("");
+        dateArrival.setValue(null);
+        dateDeparture.setValue(null);
     }
 
 }
