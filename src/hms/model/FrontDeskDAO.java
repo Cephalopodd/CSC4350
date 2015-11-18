@@ -452,11 +452,29 @@ public boolean updateReservation(Reservation r) {
     }
 
     //Sets the room to occupied
-    public void setRoomOccupied(int roomNumber) {
-        
+    public boolean setRoomOccupied(int roomNumber) {
+        return setOccupancy(roomNumber, 1);
     }
     //Sets the room unoccupied.
-    public void setRoomUnOccupied(int roomNumber) {
-        
+    public boolean setRoomUnOccupied(int roomNumber) {
+        return setOccupancy(roomNumber, 0);
+    }
+    
+    private boolean setOccupancy(int roomNumber, int occ) {
+        boolean result = false;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            result = (stmt.executeUpdate("update room set occupied = " + occ 
+                        + " where number = " + roomNumber) > 0);
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return result;
     }
 }	
