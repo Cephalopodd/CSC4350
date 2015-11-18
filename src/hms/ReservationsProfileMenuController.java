@@ -440,21 +440,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
 
     private boolean validateProfileFields() {
-        try {
-        /*if (dateArrival.getValue().isBefore(LocalDate.now()))
-        {
-            return false;
-        }
-        else */if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
-        {
-           return false;
-        }
-        else{
-            return true;
-        }
-        } catch (Exception e) {
-            System.out.println("Error form field checking");
-        }
         return true;
     }
     
@@ -477,7 +462,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             ProfileSearchDTO dto = new ProfileSearchDTOBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
-                    .setMemberID(txtEmail.getText())
+                    .setEmail(txtEmail.getText())
+                    .setMemberID(txtMemberID.getText())
                     .setPhoneNumber(txtPhoneNumber.getText())
                     .createProfileSearchDTO();
 
