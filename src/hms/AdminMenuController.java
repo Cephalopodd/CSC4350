@@ -25,10 +25,7 @@ public class AdminMenuController implements Initializable, SubMenu {
     int checkOutToday;
     int checkInToday;
     LocalDate today = LocalDate.now();
-    //User user;
-    //user = new User();
-    
-    //final ObservalbleList<user> userTableData = FXCollections.observableArrayList(new User));
+    User user;
     
     private MainMenuController main;
     @FXML
@@ -106,9 +103,13 @@ public class AdminMenuController implements Initializable, SubMenu {
     }
 
     private void userTableDisplay(){
-        //user = new NewUserDAO();
+        
+        
+        
+        //private final ObservableList<User> tableData = FXCollections.observableArrayList(new User("Fenil"));
+        
         //permissionlevelCol.getColumns().adllAll(tblEmployee, tblManager);       
-        //userListTable.setItems(FXCollections.observableArrayList(user.getUserList()));
+        //userListTable.setItems(FXCollections.arrayList(user.getUserList()));
     }
     
 }
