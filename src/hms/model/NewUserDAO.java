@@ -4,7 +4,6 @@ import java.sql.*;
 
 public class NewUserDAO {
     
-    boolean resAccess, frontAccess, billAccess, roomsAccess, adminAccess;
     Connection c;
     Statement stmt;
     ResultSet rs;
@@ -25,8 +24,10 @@ public class NewUserDAO {
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            stmt.executeUpdate("insert into user values (" + 
-                    username + "," + pw + permissions);
+            String sql = "insert into user values ('" + 
+                    username + "'," + pw + permissions;
+            System.out.println(sql);
+            stmt.executeUpdate(sql);
             c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -38,15 +39,15 @@ public class NewUserDAO {
     
     
     public void createAdministratorUser(String userName, String pw){
-        createUser(userName, pw.hashCode(), ",1,1,1,1,1");
+        createUser(userName, pw.hashCode(), ",1,1,1,1,1,'admin')");
     }
     
     public void createManagerUser(String userName, String pw){
-        createUser(userName, pw.hashCode(), ",1,1,1,1,0");
+        createUser(userName, pw.hashCode(), ",1,1,1,1,0,'res')");
     }
 
     public void createEmployeeUser(String userName, String pw) {
-        createUser(userName, pw.hashCode(), ",1,1,1,1,0");
+        createUser(userName, pw.hashCode(), ",1,1,1,1,0,'res')");
     }
 
     public boolean unTaken(String userName) {
@@ -55,8 +56,8 @@ public class NewUserDAO {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             stmt = c.createStatement();
-            rs = stmt.executeQuery("select login from user where login like " + userName);
-            result = !rs.next();
+            rs = stmt.executeQuery("select login from user where login like '" + userName + "'");
+            result = rs.next();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
@@ -72,7 +73,7 @@ public class NewUserDAO {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             stmt.executeUpdate("update user set pw = " + pw.hashCode() 
-                    + " where login like " + userName);
+                    + " where login like '" + userName + "'");
             c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
