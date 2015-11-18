@@ -143,6 +143,7 @@ public class ReserveRoomFormController implements Initializable {
                 
                     SUCCESS = true;
                     newReservation = reservation;
+                    System.out.println("Editing successful");
                     //Dont get update from db..
                  //   newRoomNumber = room.getNumber();
                  //   newReservationNumber = reservation.getConfirmation();
@@ -166,9 +167,8 @@ public class ReserveRoomFormController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            System.out.print("1");
                 
-            System.out.println("Error creating room");
+            System.out.println("Error in DB creating");
         }
         
         System.out.print("1");

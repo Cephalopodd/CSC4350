@@ -285,7 +285,7 @@ class Forms {
         }
     }
 
-    static Reservation displayCreateReservationForm(MainMenuController main) {
+    static Reservation displayCreateReservationForm(MainMenuController main, Profile p) {
         
         Reservation newReservation = null;
         try {
@@ -300,6 +300,7 @@ class Forms {
             
             //Inject information into Form
             controller.setStage(stage);
+            controller.setProfile(p);
             controller.setEditFlag(false);
 
             //Create Login and MainMenu Scene
@@ -316,6 +317,7 @@ class Forms {
                         + "Room Number: " + controller.getNewRoomNumber()
                 );
                 alert.showAndWait();
+                newReservation = controller.getNewReservation();
             }
             
             // Commented out alert on error
@@ -333,7 +335,7 @@ class Forms {
     }
 
     static Reservation displayEditReservationForm(MainMenuController main, Reservation reservation) {
-        
+        Reservation newReservation = reservation;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -362,6 +364,7 @@ class Forms {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Your Reservation was successfully edited");
                 alert.showAndWait();
+                newReservation = controller.getNewReservation();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                 "Your resservation could not be edited");
@@ -371,6 +374,6 @@ class Forms {
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return reservation;
+        return newReservation;
     }
 }
