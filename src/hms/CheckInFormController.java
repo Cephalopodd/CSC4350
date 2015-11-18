@@ -149,7 +149,7 @@ public class CheckInFormController implements Initializable {
             return false;
         }
         if ( (cardTypeTest(txtCCNumber.getText().toString()) ).equals("invalid card") ){
-            validatorMessage.setText("Please enter correct credit card number");            
+            validatorMessage.setText("Unsupported credit card type, please use Visa/Master/Discover/Amex");            
             return false;
         }else {
             return true;
