@@ -364,10 +364,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             alert.showAndWait();
             return;
         }
-        Forms.displayReserveRoomForm(main, p);
-        Reservation newReservation = Forms.displayCreateReservationForm(main);
+        //Forms.displayReserveRoomForm(main, p);
+        Reservation newReservation = Forms.displayCreateReservationForm(main, p);
         if (newReservation != null) {
             tblReservations.getItems().add(newReservation);
+        } else {
+            System.out.println("It was null");
         }
     }
     
@@ -448,10 +450,15 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
         
         //Forms.displayReserveRoomForm(main, r);
+        //Forms.displayReserveRoomForm(main, r);
+        
         Reservation newReservation = Forms.displayEditReservationForm(main, r);
         if ( newReservation != null ) {
+            System.out.println("Not null, replacing in table");
             tblReservations.getItems().remove(r);
             tblReservations.getItems().add(newReservation);
+        } else {
+            System.out.println("Null. not changing table");
         }
     }
  

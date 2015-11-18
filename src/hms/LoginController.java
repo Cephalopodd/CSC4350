@@ -2,6 +2,7 @@ package hms;
 
 import hms.model.User;
 import hms.model.LoginDAO;
+import hms.model.NewUserDAO;
 import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,6 +24,7 @@ public class LoginController implements Initializable {
     HMS HMSapp;
     LoginDAO dao;
     User user;
+    NewUserDAO userCheck;
     
     //Button used in the login form GUI.
     //Located in the Login.fxml
@@ -69,37 +71,9 @@ public class LoginController implements Initializable {
         //Authenticate User
         user = dao.authenticateUser(unTxtField.getText(), pwdTxtField.getText().hashCode());
         
-        //Process Login
-        if (user == null){
-            processLoginError();
-        } else{    
+        if(isValid() == true){
             processLogin(user);
         }
-    }
-    
-    private void processLoginError() {
-        //Clear Login and Password and set Cusor back in Login field
-        unTxtField.setText("");
-        pwdTxtField.setText("");
-        unTxtField.requestFocus();
- 
-        //Set Error Message
-        lblLoginError.setText("Incorrect Login name or Password");
-        
-        //Commented out the fading. Do not need it.
-        /*/Fade the error message in and back out
-        FadeTransition ft0 = new FadeTransition(Duration.millis(250), lblLoginError);
-        FadeTransition ft1 = new FadeTransition(Duration.millis(3000), lblLoginError);
-        FadeTransition ft2 = new FadeTransition(Duration.millis(250), lblLoginError);
-        ft0.setFromValue(0.0);
-        ft0.setToValue(1.0);
-        ft1.setFromValue(1.0);
-        ft1.setToValue(1.0);
-        ft2.setFromValue(1.0);
-        ft2.setToValue(0.0);
-        SequentialTransition st = new SequentialTransition(ft0,ft1,ft2);
-        st.play();*/
-        
     }
     
     //Process login method. Gets the username and password enterned in to the text fields.
@@ -113,5 +87,43 @@ public class LoginController implements Initializable {
         //This way the message reset after login.
         lblLoginError.setText(" ");
     }
+    
+    private boolean isValid(){
+        
+        userCheck = new NewUserDAO();
+        dao = new LoginDAO();
+        
+        boolean unFieldBlank = unTxtField.getText().isEmpty();
+        boolean pwdFieldBlank = pwdTxtField.getText().isEmpty();
+        boolean passedValidation = true;
+        
+        //If field are blank, prompts user to enter in.
+        if(unFieldBlank && pwdFieldBlank){
+            unLabel.setText("Please enter in an username.");
+            pwdLabel.setText("Please enter in a password.");
+            passedValidation = false;
+        }
+        if(!unFieldBlank){
+        if(!userCheck.unTaken(unTxtField.getText())){
+            unLabel.setText("Username does not exist! Contact Admin!");
+            pwdLabel.setText("Account does not exist! Contact Admin!");
+            unTxtField.setText("");
+            pwdTxtField.setText("");
+            passedValidation = false;
+        }else{
+            unLabel.setText("");
+            pwdLabel.setText("");
+        }}
+        
+        if(!dao.matchPassword(unTxtField.getText(), pwdTxtField.getText().hashCode())){
+            pwdLabel.setText("Invalid password, please try again!");
+            passedValidation = false;
+        }
+        
+        
+        return passedValidation;
+    }
+    
+    
     
 }

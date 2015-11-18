@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
+import java.util.Random;
 
 /**
  *
@@ -443,5 +444,19 @@ public boolean updateReservation(Reservation r) {
             closeAll();
         }
         return res;
+    }
+
+    public int registerCreditCard(int profileID, CreditCard cc) {
+        Random rand = new Random();
+        return rand.nextInt(100);
+    }
+
+    //Sets the room to occupied
+    public void setRoomOccupied(int roomNumber) {
+        
+    }
+    //Sets the room unoccupied.
+    public void setRoomUnOccupied(int roomNumber) {
+        
     }
 }	

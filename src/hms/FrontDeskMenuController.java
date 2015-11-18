@@ -201,7 +201,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
         tblFrontDesk.setPlaceholder(msg);
-    
+
         //Populate with data
         dateArrival.setValue(LocalDate.now());
         handleSearch();
@@ -209,9 +209,15 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     private void handleSearch() {
 
-        if (!validateFields()) {
-            System.out.println("error validatiting fields");
-            return;
+        //Commented out. Adding phone check.
+        /*if (!validateFields()) {
+         System.out.println("error validatiting fields");
+         return;
+         }*/
+        if (validatePhoneNumber(txtPhoneNumber.getText())) {
+            markValid(txtPhoneNumber);
+        } else {
+            markInvalid(txtPhoneNumber);
         }
 
         ObservableList<Reservation> result;
@@ -308,7 +314,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     }
 
-    private void handleCheckIn() {
+    private void handleCheckInOriginal() {
         try {
             Alert alert;
             Optional<ButtonType> response;
@@ -343,29 +349,28 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             }
 
             //Get Credit Card information from DB
-            CreditCard cc = dao.getCreditCard(r.getConfirmation());
-
+            //CreditCard cc = dao.getCreditCard(r.getConfirmation());
             //Send Information to Rooms Form
             boolean result = false;
             try {
-                result = Forms.displayCheckInForm(main, r.getRoomNumber(), cc, dao, r);
+                //result = Forms.displayOriginalCheckInForm(main, r.getRoomNumber(), cc, dao, r);
                 if (result) {
                     dao.updateReservation(r);
                     r.setStatus(ReservationStatus.CHECKEDIN);
                 }
             } catch (Exception e) {
-                 System.out.println("Error updating reservation"); 
-                 result = false;
+                System.out.println("Error updating reservation");
+                result = false;
             }
-            
+
             if (result) {
-                String msg = "Guest was successfully Checked in.\n\n" +
-                        "Name: " + r.getFirstName() + " " + r.getLastName() + "\n" +
-                        "Room: " + r.getRoomNumber() + "   " + "RoomType: " + r.getRoomType() + "\n" +
-                        "Arrival Date: " + r.getCheckinDate() + "\n" +
-                        "Departure Date: " + r.getCheckoutDate() + "\n\n" +
-                        "Enjoy your stay!";
-                                
+                String msg = "Guest was successfully Checked in.\n\n"
+                        + "Name: " + r.getFirstName() + " " + r.getLastName() + "\n"
+                        + "Room: " + r.getRoomNumber() + "   " + "RoomType: " + r.getRoomType() + "\n"
+                        + "Arrival Date: " + r.getCheckinDate() + "\n"
+                        + "Departure Date: " + r.getCheckoutDate() + "\n\n"
+                        + "Enjoy your stay!";
+
                 alert = new Alert(Alert.AlertType.INFORMATION, msg);
             } else {
                 alert = new Alert(Alert.AlertType.ERROR,
@@ -403,15 +408,15 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Could not get Profile from db");
         }
-        
-        if (profile!=null){
+
+        if (profile != null) {
             profile = Forms.displayEditProfileForm(main, profile);
         }
-        
-        if (profile != null ) {
+
+        if (profile != null) {
             alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Profile for " + profile.getFirstName() + 
-                            profile.getLastName() + "edited Successfully.");
+                    "Profile for " + profile.getFirstName()
+                    + profile.getLastName() + "edited Successfully.");
             alert.showAndWait();
         } else {
             alert = new Alert(Alert.AlertType.ERROR,
@@ -422,16 +427,28 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private void handleEditReservation() {
-        Reservation reservation = tblFrontDesk.getSelectionModel().getSelectedItem();
-        if ( reservation == null ) {
+
+        //Get Selected Reservation
+        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+
+        //Prompt and return if a reservation is not selected.
+        if (r == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
-            "Please select a reservation");
+                    "Reservation not Selected");
             alert.showAndWait();
             return;
         }
-        boolean result = Forms.displayReserveRoomForm(main, reservation);
-        
-        System.out.println("Result from handle reservation:" + result);
+
+        //Forms.displayReserveRoomForm(main, r);
+        Reservation newReservation = Forms.displayEditReservationForm(main, r);
+        if (newReservation != null) {
+            System.out.println("Not null, replacing in table");
+            tblFrontDesk.getItems().add(newReservation);
+            tblFrontDesk.getItems().remove(r);
+        } else {
+            System.out.println("Null. not changing table");
+        }
+
     }
 
     private void handleClear() {
@@ -448,36 +465,107 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     private boolean validateReservationFields() {
         boolean valid = true;
-        
+
         try {
-        //Mark All Valid
-        markValid(txtFirstName);
-        markValid(txtLastName);
-        markValid(txtConfirmation);
-        
-        
+            //Mark All Valid
+            markValid(txtFirstName);
+            markValid(txtLastName);
+            markValid(txtConfirmation);
+
         //Check First Name
-        
         //Check Last Name
-        
         //Check Confirm Number
-        
-        //Check From Data < To Date
-        } catch (Exception e){
+            //Check From Data < To Date
+        } catch (Exception e) {
             System.out.println("Error Validating Fields");
         }
-        
-       return valid;
+
+        return valid;
     }
 
-    private void markInvalid(TextField t){
+    private void markInvalid(TextField t) {
         t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        
+
     }
-    
+
     private void markValid(TextField t) {
         t.setStyle("");
-      
+
+    }
+
+    private boolean validatePhoneNumber(String phoneNo) {
+        //returns true if there is no phone number in the field.
+        if (phoneNo.matches("")) {
+            return true;
+        }
+        //validate phone numbers of format "1234567890"
+        if (phoneNo.matches("\\d{10}")) {
+            return true;
+        } //validating phone number with -, . or spaces
+        else if (phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) {
+            return true;
+        } //validating phone number with extension length from 3 to 5
+        else if (phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) {
+            return true;
+        } //validating phone number where area code is in braces ()
+        else if (phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
+            return true;
+        } //return false if nothing matches the input
+        else {
+            return false;
+        }
+
+    }
+
+    private void handleCheckIn() {
+        Alert alert;
+        Optional<ButtonType> response;
+
+        //Get Selected Reservation
+        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+
+        //If reservation is null, display message and return
+        if (r == null) {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Reservation not Selected");
+            alert.showAndWait();
+            return;
+        }
+
+        //Check to make sure that the status is pending
+        if (!r.getStatus().equals(ReservationStatus.PENDING)) {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Only reservations that are PENDING \n"
+                    + "can be CheckedIn");
+            alert.showAndWait();
+            return;
+        }
+
+        //Check to make sure that the checkIn Date is today
+        if (!r.getCheckinDate().equals(LocalDate.now().toString())) {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Only reservations with today's arrival \n"
+                    + "date can be CheckedIn");
+            alert.showAndWait();
+            return;
+        }
+
+        boolean result = Forms.displayCheckInForm(main, r);
+
+        if (result) {
+            String msg = "Guest was successfully Checked in.\n\n"
+                    + "Name: " + r.getFirstName() + " " + r.getLastName() + "\n"
+                    + "Room: " + r.getRoomNumber() + "   " + "RoomType: " + r.getRoomType() + "\n"
+                    + "Arrival Date: " + r.getCheckinDate() + "\n"
+                    + "Departure Date: " + r.getCheckoutDate() + "\n\n"
+                    + "Enjoy your stay!";
+
+            alert = new Alert(Alert.AlertType.INFORMATION, msg);
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR,
+                    "Guest could not be checked in at this time");
+        }
+        alert.showAndWait();
     }
 
 }

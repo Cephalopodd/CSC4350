@@ -7,6 +7,10 @@ package hms;
 
 import hms.model.CreditCardType;
 import hms.model.CreditCard;
+import hms.model.FrontDeskDAO;
+import hms.model.Reservation;
+import hms.model.ReservationStatus;
+import hms.model.RoomStatus;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -30,7 +34,8 @@ public class CheckInFormController implements Initializable {
     
     @FXML
     private GridPane checkInFormPane;
-
+    @FXML
+    private Label lblLastName;
     @FXML
     private TextField txtCCNumber;
     @FXML
@@ -58,16 +63,22 @@ public class CheckInFormController implements Initializable {
     private ObservableList<String> ccTypes;
     
     private Stage stage;
-    private boolean accepted;
+    private boolean result;
     private CreditCard cc;
     private int roomNumber;
+    private Reservation reservation;
+    private FrontDeskDAO dao;
+    
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        accepted = false;
+        
+        dao = new FrontDeskDAO();
+        
+        result = false;
         months = FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9,10,11,12);
         years = FXCollections.observableArrayList(2015,2016,2017,2018,2019,
                 2020,2021,2022,2023,2024,2025);
@@ -83,20 +94,43 @@ public class CheckInFormController implements Initializable {
 
     @FXML
     private void onClickOK(ActionEvent event) {
-        //if invalid entry detected, print error message
-        if (!validateFields() ) {
-            System.out.println("error validating fields");
-            return;
+        
+        //if invalid entry detected, print error message and exit
+//        if (!validateFields()){
+//            System.out.println("Error Validating CC");
+//            return;
+//        }
+        
+        //Write Results to database
+        try {
+        
+        //CHECKIN
+        
+        //Register CC to Guest
+        int creditCardID = dao.registerCreditCard(reservation.getProfileID(), cc);
+        
+        //Update Reservation with CC number and status
+        reservation.setCreditCardID(creditCardID);
+        reservation.setStatus(ReservationStatus.CHECKEDIN);
+        dao.updateReservation(reservation);
+        
+        //Update room to occupied
+        dao.setRoomOccupied(reservation.getRoomNumber());
+        
+        //set the result flag
+        result = true;
+        
+        } catch (Exception e){
+            System.out.println("Could not record CC info");
         }
-        else {
-            accepted = true;
-            stage.close();
-        }
+        
+        stage.close();
+        
     }
 
     @FXML
     private void onClickCancel(ActionEvent event) {
-        accepted = false;
+        result = false;
         stage.close();
     }
   
@@ -104,6 +138,7 @@ public class CheckInFormController implements Initializable {
         this.stage = stage;
     }
     
+    //Not Used
     void setCC(CreditCard cc) {
         this.cc = cc;
         if (cc == null)
@@ -117,6 +152,7 @@ public class CheckInFormController implements Initializable {
         cbxYear.setValue(cc.getExpYear());
     }
     
+    //Creates Credit Card from Form
     CreditCard getCC() {
         return new CreditCard(
                 txtNameOnCC.getText(),
@@ -128,28 +164,31 @@ public class CheckInFormController implements Initializable {
         );
     }
     
-    void setRoomNumber(int roomNumber){
-        this.roomNumber = roomNumber;
-        lblRoomNumber.setText(roomNumber+"");
+    //Sets Initial Reservation Information
+    void setReservationInformation(Reservation reservation) {
+        this.reservation = reservation;
+        lblRoomNumber.setText(reservation.getRoomNumber()+"");
+        lblLastName.setText(reservation.getLastName());
     }
     
     boolean getResult() {
-        return accepted;
+        return result;
     }
     
     //validate all entry
     private boolean validateFields() {
+        
         if (txtNameOnCC.getText().isEmpty() || txtCCNumber.getText().isEmpty() || txtCCID.getText().isEmpty() || cbxCCType.getValue().isEmpty() || 
                 cbxMonth.getValue().toString().isEmpty() || cbxYear.getValue().toString().isEmpty() ){
             validatorMessage.setText("Please enter credit card number");
             return false;
         }
         if (luhnTest(txtCCNumber.getText().toString() ) ){
-            validatorMessage.setText("Please enter correct credit card number");            
+            validatorMessage.setText("Please enter valid card number");            
             return false;
         }
         if ( (cardTypeTest(txtCCNumber.getText().toString()) ).equals("invalid card") ){
-            validatorMessage.setText("Unsupported credit card type, please use Visa/Master/Discover/Amex");            
+            validatorMessage.setText("Unsupported credit card type");            
             return false;
         }else {
             return true;
@@ -179,6 +218,7 @@ public class CheckInFormController implements Initializable {
             //System.out.println(digit);
         }
         //if mod 10 is zero, card number is valid
+        System.out.println("Failed LuhnTest");
         return (s1 + s2) % 10 == 0;
     }
     

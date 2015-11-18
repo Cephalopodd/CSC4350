@@ -27,7 +27,7 @@ import javafx.stage.StageStyle;
 class Forms {
     
 
-    static boolean displayCheckInForm(MainMenuController main, int roomNum, CreditCard cc, FrontDeskDAO dao, Reservation r) {
+    static boolean displayOriginalCheckInForm(MainMenuController main, int roomNum, CreditCard cc, FrontDeskDAO dao, Reservation r) {
         boolean result = false;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -43,7 +43,7 @@ class Forms {
             
             checkInFormController.setStage(stage);
             checkInFormController.setCC(cc);
-            checkInFormController.setRoomNumber(roomNum);
+           // checkInFormController.setRoomNumber(roomNum);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(checkInFormView);
@@ -113,6 +113,7 @@ class Forms {
         return p;
     }
 
+    //Update Reservation
     static boolean displayReserveRoomForm(MainMenuController main, Reservation reservation) {
         boolean success = false;
            try {
@@ -127,6 +128,7 @@ class Forms {
             ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
             controller.setStage(stage);
             controller.setReservation(reservation);
+            controller.setReservationInformation(reservation);
             controller.setEditFlag(true);
             
             //Create Login and MainMenu Scene
@@ -283,7 +285,7 @@ class Forms {
         }
     }
 
-    static Reservation displayCreateReservationForm(MainMenuController main) {
+    static Reservation displayCreateReservationForm(MainMenuController main, Profile p) {
         
         Reservation newReservation = null;
         try {
@@ -298,6 +300,7 @@ class Forms {
             
             //Inject information into Form
             controller.setStage(stage);
+            controller.setProfile(p);
             controller.setEditFlag(false);
 
             //Create Login and MainMenu Scene
@@ -314,6 +317,7 @@ class Forms {
                         + "Room Number: " + controller.getNewRoomNumber()
                 );
                 alert.showAndWait();
+                newReservation = controller.getNewReservation();
             }
             
             // Commented out alert on error
@@ -330,7 +334,7 @@ class Forms {
         return newReservation;
     }
 
-    static Reservation displayEditReservationForm(MainMenuController main, Reservation r) {
+    static Reservation displayEditReservationForm(MainMenuController main, Reservation reservation) {
         
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -344,9 +348,9 @@ class Forms {
             
             //Inject information into Form
             controller.setStage(stage);
+            controller.setReservation(reservation);
+            controller.setReservationInformation(reservation);
             controller.setEditFlag(true);
-            controller.setReservation(r);
-            controller.setReservationInformation(r);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(parent);
@@ -355,8 +359,8 @@ class Forms {
             stage.showAndWait();
             
             //Check Success
-            if (controller.getResult()) {
-                r = controller.getNewReservation();
+            if (controller.getSuccess()) {
+                reservation = controller.getNewReservation();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Your Reservation was successfully edited");
                 alert.showAndWait();
@@ -369,6 +373,40 @@ class Forms {
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return r;
+        return reservation;
+    }
+
+    static boolean displayCheckInForm(MainMenuController main, Reservation reservation) {
+        
+        //boolean to see if CC verify was a success
+        boolean result = false;
+        
+        try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Load Form and get the controller
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("CheckInForm.fxml"));
+            Parent parent = (Parent) loader.load();
+            CheckInFormController controller = ((CheckInFormController) loader.getController());
+            
+            //Inject information into Form
+            controller.setStage(stage);
+            controller.setReservationInformation(reservation);
+
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.showAndWait();
+            
+            result = controller.getResult();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
     }
 }
