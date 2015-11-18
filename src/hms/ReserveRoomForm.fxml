@@ -50,7 +50,7 @@
                      </content>
                   </ScrollPane>
                   <DatePicker fx:id="dateDeparture" layoutX="182.0" layoutY="103.0" onAction="#deptDateClicked" prefHeight="26.0" prefWidth="141.0" />
-                  <CheckBox fx:id="chkAccessible" layoutX="197.0" layoutY="148.0" mnemonicParsing="false" text="Accessible" />
+                  <CheckBox fx:id="chkAccessible" layoutX="197.0" layoutY="148.0" mnemonicParsing="false" text="Accessible" visible="false" />
                   <Button fx:id="btnFindRooms" defaultButton="true" layoutX="471.0" layoutY="72.0" mnemonicParsing="false" onAction="#onClickFindRooms" prefHeight="26.0" prefWidth="100.0" text="Find Rooms&#10;&#10;&#10;" textAlignment="CENTER" />
                   <ChoiceBox fx:id="cbxRoomType" layoutX="59.0" layoutY="144.0" prefHeight="26.0" prefWidth="100.0" />
                   <Label layoutX="18.0" layoutY="148.0" text="Type">
@@ -86,7 +86,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="txtNotes" layoutX="182.0" layoutY="181.0" prefHeight="108.0" prefWidth="141.0" promptText="Notes" />
+                  <TextArea fx:id="txtNotes" layoutX="182.0" layoutY="145.0" prefHeight="146.0" prefWidth="141.0" promptText="Notes" />
                </children>
             </AnchorPane>
          </children>
