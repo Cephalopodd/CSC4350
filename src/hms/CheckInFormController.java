@@ -96,10 +96,10 @@ public class CheckInFormController implements Initializable {
     private void onClickOK(ActionEvent event) {
         
         //if invalid entry detected, print error message and exit
-        if (!validateFields()){
-            System.out.println("Error Validating CC");
-            return;
-        }
+//        if (!validateFields()){
+//            System.out.println("Error Validating CC");
+//            return;
+//        }
         
         //Write Results to database
         try {
@@ -177,17 +177,18 @@ public class CheckInFormController implements Initializable {
     
     //validate all entry
     private boolean validateFields() {
+        
         if (txtNameOnCC.getText().isEmpty() || txtCCNumber.getText().isEmpty() || txtCCID.getText().isEmpty() || cbxCCType.getValue().isEmpty() || 
                 cbxMonth.getValue().toString().isEmpty() || cbxYear.getValue().toString().isEmpty() ){
             validatorMessage.setText("Please enter credit card number");
             return false;
         }
         if (luhnTest(txtCCNumber.getText().toString() ) ){
-            validatorMessage.setText("Please enter correct credit card number");            
+            validatorMessage.setText("Please enter valid card number");            
             return false;
         }
         if ( (cardTypeTest(txtCCNumber.getText().toString()) ).equals("invalid card") ){
-            validatorMessage.setText("Unsupported credit card type, please use Visa/Master/Discover/Amex");            
+            validatorMessage.setText("Unsupported credit card type");            
             return false;
         }else {
             return true;
@@ -217,6 +218,7 @@ public class CheckInFormController implements Initializable {
             //System.out.println(digit);
         }
         //if mod 10 is zero, card number is valid
+        System.out.println("Failed LuhnTest");
         return (s1 + s2) % 10 == 0;
     }
     
