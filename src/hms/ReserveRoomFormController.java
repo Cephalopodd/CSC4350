@@ -366,7 +366,7 @@ public class ReserveRoomFormController implements Initializable {
 					
 					super.updateItem(item, empty);
 				   
-					if(item.isBefore(LocalDate.now().plusDays(1))){
+					if(item.isBefore(dateArrival.getValue().plusDays(1))){
 							setDisable(true);
 							setStyle("-fx-background-color: #ffc0cb;");
 					}   
