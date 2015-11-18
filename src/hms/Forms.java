@@ -27,7 +27,7 @@ import javafx.stage.StageStyle;
 class Forms {
     
 
-    static boolean displayCheckInForm(MainMenuController main, int roomNum, CreditCard cc, FrontDeskDAO dao, Reservation r) {
+    static boolean displayOriginalCheckInForm(MainMenuController main, int roomNum, CreditCard cc, FrontDeskDAO dao, Reservation r) {
         boolean result = false;
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -43,7 +43,7 @@ class Forms {
             
             checkInFormController.setStage(stage);
             checkInFormController.setCC(cc);
-            checkInFormController.setRoomNumber(roomNum);
+           // checkInFormController.setRoomNumber(roomNum);
             
             //Create Login and MainMenu Scene
             Scene scene = new Scene(checkInFormView);
@@ -374,5 +374,39 @@ class Forms {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
         return reservation;
+    }
+
+    static boolean displayCheckInForm(MainMenuController main, Reservation reservation) {
+        
+        //boolean to see if CC verify was a success
+        boolean result = false;
+        
+        try {
+            Stage stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(HMS.stage);
+            
+            //Load Form and get the controller
+            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("CheckInForm.fxml"));
+            Parent parent = (Parent) loader.load();
+            CheckInFormController controller = ((CheckInFormController) loader.getController());
+            
+            //Inject information into Form
+            controller.setStage(stage);
+            controller.setReservationInformation(reservation);
+
+            //Create Login and MainMenu Scene
+            Scene scene = new Scene(parent);
+            
+            stage.setScene(scene);
+            stage.showAndWait();
+            
+            result = controller.getResult();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
     }
 }
