@@ -1,0 +1,9 @@
+.button{
+    -fx-background-color: #ff4e50; 
+    -fx-font-size: 16px; 
+    -fx-text-fill: white;
+}
+.button:hove{
+    -fx-border-color: #00FF00;
+    -fx-border-radius: 10;
+}

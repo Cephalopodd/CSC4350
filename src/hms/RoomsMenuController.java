@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import java.util.HashMap;
 import java.util.ArrayList;
+import javafx.event.EventHandler;
 
 public class RoomsMenuController implements Initializable,SubMenu {
     
@@ -91,6 +92,7 @@ public class RoomsMenuController implements Initializable,SubMenu {
             roomBtn.get(i).setStyle("-fx-font-size: 16px; -fx-text-fill: BLACK;");
             if(occ.contains(i)){
                 roomBtn.get(i).setStyle("-fx-background-color: #ff4e50; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+                //roomBtn.get(i).getStylesheets().add(getClass().getClassLoader().getResource("resource/styling/button.css").toExternalForm());
             }else if(active.contains(i)){
                 roomBtn.get(i).setStyle("-fx-background-color: #84aa05; -fx-font-size: 16px; -fx-text-fill: WHITE;");
             }else if(maint.contains(i)){
@@ -98,6 +100,7 @@ public class RoomsMenuController implements Initializable,SubMenu {
             }else if(hk.contains(i)){
                 roomBtn.get(i).setStyle("-fx-background-color: #49708a; -fx-font-size: 16px; -fx-text-fill: WHITE;");
             }
+            
             tilePane.getChildren().add(roomBtn.get(i));
         }
     }
