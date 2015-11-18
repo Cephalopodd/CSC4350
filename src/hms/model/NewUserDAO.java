@@ -1,6 +1,7 @@
 package hms.model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class NewUserDAO {
     
@@ -80,5 +81,23 @@ public class NewUserDAO {
         } finally {
             closeAll();
         }
+    }
+    
+    public ArrayList<String> getUserList() {
+        ArrayList userList = new ArrayList();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery("select login from user ");
+            while (rs.next()) {
+                userList.add(rs.getString("login"));
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return userList;
     }
 }
