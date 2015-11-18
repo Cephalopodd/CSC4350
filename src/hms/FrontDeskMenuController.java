@@ -342,13 +342,27 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             CreditCard cc = dao.getCreditCard(r.getConfirmation());
 
             //Send Information to Rooms Form
-            boolean result = Forms.displayCheckInForm(main, r.getRoomNumber(), cc, dao, r);
-
+            boolean result = false;
+            try {
+                result = Forms.displayCheckInForm(main, r.getRoomNumber(), cc, dao, r);
+                if (result) {
+                    dao.updateReservation(r);
+                    r.setStatus(ReservationStatus.CHECKEDIN);
+                }
+            } catch (Exception e) {
+                 System.out.println("Error updating reservation"); 
+                 result = false;
+            }
+            
             if (result) {
-                r.setStatus(ReservationStatus.CHECKEDIN);
-                dao.updateReservation(r);
-                alert = new Alert(Alert.AlertType.INFORMATION,
-                        "Guest was successfully checked in");
+                String msg = "Guest was successfully Checked in.\n\n" +
+                        "Name: " + r.getFirstName() + " " + r.getLastName() + "\n" +
+                        "Room: " + r.getRoomNumber() + "   " + "RoomType: " + r.getRoomType() + "\n" +
+                        "Arrival Date: " + r.getCheckinDate() + "\n" +
+                        "Departure Date: " + r.getCheckoutDate() + "\n\n" +
+                        "Enjoy your stay!";
+                                
+                alert = new Alert(Alert.AlertType.INFORMATION, msg);
             } else {
                 alert = new Alert(Alert.AlertType.ERROR,
                         "Guest could not be checked in at this time");
