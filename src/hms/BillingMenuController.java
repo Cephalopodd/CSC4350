@@ -5,11 +5,13 @@
  */
 package hms;
 
+import static hms.HMS.stage;
 import hms.model.BillingMenuDAO;
 import hms.model.FolioCharge;
 import hms.model.MenuType;
 import hms.model.Reservation;
 import hms.model.User;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -17,7 +19,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -68,7 +73,15 @@ public class BillingMenuController implements Initializable, SubMenu {
     }
 
     @FXML
-    private void onClickMakePayment(ActionEvent event) {
+    private void onClickMakePayment(ActionEvent event) throws IOException {   
+        //create a new scene with root and set the stage
+        Parent root;
+        root = FXMLLoader.load(getClass().getResource("CheckInForm.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    
+     
     }
    
     public void getCharges() {
