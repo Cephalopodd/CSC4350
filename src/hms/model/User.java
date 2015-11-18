@@ -39,6 +39,10 @@ public class User {
             this.defaultMenu = MenuType.NONE;
         }
     }
+    
+    public User(String userName){
+        this.userName = userName;
+    }
 
     private boolean verifyMenuAccess(MenuType defaultMenu) {
         switch (defaultMenu) {
