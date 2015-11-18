@@ -27,12 +27,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 
 /**
  * FXML Controller class
@@ -74,6 +76,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     @FXML
     private TableView<Reservation> tblReservations;
     @FXML
+    private TableColumn<Reservation, Integer> colConfirmation;
+    @FXML
     private TableColumn<Reservation, String> colFirstName;
     @FXML
     private TableColumn<Reservation, String> colLastName;
@@ -99,8 +103,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     private TableView<Profile> tblProfiles;
     @FXML
     private TableColumn<Profile, Integer> colMemberID;
-    @FXML
-    private TableColumn<Profile, String> colTitle;
     @FXML
     private TableColumn<Profile, String> colFirstNameProfile;
     @FXML
@@ -192,9 +194,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearchProfiles();
     }
 
-    
-    
-    
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
@@ -210,6 +209,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         reservations = FXCollections.observableArrayList();
         tblReservations.setItems(reservations);
 
+        colConfirmation.setCellValueFactory(
+                new PropertyValueFactory<>("Confirmation"));
         colFirstName.setCellValueFactory(
                 new PropertyValueFactory<>("FirstName"));
         colLastName.setCellValueFactory(
@@ -232,6 +233,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("Status"));
         colComments.setCellValueFactory(
                 new PropertyValueFactory<>("Comments"));
+    
+        Label msg = new Label("Reservations");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblReservations.setPlaceholder(msg);
     }
 
     private void setupProfilesTable() {
@@ -241,32 +247,38 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
         colMemberID.setCellValueFactory(
                 new PropertyValueFactory<>("MemberID"));
-        colTitle.setCellValueFactory(
-                new PropertyValueFactory<>("Title"));
+        colVIP.setCellValueFactory(
+                new PropertyValueFactory<>("VIP"));
         colFirstNameProfile.setCellValueFactory(
                 new PropertyValueFactory<>("FirstName"));
         colLastNameProfile.setCellValueFactory(
                 new PropertyValueFactory<>("LastName"));
-        colVIP.setCellValueFactory(
-                new PropertyValueFactory<>("VIP"));
         colEmail.setCellValueFactory(
                 new PropertyValueFactory<>("Email"));
         colPhoneNumber.setCellValueFactory(
                 new PropertyValueFactory<>("PhoneNumber"));
         colNotes.setCellValueFactory(
                 new PropertyValueFactory<>("Notes"));
+        
+        Label msg = new Label("Profiles");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblProfiles.setPlaceholder(msg);
     }
 
-    
-    
-
-
     private void handleClear() {
+        
+        handleClearReservations();
+        handleClearProfiles();
 
+    }
+    
+    private void handleClearReservations() {
+        
         //Clear Garbage Text from Date Field
         dateArrival.setValue(LocalDate.now());
         dateArrival.setValue(LocalDate.now());
-
+        
         //Clear Reservations
         reservations.clear();
         txtFirstName.setText("");
@@ -277,7 +289,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtConfirmation.setText("");
         dateArrival.setValue(null);
         dateDeparture.setValue(null);
-
+    }
+    
+    private void handleClearProfiles() {
         //Clear Profiles
         profiles.clear();
         txtEmail.clear();
@@ -285,19 +299,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtMemberID.clear();
     }
     
-
-    private boolean validateReservationFields() {
-        //Set lblErrorMsg
-        return true;
-    }
-
     private void handleSearchReservations() {
+        
+        if (!validateReservationFields()){
+            System.out.println("error validatiting fields");
+            return;
+        }
 
         try {
-            if (!validateReservationFields()) {
-                System.out.println("error validatiting fields");
-                return;
-            }
 
             ObservableList<Reservation> result;
 
@@ -437,12 +446,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         Forms.displayReserveRoomForm(main, r);
         
     }
-
-
-    private boolean validateProfileFields() {
-        return true;
-    }
-    
+ 
     private void handleSearchProfiles() {
 
         try {
@@ -510,6 +514,46 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             tblProfiles.getItems().remove(p);
             tblProfiles.getItems().add(newProfile);
         }
+    }
+
+    private boolean validateReservationFields() {
+        boolean valid = true;
+        
+        //Check From Data < To Date
+        
+        //Check First Name
+        
+        //Check Last Name
+        
+        //Check Confirm Number
+        
+       return valid;
+    }
+
+    private boolean validateProfileFields() {
+        boolean valid = true;
+        
+        //Check email
+        
+        //Check PhoneNumber
+        
+        //Check MemberID
+        
+        //Check FirstName
+        
+        //Check LastName
+        
+        return valid;
+    }
+    
+    private void markInvalid(TextField t){
+        t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        
+    }
+    
+    private void markValid(TextField t) {
+        t.setStyle("");
+      
     }
 
 }

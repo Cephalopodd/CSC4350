@@ -95,6 +95,7 @@ public class ReserveRoomFormController implements Initializable {
     private String searchedDeparture;
     private int newReservationNumber = 0;
     private int newRoomNumber = 0;
+    private Reservation newReservation;
 
     /**
      * Initializes the controller class.
@@ -123,6 +124,7 @@ public class ReserveRoomFormController implements Initializable {
 
         try {
             if (EDIT) {
+                System.out.print("1");
                 //Update Reservation
                 reservation.setCheckinDate(dateArrival.getValue().toString());
                 reservation.setCheckoutDate(dateDeparture.getValue().toString());
@@ -132,26 +134,41 @@ public class ReserveRoomFormController implements Initializable {
                 reservation.setRoomType(cbxRoomType.getValue());
                 reservation.setComments(txtNotes.getText());
 
+                System.out.print("2");
+                
                 //Send to DB
                 boolean result = dao.updateReservation(reservation);
                 if (result){
+                    System.out.print("3");
+                
                     SUCCESS = true;
                     newRoomNumber = room.getNumber();
                     newReservationNumber = reservation.getConfirmation();
+                    newReservation = reservation;
                 }
                 
             } else {
+                System.out.print("4");
+                
                 int resNo = dao.createReservation(profile, room, searchedArrival, searchedDeparture);
                 if (resNo > 0) {
+                    System.out.print("5");
+                    System.out.print("The system returned: " + resNo);
+                
                     SUCCESS = true;
                     newRoomNumber = room.getNumber();
                     newReservationNumber = resNo;
+                    newReservation = dao.getReservation(resNo);
                 }
             }
         } catch (Exception e) {
+            System.out.print("1");
+                
             System.out.println("Error creating room");
         }
         
+        System.out.print("1");
+                
         //CLose window
         stage.close();
     }
@@ -255,14 +272,6 @@ public class ReserveRoomFormController implements Initializable {
             tblRooms.setItems(results);
         }
         
-    }
-
-    private void handleUpdateReservation() {
-        System.out.println("Updated Reservation");
-    }
-
-    private void handleCreateReservation() {
-        System.out.println("Created Reservation");
     }
 
     void setReservation(Reservation reservation) {

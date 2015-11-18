@@ -11,7 +11,7 @@
     <right>
         <VBox spacing="15.0" BorderPane.alignment="CENTER">
             <children>
-                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="90.0" prefWidth="14.0" />
+                <Separator opacity="0.0" orientation="VERTICAL" prefHeight="164.0" prefWidth="14.0" />
                 <Button fx:id="btnWalkIn" mnemonicParsing="false" onAction="#onClickWalkIn" prefHeight="60.0" prefWidth="100.0" text="Walk In" textAlignment="CENTER" visible="false">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
@@ -38,7 +38,7 @@
                     </effect>
                 </Button>
             
-                <Button fx:id="btnEditProfile" layoutX="20.0" layoutY="451.0" mnemonicParsing="false" onAction="#onClickEditProfile" prefHeight="60.0" prefWidth="110.0" text="Update Guest&#10;Profile" textAlignment="CENTER">
+                <Button fx:id="btnEditProfile" layoutX="20.0" layoutY="451.0" mnemonicParsing="false" onAction="#onClickEditProfile" prefHeight="60.0" prefWidth="110.0" text="Update Guest&#10;Profile" textAlignment="CENTER" visible="false">
                     <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                     </effect>
@@ -82,22 +82,22 @@
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label text="Company" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                        <Label text="Company" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label text="Group" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                        <Label text="Group" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <TextField fx:id="txtFirstName" onAction="#onClickSearch" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtLastName" onAction="#onClickSearch" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtCompanyName" onAction="#onClickSearch" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtGroupName" onAction="#onClickSearch" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <TextField fx:id="txtConfirmation" onAction="#onClickSearch" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearch" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtFirstName" onAction="#onClickSearch" promptText="First Name" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtLastName" onAction="#onClickSearch" promptText="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtCompanyName" onAction="#onClickSearch" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtGroupName" onAction="#onClickSearch" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtConfirmation" onAction="#onClickSearch" promptText="Confirmation Number" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearch" promptText="Phone Number" GridPane.columnIndex="5" GridPane.rowIndex="2" />
                         <DatePicker fx:id="dateArrival" promptText="Arrival Date" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                         <DatePicker fx:id="dateDeparture" promptText="Departure Date" GridPane.columnIndex="5" GridPane.rowIndex="4" />
                         <Label text="Phone#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />

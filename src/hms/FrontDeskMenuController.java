@@ -28,11 +28,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
@@ -110,6 +112,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
     private void onClickArrivals(ActionEvent event) {
         main.displaySubMenu(MenuType.FRONTDESK);
+        handleClear();
+        dateArrival.setValue(LocalDate.now());
+        handleSearch();
     }
 
     @FXML
@@ -124,15 +129,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickClear(ActionEvent event) {
-        data.clear();
-        txtFirstName.setText("");
-        txtLastName.setText("");
-        txtGroupName.setText("");
-        txtCompanyName.setText("");
-        txtPhoneNumber.setText("");
-        txtConfirmation.setText("");
-        dateArrival.setValue(null);
-        dateDeparture.setValue(null);
+        handleClear();
     }
 
     @FXML
@@ -199,6 +196,11 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         colComments.setCellValueFactory(
                 new PropertyValueFactory<>("Comments"));
 
+        //Set Default Message
+        Label msg = new Label("Reservations");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblFrontDesk.setPlaceholder(msg);
     
         //Populate with data
         dateArrival.setValue(LocalDate.now());
@@ -207,10 +209,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     private void handleSearch() {
 
-//        if (!validateFields()) {
-//            System.out.println("error validatiting fields");
-//            return;
-//        }
+        if (!validateFields()) {
+            System.out.println("error validatiting fields");
+            return;
+        }
 
         ObservableList<Reservation> result;
 
@@ -235,21 +237,23 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private boolean validateFields() {
-      try {
-          if (dateArrival.getValue().isBefore(LocalDate.now())){
-            return false;
-          } else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) ) {
-       
-           return false;
-        }else{
-            return true;
-        }  
-    } catch (Exception e) {
-        
-        System.out.println("Exceptoin in searhc..");
-        return true;
-    }
-   
+        boolean valid = true;
+//      try {
+//          if (dateArrival.getValue().isBefore(LocalDate.now())){
+//            return false;
+//          } else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) ) {
+//       
+//           return false;
+//        }else{
+//            return true;
+//        }  
+//    } catch (Exception e) {
+//        
+//        System.out.println("Exceptoin in searhc..");
+//        return true;
+//    }
+//   
+        return valid;
     }
 
     private void handleCancel() {
@@ -376,6 +380,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
     }
 
+    //Waiting on DB Connectivity
     private void handleEditProfile() {
         Alert alert;
         Optional<ButtonType> response;
@@ -398,9 +403,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Could not get Profile from db");
         }
-            
-        profile = Forms.displayEditProfileForm(main, profile);
         
+        if (profile!=null){
+            profile = Forms.displayEditProfileForm(main, profile);
+        }
         
         if (profile != null ) {
             alert = new Alert(Alert.AlertType.INFORMATION,
@@ -424,7 +430,54 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             return;
         }
         boolean result = Forms.displayReserveRoomForm(main, reservation);
+        
         System.out.println("Result from handle reservation:" + result);
+    }
+
+    private void handleClear() {
+        data.clear();
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtGroupName.setText("");
+        txtCompanyName.setText("");
+        txtPhoneNumber.setText("");
+        txtConfirmation.setText("");
+        dateArrival.setValue(null);
+        dateDeparture.setValue(null);
+    }
+
+    private boolean validateReservationFields() {
+        boolean valid = true;
+        
+        try {
+        //Mark All Valid
+        markValid(txtFirstName);
+        markValid(txtLastName);
+        markValid(txtConfirmation);
+        
+        
+        //Check First Name
+        
+        //Check Last Name
+        
+        //Check Confirm Number
+        
+        //Check From Data < To Date
+        } catch (Exception e){
+            System.out.println("Error Validating Fields");
+        }
+        
+       return valid;
+    }
+
+    private void markInvalid(TextField t){
+        t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        
+    }
+    
+    private void markValid(TextField t) {
+        t.setStyle("");
+      
     }
 
 }

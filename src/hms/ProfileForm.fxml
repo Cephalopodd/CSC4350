@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.ProfileFormController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.ProfileFormController">
    <children>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="600.0" style="-fx-background-color: white;">
          <children>
@@ -45,12 +45,12 @@
                      </font>
                   </Label>
                   
-                  <Label layoutX="92.0" layoutY="189.0" text="Email:">
+                  <Label layoutX="91.0" layoutY="191.0" text="Email:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                <Label layoutX="357.0" layoutY="83.0" text="Title:">
+                <Label layoutX="357.0" layoutY="83.0" text="Title:" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -58,21 +58,21 @@
                   <TextField fx:id="txtFirstName" layoutX="153.0" layoutY="79.0" onAction="#onActionFirstName" prefHeight="26.0" prefWidth="190.0" promptText="First Name" />
                   <TextField fx:id="txtLastName" layoutX="153.0" layoutY="110.0" onAction="#onActionLastName" prefHeight="26.0" prefWidth="190.0" promptText="Last Name" />
                   
-                  <ChoiceBox fx:id="cbxTitles" layoutX="398.0" layoutY="79.0" prefHeight="26.0" prefWidth="94.0" />
-                  <CheckBox fx:id="chkVIP" layoutX="513.0" layoutY="83.0" mnemonicParsing="false" onAction="#onActionVIP" prefHeight="18.0" prefWidth="61.0" text="VIP" />
+                  <ChoiceBox fx:id="cbxTitles" layoutX="398.0" layoutY="79.0" prefHeight="26.0" prefWidth="94.0" visible="false" />
+                  <CheckBox fx:id="chkVIP" layoutX="480.0" layoutY="83.0" mnemonicParsing="false" onAction="#onActionVIP" prefHeight="18.0" prefWidth="94.0" text="VIP Guest" />
                  
-                  <TextField fx:id="txtZip" layoutX="195.0" layoutY="320.0" onAction="#onActionZip" prefHeight="26.0" prefWidth="145.0" promptText="ZIP Code" />
                   
-                  <TextField fx:id="txtPhoneNumber" layoutX="153.0" layoutY="141.0" onAction="#onActionPhoneNumber" prefHeight="26.0" prefWidth="190.0" promptText="Phone Number" />
-                  <TextField fx:id="txtEmail" layoutX="153.0" layoutY="185.0" onAction="#onActionEmail" prefHeight="26.0" prefWidth="190.0" promptText="Email Address" />
+                  <TextField fx:id="txtPhoneNumber" layoutX="154.0" layoutY="141.0" onAction="#onActionPhoneNumber" prefHeight="26.0" prefWidth="190.0" promptText="Phone Number" />
+                  <TextField fx:id="txtEmail" layoutX="152.0" layoutY="187.0" onAction="#onActionEmail" prefHeight="26.0" prefWidth="190.0" promptText="Email Address" />
                   
-                  <TextField fx:id="txtStreet" layoutX="85.0" layoutY="232.0" onAction="#onActionStreet" prefHeight="26.0" prefWidth="258.0" promptText="Street " />
-                  <TextField fx:id="txtApt" layoutX="84.0" layoutY="261.0" onAction="#onActionApt" prefHeight="26.0" prefWidth="258.0" promptText="Apartment" />
+                  <TextField fx:id="txtStreet" layoutX="86.0" layoutY="228.0" onAction="#onActionStreet" prefHeight="26.0" prefWidth="258.0" promptText="Street " />
+                  <TextField fx:id="txtApt" layoutX="86.0" layoutY="261.0" onAction="#onActionApt" prefHeight="26.0" prefWidth="258.0" promptText="Apartment" />
                  
-                  <TextField fx:id="txtCity" layoutX="83.0" layoutY="290.0" onAction="#onActionCity" prefHeight="26.0" prefWidth="258.0" promptText="City" />
-                  <ChoiceBox fx:id="cbxStates" layoutX="82.0" layoutY="320.0" prefHeight="26.0" prefWidth="68.0" />
-                  <TextField fx:id="txtCountry" layoutX="85.0" layoutY="366.0" onAction="#onActionCountry" prefHeight="26.0" prefWidth="258.0" promptText="Country" />
-                  
+                  <TextField fx:id="txtCity" layoutX="85.0" layoutY="290.0" onAction="#onActionCity" prefHeight="26.0" prefWidth="258.0" promptText="City" />
+                  <ChoiceBox fx:id="cbxStates" layoutX="88.0" layoutY="321.0" prefHeight="26.0" prefWidth="68.0" />
+                  <TextField fx:id="txtCountry" layoutX="85.0" layoutY="366.0" onAction="#onActionCountry" prefHeight="26.0" prefWidth="258.0" promptText="Country" visible="false" />
+                  <TextField fx:id="txtZip" layoutX="200.0" layoutY="321.0" onAction="#onActionZip" prefHeight="26.0" prefWidth="145.0" promptText="ZIP Code" />
+                 
                   <TextArea fx:id="txtNotes" layoutX="365.0" layoutY="118.0" onDragDetected="#onActionNotes" prefHeight="271.0" prefWidth="216.0" promptText="Notes" />
                   <Button fx:id="btnSave" layoutX="391.0" layoutY="409.0" mnemonicParsing="false" onAction="#onActionSave" prefHeight="50.0" prefWidth="75.0" text="Save" />
                   <Button fx:id="btnCancel" layoutX="480.0" layoutY="409.0" maxWidth="100.0" mnemonicParsing="false" onAction="#onActionCancel" prefHeight="50.0" prefWidth="75.0" text="Cancel" />
@@ -98,27 +98,18 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="18.0" layoutY="372.0" text="Country:">
+                  <Label layoutX="18.0" layoutY="372.0" text="Country:" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblErrorMsg" layoutX="122.0" layoutY="426.0" prefHeight="16.0" prefWidth="216.0" textFill="RED" />
-                  <Label fx:id="phoneLabel" layoutX="154.0" layoutY="167.0" prefHeight="20.0" prefWidth="190.0">
+                  <Label fx:id="lblErrorMsg" alignment="CENTER" layoutY="426.0" prefHeight="18.0" prefWidth="391.0" textAlignment="CENTER" textFill="RED">
                      <font>
                         <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="emailLabel" layoutX="153.0" layoutY="213.0" prefHeight="20.0" prefWidth="190.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="zipLabel" layoutX="153.0" layoutY="346.0" prefHeight="20.0" prefWidth="190.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
+                     </font></Label>
+                  <Label fx:id="phoneLabel" layoutX="103.0" layoutY="167.0" prefHeight="20.0" prefWidth="241.0" textAlignment="CENTER" textFill="RED" />
+                  <Label fx:id="emailLabel" layoutX="101.0" layoutY="213.0" prefHeight="20.0" prefWidth="241.0" textAlignment="CENTER" textFill="RED" />
+                  <Label fx:id="zipLabel" layoutX="103.0" layoutY="347.0" prefHeight="20.0" prefWidth="241.0" textAlignment="CENTER" textFill="RED" />
                </children>
             </AnchorPane>
          </children>

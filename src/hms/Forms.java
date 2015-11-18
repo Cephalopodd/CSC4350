@@ -143,6 +143,7 @@ class Forms {
                         + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
                         + "Room Number: " + controller.getNewRoomNumber()
                 );
+                
                 alert.showAndWait();
             }
             
@@ -242,11 +243,14 @@ class Forms {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Your Profile was successful created");
                 alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR,
-                "Your profile could not be created");
-                alert.showAndWait();
-            }
+            } 
+            
+            // Commented out alert on error
+//            else {
+//                Alert alert = new Alert(Alert.AlertType.ERROR,
+//                "Your profile could not be created");
+//                alert.showAndWait();
+//            }
             
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);

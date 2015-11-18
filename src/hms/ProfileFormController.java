@@ -107,33 +107,37 @@ public class ProfileFormController implements Initializable {
 
     @FXML
     private void onActionFirstName(ActionEvent event) {
-        
+        txtLastName.requestFocus();
     }
 
     @FXML
     private void onActionLastName(ActionEvent event) {
-    }
-
-    @FXML
-    private void onActionStreet(ActionEvent event) {
-    }
-
-
-    @FXML
-    private void onActionEmail(ActionEvent event) {
+        txtPhoneNumber.requestFocus();
     }
 
     @FXML
     private void onActionPhoneNumber(ActionEvent event) {
+        txtEmail.requestFocus();
     }
-
-
+    
     @FXML
-    private void onActionCity(ActionEvent event) {
+    private void onActionEmail(ActionEvent event) {
+        txtStreet.requestFocus();
+    }
+    
+    @FXML
+    private void onActionStreet(ActionEvent event) {
+        txtApt.requestFocus();
     }
 
     @FXML
     private void onActionApt(ActionEvent event) {
+        txtCity.requestFocus();
+    }
+    
+    @FXML
+    private void onActionCity(ActionEvent event) {
+        txtZip.requestFocus();
     }
 
     @FXML
@@ -149,22 +153,27 @@ public class ProfileFormController implements Initializable {
     }
     @FXML
     private void onActionZip(ActionEvent event){
-        
+        cbxStates.requestFocus();
     }
 
     @FXML
     private void onActionSave(ActionEvent event) {        
-        
-        //Verify fields are good
-        if (true) {
-            // Edit or Create
-            if (EDIT) {
-                handleSaveEditProfile();
-            } else {
-                handleSaveNewProfile();
-            }
-        }
        
+       try {
+            if (!validateFields()) {
+                return;
+            }
+       } catch (Exception e) {
+           System.out.println("Error Validating Fields");
+       } 
+       
+        
+        // Edit or Create
+        if (EDIT) {
+            handleSaveEditProfile();
+        } else {
+            handleSaveNewProfile();
+        }
     }
 
     @FXML
@@ -173,6 +182,7 @@ public class ProfileFormController implements Initializable {
         stage.close();
     }
 
+    
     void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -208,51 +218,51 @@ public class ProfileFormController implements Initializable {
         cbxTitles.setValue("");
     }
 
-    private boolean verifyFields() {
+    private boolean validateFields() {
+        
+        boolean valid = true;
+        
+        //RESET LABELS
+        phoneLabel.setText("");
+        emailLabel.setText("");
+        zipLabel.setText("");
+        lblErrorMsg.setText("");
         
         if (txtPhoneNumber.getText().isEmpty() ){
             phoneLabel.setText("Please enter your phone number");
-            return false;
-        }
-        if (!validatePhoneNumber(txtPhoneNumber.getText()) ){
+            valid = false;
+        } else if (!validatePhoneNumber(txtPhoneNumber.getText()) ){
             phoneLabel.setText("Please enter correct phone number");
-            return false;
+            valid = false;
         }
+        
         if (txtEmail.getText().isEmpty() ){
             emailLabel.setText("Please enter your email");
-            return false;
-        }
-        if (!isEmailValid(txtEmail.getText())){
+            valid = false;
+        } else if (!isEmailValid(txtEmail.getText())){
             emailLabel.setText("Please enter correct email");
-            return false;
+            valid = false;
         }
+        
+        String zipCodePattern = "\\d{5}(-\\d{4})?";
         if (txtZip.getText().isEmpty() ){
             zipLabel.setText("Please enter your ZIP code");
-            return false;
-        }
-        String zipCodePattern = "\\d{5}(-\\d{4})?";
-        if (!txtZip.getText().matches(zipCodePattern)){
+            valid = false;
+        } else if (!txtZip.getText().matches(zipCodePattern)){
             zipLabel.setText("Please enter correct ZIP code");
-            return false;
+            valid = false;
         }
-        if (!txtFirstName.getText().isEmpty()){
-            return false;
+        if (txtFirstName.getText().isEmpty() ||
+                txtLastName.getText().isEmpty() ||
+                txtStreet.getText().isEmpty() ||
+                txtCity.getText().isEmpty() ||
+                cbxStates.getValue().isEmpty() ) {
+                
+                lblErrorMsg.setText("Please fill out Name and Address Fields");
+                valid = false;
         }
-        if (!txtLastName.getText().isEmpty()){
-            return false;
-        }
-        if (!txtStreet.getText().isEmpty()){
-            return false;
-        }
-        if (!txtCity.getText().isEmpty()){
-            return false;
-        }
-        if (!cbxStates.getValue().isEmpty()){
-            return false;
-        }
-        else{
-            return true;
-        }
+        
+        return valid;
     }
 
     boolean getResult() {
@@ -291,7 +301,9 @@ public class ProfileFormController implements Initializable {
                     .setNotes(txtNotes.getText())
                     .setTitle(cbxTitles.getValue())
                     .createProfile();
-
+            
+            System.out.println("VIP:" + p.isVIP());
+            
             //Restore Profile ID
             p.setMemberID(profile.getMemberID());
             
@@ -336,7 +348,9 @@ public class ProfileFormController implements Initializable {
                     .setNotes(txtNotes.getText())
                     .setTitle(cbxTitles.getValue())
                     .createProfile();
-
+           
+            System.out.println("VIP:" + p.isVIP());
+            
             
             System.out.println("Checking null p");
             if ( p == null ) {
