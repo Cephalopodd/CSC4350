@@ -74,6 +74,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     @FXML
     private TableView<Reservation> tblReservations;
     @FXML
+    private TableColumn<Reservation, Integer> colConfirmation;
+    @FXML
     private TableColumn<Reservation, String> colFirstName;
     @FXML
     private TableColumn<Reservation, String> colLastName;
@@ -100,13 +102,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     @FXML
     private TableColumn<Profile, Integer> colMemberID;
     @FXML
-    private TableColumn<Profile, String> colTitle;
-    @FXML
     private TableColumn<Profile, String> colFirstNameProfile;
     @FXML
     private TableColumn<Profile, Integer> colLastNameProfile;
-    @FXML
-    private TableColumn<Profile, Boolean> colVIP;
     @FXML
     private TableColumn<Profile, String> colPhoneNumber;
     @FXML
@@ -192,9 +190,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearchProfiles();
     }
 
-    
-    
-    
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
@@ -210,6 +205,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         reservations = FXCollections.observableArrayList();
         tblReservations.setItems(reservations);
 
+        colConfirmation.setCellValueFactory(
+                new PropertyValueFactory<>("Confirmation"));
         colFirstName.setCellValueFactory(
                 new PropertyValueFactory<>("FirstName"));
         colLastName.setCellValueFactory(
@@ -241,32 +238,31 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
         colMemberID.setCellValueFactory(
                 new PropertyValueFactory<>("MemberID"));
-        colTitle.setCellValueFactory(
-                new PropertyValueFactory<>("Title"));
         colFirstNameProfile.setCellValueFactory(
                 new PropertyValueFactory<>("FirstName"));
         colLastNameProfile.setCellValueFactory(
                 new PropertyValueFactory<>("LastName"));
-        colVIP.setCellValueFactory(
-                new PropertyValueFactory<>("VIP"));
         colEmail.setCellValueFactory(
                 new PropertyValueFactory<>("Email"));
         colPhoneNumber.setCellValueFactory(
                 new PropertyValueFactory<>("PhoneNumber"));
         colNotes.setCellValueFactory(
-                new PropertyValueFactory<>("Notes"));
+                new PropertyValueFactory<>("Message"));
     }
 
-    
-    
-
-
     private void handleClear() {
+        
+        handleClearReservations();
+        handleClearProfiles();
 
+    }
+    
+    private void handleClearReservations() {
+        
         //Clear Garbage Text from Date Field
         dateArrival.setValue(LocalDate.now());
         dateArrival.setValue(LocalDate.now());
-
+        
         //Clear Reservations
         reservations.clear();
         txtFirstName.setText("");
@@ -277,7 +273,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtConfirmation.setText("");
         dateArrival.setValue(null);
         dateDeparture.setValue(null);
-
+    }
+    
+    private void handleClearProfiles() {
         //Clear Profiles
         profiles.clear();
         txtEmail.clear();
@@ -285,12 +283,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtMemberID.clear();
     }
     
-
-    private boolean validateReservationFields() {
-        //Set lblErrorMsg
-        return true;
-    }
-
     private void handleSearchReservations() {
 
         try {
@@ -437,12 +429,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         Forms.displayReserveRoomForm(main, r);
         
     }
-
-
-    private boolean validateProfileFields() {
-        return true;
-    }
-    
+ 
     private void handleSearchProfiles() {
 
         try {
@@ -510,6 +497,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             tblProfiles.getItems().remove(p);
             tblProfiles.getItems().add(newProfile);
         }
+    }
+
+    private boolean validateReservationFields() {
+        return true;
+    }
+
+    private boolean validateProfileFields() {
+        return true;
     }
 
 }
