@@ -1,6 +1,7 @@
 package hms;
 
 import hms.model.AdminDAO;
+import hms.model.NewUserDAO;
 import hms.model.User;
 import java.net.URL;
 import java.time.LocalDate;
@@ -24,6 +25,10 @@ public class AdminMenuController implements Initializable, SubMenu {
     int checkOutToday;
     int checkInToday;
     LocalDate today = LocalDate.now();
+    //User user;
+    //user = new User();
+    
+    //final ObservalbleList<user> userTableData = FXCollections.observableArrayList(new User));
     
     private MainMenuController main;
     @FXML
@@ -48,6 +53,7 @@ public class AdminMenuController implements Initializable, SubMenu {
         dao = new AdminDAO();
         checkStatsPieChartDisplay();
         weeklyLineChartDisplay();
+        userTableDisplay();
     }    
 
     @Override
@@ -97,6 +103,12 @@ public class AdminMenuController implements Initializable, SubMenu {
         }
         //Adds the current week series to the line chart.
         weeklySales.getData().add(currentWeek);
+    }
+
+    private void userTableDisplay(){
+        //user = new NewUserDAO();
+        //permissionlevelCol.getColumns().adllAll(tblEmployee, tblManager);       
+        //userListTable.setItems(FXCollections.observableArrayList(user.getUserList()));
     }
     
 }
