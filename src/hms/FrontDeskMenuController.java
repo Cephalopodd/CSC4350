@@ -209,9 +209,16 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     private void handleSearch() {
 
-        if (!validateFields()) {
+        //Commented out. Adding phone check.
+        /*if (!validateFields()) {
             System.out.println("error validatiting fields");
             return;
+        }*/
+        
+        if(validatePhoneNumber(txtPhoneNumber.getText())){
+            markValid(txtPhoneNumber);
+        }else{
+            markInvalid(txtPhoneNumber);
         }
 
         ObservableList<Reservation> result;
@@ -478,6 +485,22 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     private void markValid(TextField t) {
         t.setStyle("");
       
+    }
+    
+    private boolean validatePhoneNumber(String phoneNo) {
+        //returns true if there is no phone number in the field.
+        if (phoneNo.matches("")) return true;
+        //validate phone numbers of format "1234567890"
+        if (phoneNo.matches("\\d{10}")) return true;
+        //validating phone number with -, . or spaces
+        else if(phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return true;
+        //validating phone number with extension length from 3 to 5
+        else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) return true;
+        //validating phone number where area code is in braces ()
+        else if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) return true;
+        //return false if nothing matches the input
+        else return false;
+
     }
 
 }
