@@ -39,7 +39,7 @@ public class ResetPasswordController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         user = new NewUserDAO();
-        unDropDown.setItems(FXCollections.observableArrayList("Monkey", "Poop"));
+        unDropDown.setItems(FXCollections.observableArrayList(user.getUserList()));
     }    
 
     @FXML
