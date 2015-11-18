@@ -429,16 +429,29 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     }
 
     private void handleEditReservation() {
-        Reservation reservation = tblFrontDesk.getSelectionModel().getSelectedItem();
-        if ( reservation == null ) {
+
+        //Get Selected Reservation
+        Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
+
+        //Prompt and return if a reservation is not selected.
+        if (r == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
-            "Please select a reservation");
+                    "Reservation not Selected");
             alert.showAndWait();
             return;
         }
-        boolean result = Forms.displayReserveRoomForm(main, reservation);
+
+        //Forms.displayReserveRoomForm(main, r);
         
-        System.out.println("Result from handle reservation:" + result);
+        Reservation newReservation = Forms.displayEditReservationForm(main, r);
+        if ( newReservation != null ) {
+            System.out.println("Not null, replacing in table");
+            tblFrontDesk.getItems().add(newReservation);
+            tblFrontDesk.getItems().remove(r);
+        } else {
+            System.out.println("Null. not changing table");
+        }
+        
     }
 
     private void handleClear() {
