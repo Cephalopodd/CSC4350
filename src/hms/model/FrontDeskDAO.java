@@ -381,11 +381,16 @@ public boolean updateReservation(Reservation r) {
     public ObservableList<Room> queryRoomAvailability(String roomType, 
             String arrivalDate, String departureDate) {
         ObservableList<Room> rooms = FXCollections.observableArrayList();
-        double cost = queryRoomRate(roomType);
+        double cost = 0.0;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             stmt = c.createStatement();
+            rs = stmt.executeQuery("select rate from rate join roomtype "
+                    + "on rate.roomtype like roomtype.beds where roomtype.type like '" 
+                    + roomType + "' and ratecode like 'rack'");
+            if (rs.next()) cost = rs.getDouble(1);
+            
             rs = stmt.executeQuery(
                 "select number from room where roomtype = '" + roomType + "' "
                 + "except select rm_num from reservation "
@@ -410,26 +415,31 @@ public boolean updateReservation(Reservation r) {
 
     //Needed for the Reservation Edit
     public Reservation getReservation(int resNo) {
-        
-        return new ReservationBuilder()
-                .setFirstName("Test").setLastName("User").createReservation();
-    
-    
-    public double queryRoomRate (String roomType) {
-        double cost = 0.0;
+        Reservation res = null;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             stmt = c.createStatement();
-            rs = stmt.executeQuery("select rate from rate join roomtype "
-                    + "on rate.roomtype like roomtype.beds where roomtype.type like '" 
-                    + roomType + "' and ratecode like 'rack'");
-            if (rs.next()) cost = rs.getDouble(1);
+            rs = stmt.executeQuery("select * from reservation r "
+                + "join guest g on r.g_id = g.id where r.id = " + resNo);
+            if (rs.next()) {
+                res = new ReservationBuilder()
+                    .setFirstName(rs.getString("g.fname"))
+                    .setLastName(rs.getString("g.lname"))
+                    .setCheckinDate(rs.getString("r.arr"))
+                    .setCheckoutDate(rs.getString("r.dep"))
+                    .setRoomType(rs.getString("r.roomtype"))
+                    .setNumberAdults(rs.getInt("r.adults"))
+                    .setNumberChildren(rs.getInt("r.kids"))
+                    .setPhoneNumber(rs.getString("g.phone"))
+                    .setComments(rs.getString("r.comments"))
+                    .createReservation();
+            }
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
             closeAll();
         }
-        return cost;
+        return res;
     }
 }	
