@@ -71,8 +71,6 @@ public class ReserveRoomFormController implements Initializable {
     @FXML
     private CheckBox chkAccessible;
     @FXML
-    private CheckBox chkNonSmoking;
-    @FXML
     private Button btnFindRooms;
     @FXML
     private ChoiceBox<String> cbxRoomType;
@@ -352,5 +350,64 @@ public class ReserveRoomFormController implements Initializable {
         
         dateArrival.setDayCellFactory(dayCellFactory);
         dateDeparture.setDayCellFactory(dayCellFactory2);
+    }
+
+    @FXML
+    private void arrivalDateClick(ActionEvent event) {
+        
+        final Callback<DatePicker, DateCell> dayCellFactory2 = new Callback<DatePicker, DateCell>() {
+                
+		@Override
+		public DateCell call(final DatePicker datePicker) {
+			return new DateCell(){
+			
+				@Override
+				public void updateItem(LocalDate item, boolean empty){
+					
+					super.updateItem(item, empty);
+				   
+					if(item.isBefore(LocalDate.now().plusDays(1))){
+							setDisable(true);
+							setStyle("-fx-background-color: #ffc0cb;");
+					}   
+				}	
+			};
+		}
+        };
+        
+        dateDeparture.setDayCellFactory(dayCellFactory2);
+    }
+
+    @FXML
+    private void deptDateClicked(ActionEvent event) {
+        
+        final Callback<DatePicker, DateCell> dayCellFactory2 = new Callback<DatePicker, DateCell>() {
+                
+		@Override
+		public DateCell call(final DatePicker datePicker) {
+			return new DateCell(){
+			
+				@Override
+				public void updateItem(LocalDate item, boolean empty){
+					
+					super.updateItem(item, empty);
+				   
+					if(item.isAfter(dateDeparture.getValue())){
+							setDisable(true);
+							setStyle("-fx-background-color: #ffc0cb;");
+					}
+                                        
+                                        if(item.isBefore(LocalDate.now())){
+							setDisable(true);
+							setStyle("-fx-background-color: #ffc0cb;");
+					}
+                                        
+				}	
+			};
+		}
+        };
+        
+        dateArrival.setDayCellFactory(dayCellFactory2);
+        
     }
 }
