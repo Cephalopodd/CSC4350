@@ -107,10 +107,12 @@ public class CheckInFormController implements Initializable {
         //CHECKIN
         
         //Register CC to Guest
-        int creditCardID = dao.registerCreditCard(reservation.getProfileID(), cc);
+        String creditCardID = dao.registerCreditCard(reservation.getProfileID(), cc);
+        
+        int creditCard = Integer.parseInt(creditCardID);
         
         //Update Reservation with CC number and status
-        reservation.setCreditCardID(creditCardID);
+        reservation.setCreditCardID(creditCard);
         reservation.setStatus(ReservationStatus.CHECKEDIN);
         dao.updateReservation(reservation);
         
