@@ -16,8 +16,7 @@ public class CreditCard {
     private String CCNumber;
     private String code;
     private String type;
-    private int expMonth;
-    private int expYear;
+    private String exp;
 
     /**
      * @Constructor creates CreditCard
@@ -28,13 +27,12 @@ public class CreditCard {
      * @param expYear
      */
     public CreditCard(String name, String CCNumber, String type, 
-            String code, int expMonth, int expYear) {
+            String code, String exp) {
         this.CCNumber = CCNumber;
         this.code = code;
         this.type = type;
         this.name = name;
-        this.expMonth = expMonth;
-        this.expYear = expYear;
+        this.exp = exp;
     }
 
     /**
@@ -96,31 +94,15 @@ public class CreditCard {
     /**
      * @return the expMonth
      */
-    public int getExpMonth() {
-        return expMonth;
+    public String getExp() {
+        return exp;
     }
 
     /**
      * @param expMonth the expMonth to set
      */
-    public void setExpMonth(int expMonth) {
-        this.expMonth = expMonth;
-    }
-
-    /**
-     * @return the expYear
-     */
-    public int getExpYear() {
-        return expYear;
-    }
-
-    /**
-     * @param expYear the expYear to set
-     */
-    public void setExpYear(int expYear) {
-        this.expYear = expYear;
-    }
-
-    
+    public void setExp(String exp) {
+        this.exp = exp;
+    }   
     
 }

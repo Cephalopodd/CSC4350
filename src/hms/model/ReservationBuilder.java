@@ -23,7 +23,7 @@ public class ReservationBuilder {
     private double roomRate = 100.00;
     private int roomNumber = 0;
     private int profileID = 0;
-    private int creditCardID;
+    private String creditCardID;
 
     public ReservationBuilder() {
     }
@@ -108,7 +108,7 @@ public class ReservationBuilder {
         return this;
     }
 
-    public ReservationBuilder setCreditCardID(int creditCardID) {
+    public ReservationBuilder setCreditCardID(String creditCardID) {
         this.creditCardID = creditCardID;
         return this;
     }

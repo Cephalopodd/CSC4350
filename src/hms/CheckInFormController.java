@@ -10,7 +10,6 @@ import hms.model.CreditCard;
 import hms.model.FrontDeskDAO;
 import hms.model.Reservation;
 import hms.model.ReservationStatus;
-import hms.model.RoomStatus;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -64,7 +63,7 @@ public class CheckInFormController implements Initializable {
     
     private Stage stage;
     private boolean result;
-    private CreditCard cc;
+    private CreditCard creditCard;
     private int roomNumber;
     private Reservation reservation;
     private FrontDeskDAO dao;
@@ -95,35 +94,25 @@ public class CheckInFormController implements Initializable {
     @FXML
     private void onClickOK(ActionEvent event) {
         
-        //if invalid entry detected, print error message and exit
-//        if (!validateFields()){
-//            System.out.println("Error Validating CC");
-//            return;
-//        }
+        creditCard = getCreditCard();
         
-        //Write Results to database
+        System.out.println("ProfileID: " + reservation.getProfileID());
+        System.out.println("FirstName:" + reservation.getFirstName());
+        
+        //Exit if Credit Card Field Data is not Valid
+        if (!validateFields()){
+            System.out.println("Error Validating CC");
+            return;
+        }
+        
+        //Procede with Check In
         try {
         
-        //CHECKIN
-        
-        //Register CC to Guest
-        String creditCardID = dao.registerCreditCard(reservation.getProfileID(), cc);
-        
-        int creditCard = Integer.parseInt(creditCardID);
-        
-        //Update Reservation with CC number and status
-        reservation.setCreditCardID(creditCard);
-        reservation.setStatus(ReservationStatus.CHECKEDIN);
-        dao.updateReservation(reservation);
-        
-        //Update room to occupied
-        dao.setRoomOccupied(reservation.getRoomNumber());
-        
-        //set the result flag
-        result = true;
-        
+        System.out.println("Submitting checkin information");
+        result = dao.checkGuestIn(reservation,creditCard);
+
         } catch (Exception e){
-            System.out.println("Could not record CC info");
+            System.out.println("Error on Checkin");
         }
         
         stage.close();
@@ -140,29 +129,18 @@ public class CheckInFormController implements Initializable {
         this.stage = stage;
     }
     
-    //Not Used
-    void setCC(CreditCard cc) {
-        this.cc = cc;
-        if (cc == null)
-            return;
-        
-        txtCCNumber.setText("");
-        txtNameOnCC.setText(cc.getName());
-        txtCCID.setText(cc.getCode());
-        cbxCCType.setValue(cc.getType());
-        cbxMonth.setValue(cc.getExpMonth());
-        cbxYear.setValue(cc.getExpYear());
-    }
+
     
     //Creates Credit Card from Form
-    CreditCard getCC() {
+    CreditCard getCreditCard() {
+        String expiration = 
+                String.format("%02d/%02d",cbxMonth.getValue(),cbxYear.getValue()%100);
         return new CreditCard(
                 txtNameOnCC.getText(),
                 txtCCNumber.getText(),
                 txtCCID.getText(),
                 cbxCCType.getValue(),
-                cbxMonth.getValue(),
-                cbxYear.getValue()
+                expiration
         );
     }
     
@@ -179,7 +157,8 @@ public class CheckInFormController implements Initializable {
     
     //validate all entry
     private boolean validateFields() {
-        
+        if (true)
+            return true;
         if (txtNameOnCC.getText().isEmpty() || txtCCNumber.getText().isEmpty() || txtCCID.getText().isEmpty() || cbxCCType.getValue().isEmpty() || 
                 cbxMonth.getValue().toString().isEmpty() || cbxYear.getValue().toString().isEmpty() ){
             validatorMessage.setText("Please enter credit card number");

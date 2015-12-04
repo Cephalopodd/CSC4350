@@ -37,7 +37,7 @@ public class FrontDeskDAO {
         
         ObservableList<Reservation> result = FXCollections.observableArrayList();
         String sql = "select g.fname, g.lname, r.rm_num, r.roomtype, r2.rate, "
-            + "r.adults, r.kids, r.arr, r.dep, r.comments, r.status, r.id from "
+            + "r.adults, r.kids, r.arr, r.dep, r.comments, r.status, r.id, r.g_id from "
             + "reservation r join guest g on r.g_id = g.id join roomtype t on "
             + "t.type like r.roomtype join rate r2 on r.ratecode like r2.ratecode "
             + "AND t.beds like r2.roomtype";
@@ -69,7 +69,7 @@ public class FrontDeskDAO {
             stmt = c.createStatement();
             rs = stmt.executeQuery(sql + filters);
             while (rs.next()) {
-                result.add(new ReservationBuilder()
+                Reservation tempReservation = new ReservationBuilder()
                 .setFirstName(rs.getString(1))
                 .setLastName(rs.getString(2))
                 .setRoomNumber(rs.getInt(3))
@@ -84,7 +84,10 @@ public class FrontDeskDAO {
                 .setCompanyName("")
                 .setGroupName("")
                 .setConfirmation(rs.getInt(12))
-                .createReservation());        
+                .setProfileID(rs.getInt(13))
+                .createReservation();
+                System.out.println("Adding Reservation: " + tempReservation);
+                result.add(tempReservation);
             }
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -192,14 +195,13 @@ public class FrontDeskDAO {
                 + "join guest g on g.id = r.g_id "
                 + "join cc on cc.g_id = g.id and cc.last4 = r.cc_last4");
             if (rs.next()) {
-                String exp = rs.getString(5);
+                //Converted the CC model to String Format
                 cc = new CreditCard(
                     rs.getString(1) + " " + rs.getString(2),
                     rs.getString(3),
                     CreditCardType.VISA,
                     rs.getString(4),
-                    Integer.parseInt(exp.substring(0,2)),
-                    Integer.parseInt(exp.substring(3)) + 2000
+                    rs.getString(5)
                 );
             }
         } catch ( Exception e ) {
@@ -434,10 +436,12 @@ public class FrontDeskDAO {
         return res;
     }
 
-    public String registerCreditCard(int profileID, CreditCard cc) {
-        String ccn = cc.getCCNumber();
-        String last4 = ccn.substring(ccn.length() - 4);
+    public boolean registerCreditCard(int profileID, CreditCard cc) {
+        String last4 = "";
+        int rowsChanged = 0;
         try {
+            String ccn = cc.getCCNumber();
+            last4 = ccn.substring(ccn.length() - 4);
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             c.setAutoCommit(false);
@@ -446,19 +450,18 @@ public class FrontDeskDAO {
             sql.append(profileID + ", ")
                 .append("'" + last4 + "', ")
                 .append("'" + ccn + "', ")
-                .append("'" + String.format("%02d/%02d", 
-                    cc.getExpMonth(), cc.getExpYear() % 100) + "', ")
-                .append("'" + cc.getCode() + "', ")
+                .append("'" + cc.getExp() + "', ")
+                .append("'" + cc.getCode() + "'")
                 .append(")");
             System.out.println(sql);
-            stmt.executeUpdate(sql.toString());
+            rowsChanged = stmt.executeUpdate(sql.toString());
             c.commit();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
             closeAll();
         }
-        return last4;
+        return (rowsChanged>0);
     }
 
     //Sets the room to occupied
@@ -522,4 +525,65 @@ public class FrontDeskDAO {
             .setComments(rs.getString("comments"))
             .createReservation();
     }
+
+    public Boolean checkGuestIn(Reservation r, CreditCard cc) {
+        boolean result = false;
+        
+        // Probably this should be turned into a transaction
+        
+        //Add Credit Card to Guest
+        System.out.println("Adding Credit Card, assigning to guest");
+        result = registerCreditCard(r.getProfileID(), cc);
+        if (!result)
+            System.out.println("Error Adding Credit card to guest");
+        
+        //Add Credit Card to Reservation
+        System.out.println("Adding Credit Card to reservation");
+        result = setCreditCard(r.getConfirmation(), cc);
+        if (!result)
+            System.out.println("Error Adding Credit Card to reservation");
+        
+        //Update room table - set room occupied
+        result = setRoomOccupied(r.getRoomNumber());
+        if (!result)
+            System.out.println("Error saving room number on Checkin");
+        
+        //Update Reservation table with new status
+        result = updateReservationStatus(r.getConfirmation(), ReservationStatus.CHECKEDIN );
+        if (!result)
+            System.out.println("Error saving reservation on Checkin");
+
+        
+        //Update Reservation Object with CC number and status
+        r.setCreditCardID(cc.getCCNumber().substring(cc.getCCNumber().length() - 4));        
+        r.setStatus(ReservationStatus.CHECKEDIN);
+                       
+        return result;
+    }
+    
+    
+    public boolean updateReservationStatus(int confirmation, String status ) {
+        
+        System.out.println("updating reservation #" + confirmation);
+        int rowsChanged = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            StringBuilder sql = new StringBuilder("update reservation set ");
+                sql.append("status = '" + status + "'")
+                .append(" where id = " + confirmation);
+            System.out.println(sql);
+            rowsChanged += stmt.executeUpdate(sql.toString());
+            
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return (rowsChanged > 0);
+    }
+    
 }	

@@ -523,7 +523,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
         //Get Selected Reservation
         Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
-
+        
+        System.out.println("Handling Checking reservation:" + r);
+        
         //If reservation is null, display message and return
         if (r == null) {
             alert = new Alert(Alert.AlertType.ERROR,

@@ -34,13 +34,13 @@ public class Reservation {
     //Reference other tables
     private int roomNumber;
     private int profileID;
-    private int creditCardID;
+    private String creditCardID;
 
     public Reservation() {
-        this(0,"","","","", "", "", "", "", "", "", 1, 0, 0, 0, 0, 0);
+        this(0,"","","","", "", "", "", "", "", "", 1, 0, 0, 0, 0, "0000");
     }
     
-    public Reservation(int confirmation, String firstName, String lastName, String checkinDate, String checkoutDate, String groupName, String companyName, String phoneNumber, String roomType, String status, String comments, int numberAdults, int numberChildren, double roomRate, int roomNumber, int profileID, int creditCardID) {
+    public Reservation(int confirmation, String firstName, String lastName, String checkinDate, String checkoutDate, String groupName, String companyName, String phoneNumber, String roomType, String status, String comments, int numberAdults, int numberChildren, double roomRate, int roomNumber, int profileID, String creditCardID) {
         this.confirmation = confirmation;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -287,17 +287,24 @@ public class Reservation {
     /**
      * @return the creditCardID
      */
-    public int getCreditCardID() {
+    public String getCreditCardID() {
         return creditCardID;
     }
 
     /**
      * @param creditCardID the creditCardID to set
      */
-    public void setCreditCardID(int creditCardID) {
+    public void setCreditCardID(String creditCardID) {
         this.creditCardID = creditCardID;
     }
     
-    
+    @Override
+    public String toString() {
+        String s = "\n" +
+                "First Name: " + getFirstName() + "\n" +
+                "Last Name:" + getLastName() + "\n" + 
+                "Profile ID:" + getProfileID();
+        return s;
+    }
     
 }

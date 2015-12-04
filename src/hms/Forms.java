@@ -42,7 +42,7 @@ class Forms {
             CheckInFormController checkInFormController = ((CheckInFormController) checkInFormLoader.getController());
             
             checkInFormController.setStage(stage);
-            checkInFormController.setCC(cc);
+          //  checkInFormController.setCreditCard(cc);
            // checkInFormController.setRoomNumber(roomNum);
             
             //Create Login and MainMenu Scene
@@ -52,7 +52,7 @@ class Forms {
             
             //Get Result
             try {
-                CreditCard verifiedCC = checkInFormController.getCC();
+                CreditCard verifiedCC = checkInFormController.getCreditCard();
                 result = checkInFormController.getResult();
                 if (result) {
                     //Send new CC information to DB
