@@ -225,6 +225,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
          System.out.println("error validatiting fields");
          return;
          }*/
+        System.out.println("Validating phone");
         if (validatePhoneNumber(txtPhoneNumber.getText())) {
             markValid(txtPhoneNumber);
         } else {
@@ -232,7 +233,24 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
 
         ObservableList<Reservation> result;
+            String arriveDate;
+            String departDate;
 
+            System.out.println("1");
+            try {
+                arriveDate = dateArrival.getValue().toString();
+            } catch (Exception ex) {
+                arriveDate = "";
+            }
+
+            System.out.println("2");
+            try {
+                departDate = dateDeparture.getValue().toString();
+            } catch (Exception e) {
+                departDate = "";
+            }
+        
+        System.out.println("Building DAO");
         FrontDeskArrivalsDTO dto
                 = new FrontDeskArrivalsDTOBuilder()
                 .setFirstName(txtFirstName.getText())
@@ -241,12 +259,14 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
                 .setGroupName(txtGroupName.getText())
                 .setConfirmation(txtConfirmation.getText())
                 .setPhoneNumber(txtPhoneNumber.getText())
-                .setArrivalDate(dateArrival.getValue() == null ? "" : dateArrival.getValue().toString())
-                .setDepartureDate(dateDeparture.getValue() == null ? "" : dateArrival.getValue().toString())
+                .setArrivalDate(arriveDate)
+                .setDepartureDate(departDate)
                 .createQueryArrivalsDTO();
 
+        System.out.println("Fetching Result");
         result = dao.queryArrivals(dto);
-
+        
+        System.out.println("Setting Result");
         if (result != null) {
             data.setAll(result);
         }
