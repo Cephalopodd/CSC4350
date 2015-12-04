@@ -47,6 +47,8 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
     @FXML
     private Button btnArrivals;
     @FXML
+    private Button btnDepartures;
+    @FXML
     private Button btnInHouseGuests;
     @FXML
     private TextField txtFirstName;
@@ -106,9 +108,18 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
         dao = new FrontDeskDAO();
         setupTable();
+        initTableValues();
 
     }
 
+    @FXML
+    private void onClickDepartures(ActionEvent event) {
+        main.displaySubMenu(MenuType.FRONTDESK);
+        handleClear();
+        dateDeparture.setValue(LocalDate.now());
+        handleSearch();
+    }
+    
     @FXML
     private void onClickArrivals(ActionEvent event) {
         main.displaySubMenu(MenuType.FRONTDESK);
@@ -568,6 +579,11 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
                     "Guest could not be checked in at this time");
         }
         alert.showAndWait();
+    }
+
+    private void initTableValues() {
+        dateArrival.setValue(LocalDate.now());
+        this.btnSearch.fire();
     }
 
 }

@@ -104,9 +104,9 @@
                         <Label text="Arrival Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                         <Label text="Departure Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                         <Label text="Confirmation#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <Button fx:id="btnArrivals" mnemonicParsing="false" onAction="#onClickArrivals" prefHeight="50.0" prefWidth="105.0" text="Guest Arrivals" textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                        <Button fx:id="btnArrivals" mnemonicParsing="false" onAction="#onClickArrivals" prefHeight="50.0" prefWidth="105.0" text="Arrivals" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2">
                             <GridPane.margin>
-                                <Insets left="20.0" />
+                                <Insets />
                             </GridPane.margin>
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
@@ -134,6 +134,11 @@
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
                         </Button>
+                  <Button fx:id="btnDepartures" mnemonicParsing="false" onAction="#onClickDepartures" prefHeight="50.0" prefWidth="105.0" text="Departures" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="2">
+                     <effect>
+                        <InnerShadow height="5.0" radius="2.0" width="5.0" />
+                     </effect>
+                  </Button>
             
                     </children>
                     <VBox.margin>

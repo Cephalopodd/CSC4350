@@ -145,6 +145,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
         setupReservationsTable();
         setupProfilesTable();
+        handleSearch();
+
+        initAutoSearch();
 
     }
 
@@ -203,7 +206,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     public void setUser(User e) {
         this.user = user;
     }
-    
+
     private void setupReservationsTable() {
 
         reservations = FXCollections.observableArrayList();
@@ -233,7 +236,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("Status"));
         colComments.setCellValueFactory(
                 new PropertyValueFactory<>("Comments"));
-    
+
         Label msg = new Label("Reservations");
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
@@ -259,7 +262,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("PhoneNumber"));
         colNotes.setCellValueFactory(
                 new PropertyValueFactory<>("Notes"));
-        
+
         Label msg = new Label("Profiles");
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
@@ -267,18 +270,18 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleClear() {
-        
+
         handleClearReservations();
         handleClearProfiles();
 
     }
-    
+
     private void handleClearReservations() {
-        
+
         //Clear Garbage Text from Date Field
         dateArrival.setValue(LocalDate.now());
         dateArrival.setValue(LocalDate.now());
-        
+
         //Clear Reservations
         reservations.clear();
         txtFirstName.setText("");
@@ -290,7 +293,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         dateArrival.setValue(null);
         dateDeparture.setValue(null);
     }
-    
+
     private void handleClearProfiles() {
         //Clear Profiles
         profiles.clear();
@@ -298,10 +301,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtPhoneNumber.clear();
         txtMemberID.clear();
     }
-    
+
     private void handleSearchReservations() {
-        
-        if (!validateReservationFields()){
+
+        if (!validateReservationFields()) {
             System.out.println("error validatiting fields");
             return;
         }
@@ -312,7 +315,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
             String arriveDate;
             String departDate;
-            
+
             System.out.println("1");
             try {
                 arriveDate = dateArrival.getValue().toString();
@@ -355,12 +358,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     private void handleNewReservation() {
         Profile p = tblProfiles.getSelectionModel().getSelectedItem();
-        
+
         //Prompt and return if a reservation is not selected.
         if (p == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Please select a guest profile to \n"
-                            + "attach to the reservation");
+                    + "attach to the reservation");
             alert.showAndWait();
             return;
         }
@@ -372,7 +375,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             System.out.println("It was null");
         }
     }
-    
+
     private void handleCancelReservation() {
 
         Alert alert;
@@ -428,7 +431,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleEditReservation() {
-        
+
         //Get Selected Reservation
         Reservation r = tblReservations.getSelectionModel().getSelectedItem();
 
@@ -448,12 +451,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             alert.showAndWait();
             return;
         }
-        
+
         //Forms.displayReserveRoomForm(main, r);
         //Forms.displayReserveRoomForm(main, r);
-        
         Reservation newReservation = Forms.displayEditReservationForm(main, r);
-        if ( newReservation != null ) {
+        if (newReservation != null) {
             System.out.println("Not null, replacing in table");
             tblReservations.getItems().remove(r);
             tblReservations.getItems().add(newReservation);
@@ -461,15 +463,15 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             System.out.println("Null. not changing table");
         }
     }
- 
+
     private void handleSearchProfiles() {
 
         try {
-            
+
             System.out.println("1");
             if (!validateProfileFields()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "error validatiting fields");
+                        "error validatiting fields");
                 alert.showAndWait();
                 return;
             }
@@ -491,11 +493,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
             System.out.println("5");
             if (result != null) {
-                
-            System.out.println("6");
+
+                System.out.println("6");
                 profiles.setAll(result);
-                
-            System.out.println("7");
+
+                System.out.println("7");
             }
 
             System.out.println("8");
@@ -505,27 +507,27 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleNewProfile() {
-       Profile newProfile = Forms.displayCreateProfileForm(main);
-       if (newProfile != null) {
-           tblProfiles.getItems().add(newProfile);
-       }
+        Profile newProfile = Forms.displayCreateProfileForm(main);
+        if (newProfile != null) {
+            tblProfiles.getItems().add(newProfile);
+        }
     }
-    
+
     private void handleDeleteProfile() {
         //TO BE IMPLEMENTED - Shouldn't delete with Checked in guest....
     }
-    
+
     private void handleEditProfile() {
         Profile p = tblProfiles.getSelectionModel().getSelectedItem();
-        
-        if ( p == null ) {
+
+        if (p == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
-            "Please select a profile to edit");
+                    "Please select a profile to edit");
             alert.showAndWait();
             return;
         }
         Profile newProfile = Forms.displayEditProfileForm(main, p);
-        if ( newProfile != null ) {
+        if (newProfile != null) {
             tblProfiles.getItems().remove(p);
             tblProfiles.getItems().add(newProfile);
         }
@@ -533,42 +535,55 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     private boolean validateReservationFields() {
         boolean valid = true;
-        
+
         //Check From Data < To Date
-        
         //Check First Name
-        
         //Check Last Name
-        
         //Check Confirm Number
-        
-       return valid;
+        return valid;
     }
 
     private boolean validateProfileFields() {
         boolean valid = true;
-        
+
         //Check email
-        
         //Check PhoneNumber
-        
         //Check MemberID
-        
         //Check FirstName
-        
         //Check LastName
-        
         return valid;
     }
-    
-    private void markInvalid(TextField t){
+
+    private void markInvalid(TextField t) {
         t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        
-    }
-    
-    private void markValid(TextField t) {
-        t.setStyle("");
-      
+
     }
 
+    private void markValid(TextField t) {
+        t.setStyle("");
+
+    }
+
+    private void handleSearch() {
+        btnSearchProfiles.fire();
+        btnSearchReservations.fire();
+    }
+
+    private void initAutoSearch() {
+        txtFirstName.setOnAction( e-> { 
+            handleSearch();
+        });
+        txtLastName.setOnAction(e -> {
+            handleSearch();
+        });
+        txtMemberID.setOnAction(e -> {
+            handleSearch();
+        });
+        txtEmail.setOnAction(e -> {
+            handleSearch();
+        });
+        txtPhoneNumber.setOnAction(e -> {
+            handleSearch();
+        });
+    }
 }
