@@ -214,7 +214,7 @@ public class ReserveRoomFormController implements Initializable {
         cbxAdults.setItems(numAdults);
         cbxChildren.setItems(numChildren);
 
-        cbxRoomType.setValue(RoomType.DNN);
+        cbxRoomType.setValue(RoomType.DNH);
         cbxAdults.setValue(1);
         cbxChildren.setValue(0);
 

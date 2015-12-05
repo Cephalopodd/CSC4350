@@ -114,15 +114,13 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickDepartures(ActionEvent event) {
-        main.displaySubMenu(MenuType.FRONTDESK);
         handleClear();
         dateDeparture.setValue(LocalDate.now());
         handleSearch();
     }
     
     @FXML
-    private void onClickArrivals(ActionEvent event) {
-        main.displaySubMenu(MenuType.FRONTDESK);
+    public void onClickArrivals(ActionEvent event) {
         handleClear();
         dateArrival.setValue(LocalDate.now());
         handleSearch();
@@ -599,6 +597,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
                     "Guest could not be checked in at this time");
         }
         alert.showAndWait();
+        btnArrivals.fire();
     }
 
     private void initTableValues() {

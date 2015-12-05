@@ -74,6 +74,9 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void onClickFrontDesk(ActionEvent event) {
+        FrontDeskMenuController c =
+                (FrontDeskMenuController) subMenuControllers.get(MenuType.FRONTDESK);
+        c.onClickArrivals(event);
         displaySubMenu(MenuType.FRONTDESK);
     }
 

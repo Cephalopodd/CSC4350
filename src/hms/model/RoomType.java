@@ -29,7 +29,8 @@ public class RoomType {
     
     public static ObservableList<String> getRoomTypes() {
         ObservableList<String> roomTypes = FXCollections.observableArrayList();
-        roomTypes.addAll(RoomType.DNN,
+        roomTypes.addAll(
+                RoomType.DNN,
                 RoomType.DNH,
                 RoomType.DSN,
                 RoomType.DSH,
