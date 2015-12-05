@@ -13,97 +13,95 @@
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
                    
-                <GridPane fx:id="reservationsGridPane" alignment="TOP_RIGHT" hgap="5.0" prefHeight="124.0" prefWidth="1133.0" vgap="2.0">
+                <GridPane alignment="TOP_RIGHT" hgap="5.0" vgap="2.0" VBox.vgrow="NEVER">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="255.0" minWidth="6.0" prefWidth="194.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="66.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="150.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="187.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="134.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="213.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="183.0" minWidth="8.0" prefWidth="166.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="220.00000381469727" minWidth="6.0" prefWidth="208.00000381469727" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="95.99999618530273" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="250.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="0.0" prefWidth="12.66668701171875" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="148.33331298828125" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="250.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.0" minWidth="8.0" prefWidth="154.33331298828125" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-                        <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="First Name" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                        <Label text="First Name" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                             <padding>
                                 <Insets right="5.0" />
                             </padding>
                         </Label>
-                        <Label text="Last Name" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                        <Label text="Last Name" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label prefHeight="10.0" prefWidth="62.0" text="Company" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                        <Label text="Company" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label text="Group" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                        <Label text="Group" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <TextField fx:id="txtFirstName" onAction="#onClickSearchReservations" promptText="First Name" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtLastName" onAction="#onClickSearchReservations" promptText="Last Name" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtCompanyName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtGroupName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservations" promptText="Confirmation" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtMemberID" onAction="#onClickSearchReservations" promptText="Member ID" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtFirstName" onAction="#onClickSearch" promptText="First Name" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtLastName" onAction="#onClickSearch" promptText="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtMemberID" onAction="#onClickSearchProfiles" promptText="Member ID" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfiles" promptText="Email Address" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        
+                        <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservations" promptText="Confirmation Number" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearch" promptText="Phone Number" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        
                         <DatePicker fx:id="dateArrival" promptText="Arrival Date" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                         <DatePicker fx:id="dateDeparture" promptText="Departure Date" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="125.0" promptText="Email Address" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
-                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="128.0" promptText="Phone Number" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                        
-                        
-                        <Label text="Phone#" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                        <Label text="Phone#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                         <Label text="Arrival Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                         <Label text="Departure Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-                        <Label text="Confirmation#" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                        <Label text="Confirmation#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                    
+                        <Label text="Email" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                        <Label text="MemberID" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                    
                         
-                     
-                        <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="75.0" prefWidth="75.0" text="Search" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="BASELINE">
+                        <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="75.0" prefWidth="75.0" text="Search" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="TOP">
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
-                            <GridPane.margin>
-                                <Insets />
-                            </GridPane.margin>
                         </Button>
-
-                        <Button fx:id="btnSearchProfiles" mnemonicParsing="false" onAction="#onClickSearchProfiles" prefHeight="30.0" prefWidth="120.0" text="Search Profiles&#10;" textAlignment="CENTER" visible="false" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM"> 
-                            <effect>
-                                <InnerShadow height="5.0" radius="2.0" width="5.0" />
-                            </effect>
-                            <GridPane.margin>
-                                <Insets />
-                            </GridPane.margin>
-                        </Button>
-                           
+            
                         <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClickClear" prefWidth="75.0" text="Clear" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
                         </Button>
-                       
-                        <Label text="Member ID" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                        <Label text="Email" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                  <Button fx:id="btnSearchReservations" layoutX="1007.0" layoutY="73.0" mnemonicParsing="false" onAction="#onClickSearchReservations" prefHeight="30.0" prefWidth="120.0" text="Search Reservations&#10;" textAlignment="CENTER" visible="false">
-                     <effect>
-                        <InnerShadow height="5.0" radius="2.0" width="5.0" />
-                     </effect>
-                  </Button>
+                        
+                        <Button fx:id="btnSearchReservations" mnemonicParsing="false" onAction="#onClickSearchReservations" prefHeight="50.0" prefWidth="105.0" text="Search Only Resevations" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <effect>
+                                <InnerShadow height="5.0" radius="2.0" width="5.0" />
+                            </effect>
+                        </Button>
+                     
+                        
+                        <Button fx:id="btnSearchProfiles" mnemonicParsing="false" onAction="#onClickSearchProfiles" prefHeight="50.0" prefWidth="105.0" text="Search Only Profiles" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="2" GridPane.valignment="TOP">
+                            <effect>
+                                <InnerShadow height="5.0" radius="2.0" width="5.0" />
+                            </effect>
+                        </Button>
+                  
                     </children>
-                    <padding>
-                        <Insets top="5.0" />
-                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                    </VBox.margin>
                 </GridPane>
                   
                 <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">

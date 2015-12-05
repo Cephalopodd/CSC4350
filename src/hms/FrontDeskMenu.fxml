@@ -104,7 +104,7 @@
                         <Label text="Arrival Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                         <Label text="Departure Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                         <Label text="Confirmation#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <Button fx:id="btnArrivals" mnemonicParsing="false" onAction="#onClickArrivals" prefHeight="50.0" prefWidth="105.0" text="Arrivals" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                        <Button fx:id="btnArrivals" mnemonicParsing="false" onAction="#onClickArrivals" prefHeight="50.0" prefWidth="105.0" text="Arrivals" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -123,7 +123,7 @@
                             </effect>
                         </Button>
             
-                        <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="75.0" prefWidth="75.0" text="Search" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3">
+                        <Button fx:id="btnSearch" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="75.0" prefWidth="75.0" text="Search" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="TOP">
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
@@ -134,7 +134,7 @@
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
                         </Button>
-                  <Button fx:id="btnDepartures" mnemonicParsing="false" onAction="#onClickDepartures" prefHeight="50.0" prefWidth="105.0" text="Departures" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="2">
+                  <Button fx:id="btnDepartures" mnemonicParsing="false" onAction="#onClickDepartures" prefHeight="50.0" prefWidth="105.0" text="Departures" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="2" GridPane.valignment="TOP">
                      <effect>
                         <InnerShadow height="5.0" radius="2.0" width="5.0" />
                      </effect>

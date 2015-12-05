@@ -52,10 +52,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     @FXML
     private TextField txtLastName;
     @FXML
-    private TextField txtCompanyName;
-    @FXML
-    private TextField txtGroupName;
-    @FXML
     private TextField txtConfirmation;
     @FXML
     private TextField txtPhoneNumber;
@@ -192,16 +188,22 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     @FXML
     private void onClickSearchProfiles(ActionEvent event) {
+        reservations.clear();
+        profiles.clear();
         handleSearchProfiles();
     }
     
     @FXML
     private void onClickSearchReservations(ActionEvent event) {
+        reservations.clear();
+        profiles.clear();
         handleSearchReservations();
     }
     
     @FXML
     private void onClickSearch(ActionEvent event) {
+        reservations.clear();
+        profiles.clear();
         handleSearch();
     }
     
@@ -246,7 +248,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("Comments"));
 
         Label msg = new Label("Reservations");
-        msg.setFont(new Font(24));
+        msg.setFont(new Font(48));
         msg.setOpacity(.5);
         tblReservations.setPlaceholder(msg);
     }
@@ -272,7 +274,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                 new PropertyValueFactory<>("Notes"));
 
         Label msg = new Label("Profiles");
-        msg.setFont(new Font(24));
+        msg.setFont(new Font(48));
         msg.setOpacity(.5);
         tblProfiles.setPlaceholder(msg);
     }
@@ -294,8 +296,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         reservations.clear();
         txtFirstName.setText("");
         txtLastName.setText("");
-        txtGroupName.setText("");
-        txtCompanyName.setText("");
         txtPhoneNumber.setText("");
         txtConfirmation.setText("");
         dateArrival.setValue(null);
@@ -305,9 +305,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     private void handleClearProfiles() {
         //Clear Profiles
         profiles.clear();
-        txtEmail.clear();
-        txtPhoneNumber.clear();
-        txtMemberID.clear();
+        txtEmail.setText("");
+        txtPhoneNumber.setText("");
+        txtMemberID.setText("");
     }
 
     private void handleSearchReservations() {
@@ -343,8 +343,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                     = new FrontDeskArrivalsDTOBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
-                    .setCompanyName(txtCompanyName.getText())
-                    .setGroupName(txtGroupName.getText())
+                    .setCompanyName("")
+                    .setGroupName("")
                     .setConfirmation(txtConfirmation.getText())
                     .setPhoneNumber(txtPhoneNumber.getText())
                     .setArrivalDate(arriveDate)
@@ -573,6 +573,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleSearch() {
+        reservations.clear();
+        profiles.clear();
         handleSearchProfiles();
         handleSearchReservations();
     }
@@ -593,5 +595,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtPhoneNumber.setOnAction(e -> {
             handleSearch();
         });
+
     }
 }
