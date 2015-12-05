@@ -191,12 +191,12 @@ public class MainMenuController implements Initializable {
     }
     
     void displaySubMenu(MenuType subMenu){
-        FadeTransition ft0 = new FadeTransition(Duration.millis(500), displayPane);
+        FadeTransition ft0 = new FadeTransition(Duration.millis(250), displayPane);
         ft0.setFromValue(1.0);
         ft0.setToValue(0.0);
         ft0.play();
         displayPane.getChildren().setAll(subMenus.get(subMenu));
-        FadeTransition ft1 = new FadeTransition(Duration.millis(750), displayPane);
+        FadeTransition ft1 = new FadeTransition(Duration.millis(500), displayPane);
         ft1.setFromValue(0.0);
         ft1.setToValue(1.0);
         ft1.play();

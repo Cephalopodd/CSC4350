@@ -13,30 +13,30 @@
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
                    
-                <GridPane fx:id="reservationsGridPane" alignment="TOP_RIGHT" hgap="5.0" vgap="2.0">
+                <GridPane fx:id="reservationsGridPane" alignment="TOP_RIGHT" hgap="5.0" prefHeight="124.0" prefWidth="1133.0" vgap="2.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="220.00000381469727" minWidth="6.0" prefWidth="176.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="186.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="138.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="109.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="139.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="171.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="183.0" minWidth="8.0" prefWidth="182.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="255.0" minWidth="6.0" prefWidth="194.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="66.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="150.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="187.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="134.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="213.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="183.0" minWidth="8.0" prefWidth="166.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                        <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="37.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="First Name" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                        <Label text="First Name" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                             <padding>
                                 <Insets right="5.0" />
                             </padding>
                         </Label>
-                        <Label text="Last Name" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                        <Label text="Last Name" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                             <GridPane.margin>
                                 <Insets right="5.0" />
                             </GridPane.margin>
@@ -51,25 +51,25 @@
                                 <Insets right="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <TextField fx:id="txtFirstName" onAction="#onClickSearchReservations" promptText="First Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtLastName" onAction="#onClickSearchReservations" promptText="Last Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtFirstName" onAction="#onClickSearchReservations" promptText="First Name" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtLastName" onAction="#onClickSearchReservations" promptText="Last Name" GridPane.columnIndex="5" GridPane.rowIndex="2" />
                         <TextField fx:id="txtCompanyName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField fx:id="txtGroupName" onAction="#onClickSearchReservations" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="txtConfirmation" onAction="#onClickSearchReservations" promptText="Confirmation" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtMemberID" onAction="#onClickSearchReservations" promptText="Member ID" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                        <DatePicker fx:id="dateArrival" promptText="Arrival Date" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                        <DatePicker fx:id="dateDeparture" promptText="Departure Date" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="125.0" promptText="Email Address" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="128.0" promptText="Phone Number" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtMemberID" onAction="#onClickSearchReservations" promptText="Member ID" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <DatePicker fx:id="dateArrival" promptText="Arrival Date" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="dateDeparture" promptText="Departure Date" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtEmail" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="125.0" promptText="Email Address" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+                        <TextField fx:id="txtPhoneNumber" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="128.0" promptText="Phone Number" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                         
                         
-                        <Label text="Phone#" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-                        <Label text="Arrival Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <Label text="Departure Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                        <Label text="Phone#" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                        <Label text="Arrival Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                        <Label text="Departure Date" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                         <Label text="Confirmation#" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                         
                      
-                        <Button fx:id="btnSearchReservations" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearchReservations" prefHeight="50.0" prefWidth="120.0" text="Search&#10;Reservations&#10;" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                        <Button fx:id="btnSearchReservations" defaultButton="true" mnemonicParsing="false" onAction="#onClickSearch" prefHeight="75.0" prefWidth="75.0" text="Search" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="BASELINE">
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
@@ -78,7 +78,7 @@
                             </GridPane.margin>
                         </Button>
 
-                        <Button fx:id="btnSearchProfiles" mnemonicParsing="false" onAction="#onClickSearchProfiles" prefHeight="26.0" prefWidth="120.0" text="Search Profiles&#10;" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3"> 
+                        <Button fx:id="btnSearchProfiles" mnemonicParsing="false" onAction="#onClickSearchProfiles" prefHeight="30.0" prefWidth="120.0" text="Search Profiles&#10;" textAlignment="CENTER" visible="false" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM"> 
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
@@ -87,14 +87,14 @@
                             </GridPane.margin>
                         </Button>
                            
-                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClickClear" prefHeight="26.0" prefWidth="120.0" text="Clear" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClickClear" prefWidth="75.0" text="Clear" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                             <effect>
                                 <InnerShadow height="5.0" radius="2.0" width="5.0" />
                             </effect>
                         </Button>
                        
-                        <Label text="Member ID" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-                        <Label text="Email" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                        <Label text="Member ID" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                        <Label text="Email" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
                     </children>
                     <padding>
                         <Insets top="5.0" />
@@ -108,17 +108,17 @@
                     <content>
                         <TableView fx:id="tblReservations" prefHeight="202.0" prefWidth="630.0">
                             <columns>
-                                <TableColumn fx:id="colConfirmation" maxWidth="105.0" minWidth="100.0" prefWidth="105.0" text="Confirm" />
-                                <TableColumn fx:id="colFirstName" maxWidth="300.0" minWidth="120.0" prefWidth="150.0" text="First Name" />
-                                <TableColumn fx:id="colLastName" maxWidth="300.0" minWidth="120.0" prefWidth="120.0" text="Last Name" />
-                                <TableColumn fx:id="colRoomNumber" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" text="Room" />
-                                <TableColumn fx:id="colRoomType" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" text="Type" />
-                                <TableColumn fx:id="colRoomRate" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" text="Rate" />
-                                <TableColumn fx:id="colNumberAdults" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Adult" />
-                                <TableColumn fx:id="colNumberChildren" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Child" />
-                                <TableColumn fx:id="colArrival" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Arrive" />
-                                <TableColumn fx:id="colDeparture" maxWidth="123.0" minWidth="96.0" prefWidth="96.0" text="Depart" />
-                                <TableColumn fx:id="colStatus" maxWidth="169.0" minWidth="79.0" prefWidth="106.0" text="Status" />
+                                <TableColumn fx:id="colConfirmation" maxWidth="-1.0" minWidth="75.0" prefWidth="-1.0" text="Confirm" />
+                                <TableColumn fx:id="colFirstName" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="First Name" />
+                                <TableColumn fx:id="colLastName" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Last Name" />
+                                <TableColumn fx:id="colRoomNumber" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Room" />
+                                <TableColumn fx:id="colRoomType" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Type" />
+                                <TableColumn fx:id="colRoomRate" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Rate" />
+                                <TableColumn fx:id="colNumberAdults" maxWidth="-1.0" minWidth="75.0" prefWidth="-1.0" text="Adult" />
+                                <TableColumn fx:id="colNumberChildren" maxWidth="-1.0" minWidth="75.0" prefWidth="-1.0" text="Child" />
+                                <TableColumn fx:id="colArrival" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Arrive" />
+                                <TableColumn fx:id="colDeparture" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Depart" />
+                                <TableColumn fx:id="colStatus" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Status" />
                                 <TableColumn fx:id="colComments" minWidth="-1.0" prefWidth="95.0" text="Comments" />
                             </columns>
                             <columnResizePolicy>

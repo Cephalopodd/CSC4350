@@ -197,6 +197,12 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearchProfiles();
     }
 
+    @FXML
+    private void onClickSearch(ActionEvent event) {
+        handleSearchReservations();
+        handleSearchProfiles();
+    }
+    
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
