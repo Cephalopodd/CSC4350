@@ -66,6 +66,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     @FXML
     private Button btnClear;
     @FXML
+    private Button btnSearch;
+    @FXML
     private Button btnSearchReservations;
     @FXML
     private Button btnSearchProfiles;
@@ -156,10 +158,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleClear();
     }
 
-    @FXML
-    private void onClickSearchReservations(ActionEvent event) {
-        handleSearchReservations();
-    }
 
     @FXML
     private void onClickNewReservation(ActionEvent event) {
@@ -196,11 +194,15 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     private void onClickSearchProfiles(ActionEvent event) {
         handleSearchProfiles();
     }
-
+    
+    @FXML
+    private void onClickSearchReservations(ActionEvent event) {
+        handleSearchReservations();
+    }
+    
     @FXML
     private void onClickSearch(ActionEvent event) {
-        handleSearchReservations();
-        handleSearchProfiles();
+        handleSearch();
     }
     
     @Override
@@ -571,8 +573,8 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
     }
 
     private void handleSearch() {
-        btnSearchProfiles.fire();
-        btnSearchReservations.fire();
+        handleSearchProfiles();
+        handleSearchReservations();
     }
 
     private void initAutoSearch() {
@@ -583,10 +585,10 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             handleSearch();
         });
         txtMemberID.setOnAction(e -> {
-            handleSearch();
+            handleSearchProfiles();
         });
         txtEmail.setOnAction(e -> {
-            handleSearch();
+            handleSearchProfiles();
         });
         txtPhoneNumber.setOnAction(e -> {
             handleSearch();
