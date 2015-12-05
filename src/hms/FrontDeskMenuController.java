@@ -209,6 +209,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         Label msg = new Label("Reservations");
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
+        msg.setStyle("-fx-font-size: 24;");
         tblFrontDesk.setPlaceholder(msg);
 
         //Populate with data

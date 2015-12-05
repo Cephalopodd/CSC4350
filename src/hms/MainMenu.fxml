@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="mainMenuPane" fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="1014.0" stylesheets="@../resource/styling/Login.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.MainMenuController">
+<BorderPane id="mainMenuPane" fx:id="mainMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="1014.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.MainMenuController">
    <top>
       <HBox id="mainMenuBar" alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1014.0" stylesheets="@../resource/styling/Login.css">
          <children>
@@ -34,6 +34,6 @@
       </HBox>
    </top>
    <center>
-      <StackPane id="displayPane" fx:id="displayPane" prefHeight="477.0" prefWidth="1014.0" stylesheets="@../resource/styling/Login.css" BorderPane.alignment="CENTER" />
+      <StackPane id="displayPane" fx:id="displayPane" prefHeight="477.0" prefWidth="1014.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

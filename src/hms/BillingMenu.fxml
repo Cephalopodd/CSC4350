@@ -7,108 +7,117 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="BillingMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="550.0" style="-fx-background-color: #302F3B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.BillingMenuController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="181.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="492.0" minWidth="10.0" prefWidth="369.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="319.0" minHeight="10.0" prefHeight="315.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+
+<StackPane id="billingBackground" stylesheets="@../resource/styling/Login.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.BillingMenuController">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="10.0" right="10.0" />
-         </GridPane.margin>
-         <content>
-            <TableView fx:id="tblCharges" blendMode="EXCLUSION" maxWidth="-Infinity" opacity="0.66" pickOnBounds="false">
-              <columns>
-                <TableColumn fx:id="colQuantity" minWidth="0.0" prefWidth="100.0" text="Date" />
-                  <TableColumn fx:id="colCode" maxWidth="148.0" prefWidth="75.0" text="Code" />
-                <TableColumn fx:id="colDescription" prefWidth="250.0" text=" Item Description" />
-                  <TableColumn fx:id="colAmount" minWidth="0.0" prefWidth="100.0" text="Amount" />
-              </columns>
-               <effect>
-                  <Blend />
-               </effect>
-            </TableView>
-         </content>
-      </ScrollPane>
-      <Button fx:id="printInvoiceBtn" mnemonicParsing="false" onAction="#onClickPrintInvoice" prefHeight="50.0" prefWidth="140.0" text="Print Invoice" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-         <rotationAxis>
-            <Point3D />
-         </rotationAxis>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </Button>
-      <Label prefHeight="16.0" prefWidth="162.0" text="Account Charges">
-         <GridPane.margin>
-            <Insets left="10.0" />
-         </GridPane.margin>
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-         <padding>
-            <Insets left="10.0" />
-         </padding>
-      </Label>
-      <Button fx:id="makePayBtn" mnemonicParsing="false" onAction="#onClickMakePayment" prefHeight="50.0" prefWidth="140.0" text="Make Payment" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </Button>
-      <GridPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="2">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="131.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <AnchorPane>
          <children>
-            <Label text="Sub-Total:" GridPane.halignment="RIGHT">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Label>
-            <Label text="Taxes Fees:" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Label>
-            <Label text="Your Total:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblSubTotal" prefHeight="16.0" prefWidth="156.0" text="\$ 0.00" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets left="70.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="lblTaxes" prefHeight="16.0" prefWidth="142.0" text="\$ 0.00" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="70.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="lblTotal" prefHeight="30.0" prefWidth="177.0" text="\$ 0.00" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
-               <GridPane.margin>
-                  <Insets left="40.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
+            <GridPane id="BillingMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="550.0" style="-fx-background-color: #302F3B;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="181.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="492.0" minWidth="10.0" prefWidth="369.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="319.0" minHeight="10.0" prefHeight="315.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                     <content>
+                        <TableView fx:id="tblCharges" blendMode="EXCLUSION" maxWidth="-Infinity" opacity="0.66" pickOnBounds="false">
+                          <columns>
+                            <TableColumn fx:id="colQuantity" minWidth="0.0" prefWidth="100.0" text="Date" />
+                              <TableColumn fx:id="colCode" maxWidth="148.0" prefWidth="75.0" text="Code" />
+                            <TableColumn fx:id="colDescription" prefWidth="250.0" text=" Item Description" />
+                              <TableColumn fx:id="colAmount" minWidth="0.0" prefWidth="100.0" text="Amount" />
+                          </columns>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TableView>
+                     </content>
+                  </ScrollPane>
+                  <Button fx:id="printInvoiceBtn" mnemonicParsing="false" onAction="#onClickPrintInvoice" prefHeight="50.0" prefWidth="140.0" text="Print Invoice" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                     <rotationAxis>
+                        <Point3D />
+                     </rotationAxis>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <Label prefHeight="16.0" prefWidth="162.0" text="Account Charges">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Button fx:id="makePayBtn" mnemonicParsing="false" onAction="#onClickMakePayment" prefHeight="50.0" prefWidth="140.0" text="Make Payment" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <GridPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="131.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Sub-Total:" GridPane.halignment="RIGHT">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Taxes Fees:" textAlignment="RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Your Total:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                           <font>
+                              <Font name="System Bold Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblSubTotal" prefHeight="16.0" prefWidth="156.0" text="\$ 0.00" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="70.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lblTaxes" prefHeight="16.0" prefWidth="142.0" text="\$ 0.00" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="70.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lblTotal" prefHeight="30.0" prefWidth="177.0" text="\$ 0.00" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+                           <GridPane.margin>
+                              <Insets left="40.0" />
+                           </GridPane.margin>
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
          </children>
-      </GridPane>
+      </AnchorPane>
    </children>
-</GridPane>
+</StackPane>
