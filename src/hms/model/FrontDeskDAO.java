@@ -480,9 +480,11 @@ public class FrontDeskDAO {
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            result = (stmt.executeUpdate("update room set occupied = " + occ 
-                        + " where number = " + roomNumber) > 0);
+            String sql = "update room set occupied = " + occ
+                        + " where number = " + roomNumber;
+            result = (stmt.executeUpdate(sql) > 0);
             c.commit();
+            System.out.println(sql);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         } finally {
@@ -544,6 +546,7 @@ public class FrontDeskDAO {
             System.out.println("Error Adding Credit Card to reservation");
         
         //Update room table - set room occupied
+        System.out.println("Setting room to occupied");
         result = setRoomOccupied(r.getRoomNumber());
         if (!result)
             System.out.println("Error saving room number on Checkin");

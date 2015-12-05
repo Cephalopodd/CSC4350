@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,6 +35,7 @@ public class MainMenuController implements Initializable {
     private HMS HMSapp;
     private User user;
     private final HashMap<Enum, Node> subMenus = new HashMap<>();
+    private final HashMap<Enum, SubMenu> subMenuControllers = new HashMap<>();
     //private BillingMenuController bmc;
             
 
@@ -55,13 +57,14 @@ public class MainMenuController implements Initializable {
     private Button btnExit;
     @FXML
     private StackPane displayPane;
+    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //None
+        //
     }
 
     @FXML
@@ -76,6 +79,9 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void onClickRooms(ActionEvent event) {
+        RoomsMenuController c = 
+                    (RoomsMenuController) subMenuControllers.get(MenuType.ROOMS);
+            c.updateView();
         displaySubMenu(MenuType.ROOMS);
     }
 
@@ -131,12 +137,14 @@ public class MainMenuController implements Initializable {
     
     private void addSubMenu(MenuType menu, String fxml) {
         Parent loadScreen;
+        SubMenu submenu = null;
         try {
             FXMLLoader myLoader = new FXMLLoader(getClass().getResource(fxml));
             loadScreen = (Parent) myLoader.load();
-            SubMenu submenu = ((SubMenu) myLoader.getController());
+            submenu = ((SubMenu) myLoader.getController());
             submenu.setSubMenuParent(this);
             submenu.setUser(user);
+            
         } catch (Exception ex) {
             String msg = "Error Loading menu " + menu.toString() + " from " + fxml;
             System.out.println(msg);
@@ -144,6 +152,7 @@ public class MainMenuController implements Initializable {
             ( (BorderPane) loadScreen).setCenter(new Label(msg));
         }
         subMenus.put(menu, loadScreen);
+        subMenuControllers.put(menu,submenu);
         
     }
     

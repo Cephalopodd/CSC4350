@@ -104,5 +104,15 @@ public class RoomsMenuController implements Initializable,SubMenu {
             tilePane.getChildren().add(roomBtn.get(i));
         }
     }
+ 
+    public void updateView(){
+        tilePane.getChildren().clear();
+        activeRmCount();
+        occupiedRmCount();
+        maintenanceRmCount();
+        hkRmCount();
+        totalRoomCount();
+        tilePaneDisplay();
+    }
     
 }
