@@ -7,21 +7,21 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <StackPane id="billingBackground" stylesheets="@../resource/styling/Login.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hms.BillingMenuController">
    <children>
-      <AnchorPane>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0">
          <children>
-            <GridPane id="BillingMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="550.0" style="-fx-background-color: #302F3B;">
+            <GridPane id="BillingMenu" layoutX="360.0" layoutY="39.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="539.0" style="-fx-background-color: #302F3B;">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="181.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="179.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="492.0" minWidth="10.0" prefWidth="369.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="319.0" minHeight="10.0" prefHeight="315.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="66.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="394.0" minHeight="10.0" prefHeight="312.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
@@ -31,7 +31,7 @@
                      <content>
                         <TableView fx:id="tblCharges" blendMode="EXCLUSION" maxWidth="-Infinity" opacity="0.66" pickOnBounds="false">
                           <columns>
-                            <TableColumn fx:id="colQuantity" minWidth="0.0" prefWidth="100.0" text="Date" />
+                            <TableColumn fx:id="colDate" minWidth="0.0" prefWidth="100.0" text="Date" />
                               <TableColumn fx:id="colCode" maxWidth="148.0" prefWidth="75.0" text="Code" />
                             <TableColumn fx:id="colDescription" prefWidth="250.0" text=" Item Description" />
                               <TableColumn fx:id="colAmount" minWidth="0.0" prefWidth="100.0" text="Amount" />
@@ -42,15 +42,7 @@
                         </TableView>
                      </content>
                   </ScrollPane>
-                  <Button fx:id="printInvoiceBtn" mnemonicParsing="false" onAction="#onClickPrintInvoice" prefHeight="50.0" prefWidth="140.0" text="Print Invoice" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                     <rotationAxis>
-                        <Point3D />
-                     </rotationAxis>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </Button>
-                  <Label prefHeight="16.0" prefWidth="162.0" text="Account Charges">
+                  <Label prefHeight="16.0" prefWidth="162.0" text="Account Charges for:">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
@@ -61,7 +53,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="makePayBtn" mnemonicParsing="false" onAction="#onClickMakePayment" prefHeight="50.0" prefWidth="140.0" text="Make Payment" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                  <Button fx:id="btnCashPayment" mnemonicParsing="false" onAction="#onClickCashPayment" prefHeight="40.0" prefWidth="151.0" text="Make Cash Payment" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -105,9 +97,9 @@
                               <Insets left="70.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblTotal" prefHeight="30.0" prefWidth="177.0" text="\$ 0.00" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
+                        <Label fx:id="lblTotal" prefHeight="30.0" prefWidth="103.0" text="\$ 0.00" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.rowSpan="2147483647">
                            <GridPane.margin>
-                              <Insets left="40.0" />
+                              <Insets left="70.0" />
                            </GridPane.margin>
                            <font>
                               <Font size="24.0" />
@@ -115,8 +107,48 @@
                         </Label>
                      </children>
                   </GridPane>
+                  <Label fx:id="lblGuestName" prefHeight="17.0" prefWidth="229.0" GridPane.columnIndex="1" />
+                  <HBox prefHeight="33.0" prefWidth="146.0" GridPane.hgrow="NEVER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                     <children>
+                        <TextField fx:id="txtAmount" onAction="#onClickCashPayment" prefHeight="27.0" prefWidth="133.0">
+                           <HBox.margin>
+                              <Insets left="32.0" top="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <Button fx:id="btnDeleteCharge" layoutX="23.0" layoutY="468.0" mnemonicParsing="false" onAction="#onClickDeleteCharge" prefHeight="40.0" prefWidth="150.0" text="Delete Charge" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="30.0" layoutY="39.0">
+               <content>
+                  <TableView fx:id="tblGuests" prefHeight="337.0" prefWidth="283.0">
+                    <columns>
+                      <TableColumn fx:id="colFirst" prefWidth="102.0" text="First" />
+                      <TableColumn fx:id="colLast" prefWidth="107.0" text="Last" />
+                        <TableColumn fx:id="colRoom" prefWidth="69.0" text="Room" />
+                    </columns>
+                  </TableView>
+               </content>
+            </ScrollPane>
+            <Button fx:id="btnSelectGuest" defaultButton="true" layoutX="30.0" layoutY="376.0" mnemonicParsing="false" onAction="#onClickSelectGuest" prefHeight="50.0" prefWidth="283.0" text="Select Guest" />
+            <Button fx:id="btnPrintFolio" layoutX="30.0" layoutY="458.0" mnemonicParsing="false" onAction="#onClickPrintFolio" prefHeight="94.0" prefWidth="114.0" text="Print Folio" textAlignment="CENTER" />
+            <ScrollPane id="spItems" fx:id="spItems" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="936.0" layoutY="39.0">
+               <content>
+                  <TilePane id="tilePane" fx:id="tilePane" alignment="CENTER" prefHeight="399.0" prefWidth="312.0" />
+               </content>
+            </ScrollPane>
+            <Button fx:id="btnCheckOut" layoutX="199.0" layoutY="458.0" mnemonicParsing="false" onAction="#onClickCheckOut" prefHeight="94.0" prefWidth="114.0" text="CheckOut" textAlignment="CENTER" />
+            <AnchorPane layoutX="933.0" layoutY="451.0" prefHeight="101.0" prefWidth="318.0">
+               <children>
+                  <Label layoutX="54.0" layoutY="6.0" text="Item:" />
+                  <Label layoutX="14.0" layoutY="59.0" text="Description:" />
+                  <Label fx:id="lblPrice" layoutX="104.0" layoutY="34.0" prefHeight="17.0" prefWidth="202.0" />
+                  <Label fx:id="lblItem" layoutX="104.0" layoutY="6.0" prefHeight="17.0" prefWidth="202.0" />
+                  <Label layoutX="51.0" layoutY="34.0" text="Price:" />
+                  <Label fx:id="lblDescription" layoutX="104.0" layoutY="56.0" prefHeight="40.0" prefWidth="202.0" text="&#10;" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

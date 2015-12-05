@@ -5,121 +5,225 @@
  */
 package hms;
 
-import static hms.HMS.stage;
 import hms.model.BillingMenuDAO;
 import hms.model.FolioCharge;
-import hms.model.MenuType;
 import hms.model.Reservation;
 import hms.model.User;
-import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.Button;
+import javafx.scene.layout.TilePane;
+import javafx.scene.text.Font;
 import javafx.util.converter.CurrencyStringConverter;
 
 /**
  * FXML Controller class
  *
- * @author admin
+ * @author jgreene
  */
 public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private TableView<FolioCharge> tblCharges;
     @FXML
+    private TableColumn<FolioCharge, String> colDate;
+    @FXML
     private TableColumn<FolioCharge, String> colCode;
     @FXML
     private TableColumn<FolioCharge, String> colDescription;
     @FXML
-    private TableColumn<FolioCharge, String> colQuantity;
-    @FXML
     private TableColumn<FolioCharge, String> colAmount;
     @FXML
-    private Label lblTotal, lblSubTotal,lblTaxes;
+    private Button btnCashPayment;
     @FXML
-    public Button  btnMakePay, btnPrintInvoice;
-     
-    Reservation reservation;
-    BillingMenuDAO dao;
-    User user;
-    MainMenuController main;
-    double taxRate = .07;
-
+    private Label lblSubTotal;
+    @FXML
+    private Label lblTaxes;
+    @FXML
+    private Label lblTotal;
+    @FXML
+    private Label lblGuestName;
+    @FXML
+    private TextField txtAmount;
+    @FXML
+    private Button btnDeleteCharge;
+    @FXML
+    private TableView<Reservation> tblGuests;
+    @FXML
+    private TableColumn<Reservation, String> colFirst;
+    @FXML
+    private TableColumn<Reservation, String> colLast;
+    @FXML
+    private TableColumn<Reservation, Integer> colRoom;
+    @FXML
+    private Button btnSelectGuest;
+    @FXML
+    private Button btnPrintFolio;
+    @FXML
+    private Button btnCheckOut;
+    @FXML
+    private Label lblPrice;
+    @FXML
+    private Label lblItem;
+    @FXML
+    private Label lblDescription;
+    @FXML
+    private ScrollPane spItems;
+    @FXML
+    private TilePane tilePane;
+    
+    private MainMenuController main;
+    private User user;
+    private Reservation currentReservation;
+    private BillingMenuDAO dao;
+    private double taxRate = .08;
+    
+    private ObservableList charges;
+    private ObservableList guests;
+    private ObservableList items;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         dao = new BillingMenuDAO();
-        setupColumns();
-        getCharges();
+        initGuestsTable();
+        initChargesTable();
+        initTilePane();
     }    
 
     @FXML
-    private void onClickPrintInvoice(ActionEvent event) {       
-        main.displaySubMenu(MenuType.INVOICE);
+    private void onClickCashPayment(ActionEvent event) {
     }
 
     @FXML
-    private void onClickMakePayment(ActionEvent event) throws IOException {   
-        //create a new scene with root and set the stage
-        Parent root;
-        root = FXMLLoader.load(getClass().getResource("CheckInForm.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    
-     
-    }
-   
-    public void getCharges() {
-        ObservableList<FolioCharge> charges = FXCollections.observableArrayList();
-        charges = dao.queryCharges(1234);
-        tblCharges.setItems(charges);
-        calculateTotals();
+    private void onClickDeleteCharge(ActionEvent event) {
     }
 
-    private void setupColumns() {
-
-        colCode.setCellValueFactory(
-                new PropertyValueFactory<>("Code"));
-        colDescription.setCellValueFactory(
-                new PropertyValueFactory<>("Description"));
-        colQuantity.setCellValueFactory(
-                new PropertyValueFactory<>("Date"));
-        colAmount.setCellValueFactory(
-                new PropertyValueFactory<>("Amount"));
-        colAmount.setCellValueFactory( cellData ->
-            Bindings.format("%.2f", cellData.getValue().getAmount())
-        );
-        
+    @FXML
+    private void onClickSelectGuest(ActionEvent event) {
+        handleSelectGuest();
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    @FXML
+    private void onClickPrintFolio(ActionEvent event) {
     }
+
+    @FXML
+    private void onClickCheckOut(ActionEvent event) {
+    }
+
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
     }
 
     @Override
-    public void setUser(User e) {
-        this.user = e;
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    public void setCurrentReservation(Reservation currentReservation) {
+        this.currentReservation = currentReservation;
+    }
+    
+
+    private void initGuestsTable() {
+        
+        guests = FXCollections.observableArrayList();
+
+        tblGuests.setItems(guests);
+
+        colFirst.setCellValueFactory(
+                new PropertyValueFactory<>("FirstName"));
+        colLast.setCellValueFactory(
+                new PropertyValueFactory<>("LastName"));
+        colRoom.setCellValueFactory(
+                new PropertyValueFactory<>("RoomNumber"));
+
+        //Set Default Message
+        Label msg = new Label("Guests");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblGuests.setPlaceholder(msg);
+
+        //Populate with data
+        updateCurrentGuests();
+        
     }
 
+    private void initChargesTable() {
+        charges = FXCollections.observableArrayList();
+        
+        tblCharges.setItems(charges);
+
+        colCode.setCellValueFactory(
+                new PropertyValueFactory<>("Code"));
+        colDescription.setCellValueFactory(
+                new PropertyValueFactory<>("Description"));
+        colDate.setCellValueFactory(
+                new PropertyValueFactory<>("Date"));
+        colAmount.setCellValueFactory(
+                new PropertyValueFactory<>("Amount"));
+        colAmount.setCellValueFactory( cellData ->
+            Bindings.format("%.2f", cellData.getValue().getAmount())
+        );
+
+        //Set Default Message
+        Label msg = new Label("Guests");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblGuests.setPlaceholder(msg);
+
+        //Populate with data
+        updateCurrentGuests();
+    }
+    
+    private void initTilePane() {
+        
+        tilePane.setVgap(12.0);
+        tilePane.setHgap(12.0);
+        tilePane.setPrefColumns(4);
+        spItems.setStyle("-fx-background-color:transparent;");
+        
+        for (int i = 0 ; i< 100; i++) {
+            Button btnTemp = new Button(" Item "+i+"\n");
+            btnTemp.setOnMouseEntered( e-> {
+                lblItem.textProperty().bind(btnTemp.textProperty());
+            });
+            btnTemp.setOnMouseDragOver( e-> {
+                
+            });
+            btnTemp.setOnMouseExited( e-> {
+                lblItem.textProperty().unbind();
+            });
+            btnTemp.setStyle("-fx-background-color: #ff4e50; -fx-font-size: 16px; -fx-text-fill: WHITE;");
+            tilePane.getChildren().add(btnTemp);
+        }
+        
+    }
+
+    private void handleSelectGuest() {
+        charges = dao.queryCharges(1234);
+        tblCharges.setItems(charges);
+        calculateTotals();
+    }
+    
+    
     private void calculateTotals() {
         CurrencyStringConverter csc = new CurrencyStringConverter();
         double subtotal = 0, total = 0, taxes = 0;
@@ -130,4 +234,15 @@ public class BillingMenuController implements Initializable, SubMenu {
         lblTaxes.setText(csc.toString(taxes));
         lblSubTotal.setText(csc.toString(subtotal));
     }
+
+    private void updateCurrentGuests() {
+        
+    }
+    
+    
+    
+   
+
+  
+    
 }

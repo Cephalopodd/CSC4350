@@ -47,6 +47,35 @@
     -fx-border-insets: -1, 0; 
 }
 
+#spItems {
+    -fx-background-color: #1d1d1d;
+    -fx-border-color: #090a0c;
+}
+
+#tilePane {
+    -fx-background-color: #1d1d1d;
+    -fx-border-color: #090a0c;
+}
+
+
+.scroll-pane {
+    -fx-background-color:transparent;
+}
+
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane:focused {
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
+}
+
+
 .label {
     -fx-font-family: "Arial";
     -fx-font-size: 15;
