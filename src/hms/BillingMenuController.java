@@ -195,10 +195,11 @@ public class BillingMenuController implements Initializable, SubMenu {
     
     private void initTilePane() {
         
+        items = FXCollections.observableArrayList();
+        
         tilePane.setVgap(12.0);
         tilePane.setHgap(12.0);
         tilePane.setPrefColumns(4);
-        spItems.setStyle("-fx-background-color:transparent;");
         
         for (int i = 0 ; i< 100; i++) {
             Button btnTemp = new Button(" Item "+i+"\n");
