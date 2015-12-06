@@ -11,7 +11,7 @@
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0">
          <children>
-            <GridPane id="BillingMenu" layoutX="360.0" layoutY="39.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="539.0" style="-fx-background-color: #302F3B;">
+            <GridPane id="BillingMenu" fx:id="chargesPane" layoutX="360.0" layoutY="39.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="539.0" style="-fx-background-color: #302F3B;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="179.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="492.0" minWidth="10.0" prefWidth="369.0" />

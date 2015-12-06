@@ -23,6 +23,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
+import javafx.print.PageLayout;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -36,6 +39,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.util.converter.CurrencyStringConverter;
@@ -98,6 +102,8 @@ public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private AnchorPane itemDetailPane;
     @FXML
+    private GridPane chargesPane;
+    @FXML
     private RadioButton radioActive;
     @FXML
     private RadioButton radioPast;
@@ -137,6 +143,18 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickPrintFolio(ActionEvent event) {
+        
+        PrinterJob printerJob = PrinterJob.createPrinterJob();
+        if (printerJob == null) {
+            System.out.println("Null");
+        }
+        printerJob.showPrintDialog(HMS.stage);
+      //  PrinterJob printerJob = PrinterJob.createPrinterJob(printer);
+      //  final boolean print = printerJob.showPrintDialog(null);
+     //   if (print) {
+     //       printerJob.printPage(chargesPane);
+      //      printerJob.endJob();
+     //   }
     }
 
     @FXML
