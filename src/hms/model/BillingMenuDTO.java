@@ -54,5 +54,10 @@ public class BillingMenuDTO {
         this.roomNumber = roomNumber;
     }
     
+    @Override
+    public String toString() {
+        return confirmation + firstName + " " + lastName + " " + roomNumber;
+    }
+    
     
 }

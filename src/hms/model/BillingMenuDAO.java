@@ -87,6 +87,36 @@ public class BillingMenuDAO {
         }
         return result;
     }
+    
+    public ObservableList<BillingMenuDTO> queryPastGuests() {
+        
+        ObservableList<BillingMenuDTO> result = FXCollections.observableArrayList();
+        String sql = "select r.id, g.fname, g.lname, r.rm_num from guest as g, "
+                + "reservation as r where g.id=r.g_id and r.status like 'CHECKEDOUT'";
+
+        System.out.println(sql);
+        
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                result.add(new BillingMenuDTO(
+                        rs.getInt(1), 
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4))
+                );
+            }
+              
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        } finally {
+            closeAll();
+        }
+        return result;
+    }
 
     public ObservableList<Item> queryItems() {
         

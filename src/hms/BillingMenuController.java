@@ -27,11 +27,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
@@ -92,6 +95,12 @@ public class BillingMenuController implements Initializable, SubMenu {
     private ScrollPane spItems;
     @FXML
     private FlowPane itemPane;
+    @FXML
+    private AnchorPane itemDetailPane;
+    @FXML
+    private RadioButton radioActive;
+    @FXML
+    private RadioButton radioPast;
 
     private MainMenuController main;
     private User user;
@@ -107,8 +116,8 @@ public class BillingMenuController implements Initializable, SubMenu {
     public void initialize(URL url, ResourceBundle rb) {
 
         dao = new BillingMenuDAO();
-    //    initGuestsTable();
-    //    initChargesTable();
+          initGuestsTable();
+          initChargesTable();
           initItemPane();
     }
 
@@ -134,6 +143,28 @@ public class BillingMenuController implements Initializable, SubMenu {
     private void onClickCheckOut(ActionEvent event) {
     }
 
+    @FXML
+    private void onSelectRadioActive(ActionEvent event) {
+        btnCheckOut.setDisable(false);
+        btnDeleteCharge.setDisable(false);
+        btnCashPayment.setDisable(false);
+        txtAmount.setDisable(false);
+        spItems.setVisible(true);
+        itemDetailPane.setVisible(true);
+        updateActiveGuests();
+    }
+    
+    @FXML
+    private void onSelectRadioPast(ActionEvent event) {
+        btnCheckOut.setDisable(true);
+        btnDeleteCharge.setDisable(true);
+        btnCashPayment.setDisable(true);
+        txtAmount.setDisable(true);
+        spItems.setVisible(false);
+        itemDetailPane.setVisible(false);
+        updatePastGuests();
+    }
+    
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
@@ -168,9 +199,9 @@ public class BillingMenuController implements Initializable, SubMenu {
         tblGuests.setPlaceholder(msg);
 
         //Populate with data
-        updateGuests();
-
-    }
+        updateActiveGuests();
+        
+ }
 
     private void initChargesTable() {
         charges = FXCollections.observableArrayList();
@@ -193,10 +224,8 @@ public class BillingMenuController implements Initializable, SubMenu {
         Label msg = new Label("Charges");
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
-        tblGuests.setPlaceholder(msg);
+        tblCharges.setPlaceholder(msg);
 
-        //Populate with data
-        updateGuests();
     }
 
     private void initItemPane() {
@@ -257,16 +286,38 @@ public class BillingMenuController implements Initializable, SubMenu {
         lblSubTotal.setText(csc.toString(subtotal));
     }
 
-    public void updateGuests() {
+    public void updateActiveGuests() {
         try {
-            System.out.println("Retrieving list of Guests from BillingMenuDAO");
-            guests = dao.queryCurrentGuests();
+            System.out.println("Retrieving list of Active Guests from BillingMenuDAO");
+            ObservableList<BillingMenuDTO> result = dao.queryCurrentGuests();
+            if (result != null) {
+                guests.setAll(result);
+            }
+            for ( BillingMenuDTO d : result) {
+                System.out.println(d);
+            }
         } catch (Exception e) {
             System.out.println("Error getting current guest list");
         }
+        
     }
     
-
+    public void updatePastGuests() {
+        try {
+            System.out.println("Retrieving list of Past Guests from BillingMenuDAO");
+            ObservableList<BillingMenuDTO> result = dao.queryPastGuests();
+            if (result != null) {
+                guests.setAll(result);
+            }
+            for ( BillingMenuDTO d : result) {
+                System.out.println(d);
+            }
+        } catch (Exception e) {
+            System.out.println("Error getting current guest list");
+        }
+        
+    }
+    
     private void updateCharges(BillingMenuDTO selectedGuest) {
         try {
             System.out.println("Retriving list of charges for guest: " 
