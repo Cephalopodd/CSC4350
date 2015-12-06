@@ -133,7 +133,17 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickDeleteCharge(ActionEvent event) {
-        
+        FolioCharge charge = tblCharges.getSelectionModel().getSelectedItem();
+        if (charge == null){
+            return;
+        }
+        try {
+            
+            dao.delCharge(charge.getId());
+        } catch (Exception t) {
+            System.out.println("error deleting charge");
+        }
+        handleSelectGuest();
     }
 
     @FXML
@@ -144,17 +154,11 @@ public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private void onClickPrintFolio(ActionEvent event) {
         
-        PrinterJob printerJob = PrinterJob.createPrinterJob();
-        if (printerJob == null) {
-            System.out.println("Null");
-        }
-        printerJob.showPrintDialog(HMS.stage);
-      //  PrinterJob printerJob = PrinterJob.createPrinterJob(printer);
-      //  final boolean print = printerJob.showPrintDialog(null);
-     //   if (print) {
-     //       printerJob.printPage(chargesPane);
-      //      printerJob.endJob();
-     //   }
+//        PrinterJob printerJob = PrinterJob.createPrinterJob();
+//        if (printerJob == null) {
+//            System.out.println("Null");
+//        }
+//        printerJob.showPrintDialog(HMS.stage);
     }
 
     @FXML
@@ -163,6 +167,7 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onSelectRadioActive(ActionEvent event) {
+        charges.clear();
         btnCheckOut.setDisable(false);
         btnDeleteCharge.setDisable(false);
         btnCashPayment.setDisable(false);
@@ -174,6 +179,7 @@ public class BillingMenuController implements Initializable, SubMenu {
     
     @FXML
     private void onSelectRadioPast(ActionEvent event) {
+        charges.clear();
         btnCheckOut.setDisable(true);
         btnDeleteCharge.setDisable(true);
         btnCashPayment.setDisable(true);
@@ -274,6 +280,9 @@ public class BillingMenuController implements Initializable, SubMenu {
                 lblDescription.textProperty().unbind();
                 lblPrice.textProperty().unbind();
             });
+            item.setOnMouseClicked(e -> {
+                addCharge(item);
+            });
             itemPane.getChildren().add(item);
         
         }
@@ -353,6 +362,27 @@ public class BillingMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Error retrieving current guest list");
         }
+    }
+    
+    private void addCharge(Item item) {
+        try {
+            int confirmationNumber = tblGuests
+                    .getSelectionModel()
+                    .getSelectedItem()
+                    .getConfirmation();
+            FolioCharge charge = new FolioCharge(
+                    0,
+                    item.getCode(),
+                    item.getDescription(),
+                    LocalDate.now().toString(),
+                    item.getPrice()
+            );
+            System.out.println("Adding Charge...");
+            dao.addCharge(confirmationNumber, charge);
+        } catch (Exception e) {
+            System.out.println("Error adding Charge");
+        }
+        handleSelectGuest();
     }
 
 }

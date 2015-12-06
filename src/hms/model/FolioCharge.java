@@ -14,18 +14,28 @@ package hms.model;
  */
 public class FolioCharge {
     
+    private int id = 0;
     private String code;
     private String description;
     private String date;
     private double amount;
 
-    public FolioCharge(String code, String description, String date, double amount) {
+    public FolioCharge(int id, String code, String description, String date, double amount) {
+        this.id = id;
         this.code = code;
         this.description = description;
         this.date = date;
         this.amount = amount;
     }
 
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getCode() {
         return code;
     }
