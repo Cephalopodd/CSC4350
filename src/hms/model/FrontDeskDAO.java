@@ -86,7 +86,6 @@ public class FrontDeskDAO {
                 .setConfirmation(rs.getInt(12))
                 .setProfileID(rs.getInt(13))
                 .createReservation();
-                System.out.println("Adding Reservation: " + tempReservation);
                 result.add(tempReservation);
             }
         } catch ( Exception e ) {

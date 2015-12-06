@@ -84,12 +84,15 @@ public class MainMenuController implements Initializable {
     private void onClickRooms(ActionEvent event) {
         RoomsMenuController c = 
                     (RoomsMenuController) subMenuControllers.get(MenuType.ROOMS);
-            c.updateView();
+        c.updateView();
         displaySubMenu(MenuType.ROOMS);
     }
 
     @FXML
     private void onClickBilling(ActionEvent event) {
+        BillingMenuController c =
+                (BillingMenuController) subMenuControllers.get(MenuType.BILLING);
+        c.updateGuests();
         displaySubMenu(MenuType.BILLING);
     }
 

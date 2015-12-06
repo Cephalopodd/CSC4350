@@ -6,11 +6,15 @@
 package hms;
 
 import hms.model.BillingMenuDAO;
+import hms.model.BillingMenuDTO;
 import hms.model.FolioCharge;
+import hms.model.Item;
 import hms.model.Reservation;
 import hms.model.User;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -18,6 +22,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -25,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.util.converter.CurrencyStringConverter;
@@ -35,6 +43,7 @@ import javafx.util.converter.CurrencyStringConverter;
  * @author jgreene
  */
 public class BillingMenuController implements Initializable, SubMenu {
+
     @FXML
     private TableView<FolioCharge> tblCharges;
     @FXML
@@ -60,13 +69,13 @@ public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private Button btnDeleteCharge;
     @FXML
-    private TableView<Reservation> tblGuests;
+    private TableView<BillingMenuDTO> tblGuests;
     @FXML
-    private TableColumn<Reservation, String> colFirst;
+    private TableColumn<BillingMenuDTO, String> colFirst;
     @FXML
-    private TableColumn<Reservation, String> colLast;
+    private TableColumn<BillingMenuDTO, String> colLast;
     @FXML
-    private TableColumn<Reservation, Integer> colRoom;
+    private TableColumn<BillingMenuDTO, Integer> colRoom;
     @FXML
     private Button btnSelectGuest;
     @FXML
@@ -82,29 +91,26 @@ public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private ScrollPane spItems;
     @FXML
-    private TilePane tilePane;
-    
+    private FlowPane itemPane;
+
     private MainMenuController main;
     private User user;
     private Reservation currentReservation;
     private BillingMenuDAO dao;
     private double taxRate = .08;
-    
-    private ObservableList charges;
-    private ObservableList guests;
-    private ObservableList items;
-    
-    /**
-     * Initializes the controller class.
-     */
+
+    private ObservableList<FolioCharge> charges;
+    private ObservableList<BillingMenuDTO> guests;
+    private ObservableList<Item> items;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         dao = new BillingMenuDAO();
-        initGuestsTable();
-        initChargesTable();
-        initTilePane();
-    }    
+    //    initGuestsTable();
+    //    initChargesTable();
+          initItemPane();
+    }
 
     @FXML
     private void onClickCashPayment(ActionEvent event) {
@@ -112,6 +118,7 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickDeleteCharge(ActionEvent event) {
+        
     }
 
     @FXML
@@ -136,14 +143,13 @@ public class BillingMenuController implements Initializable, SubMenu {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public void setCurrentReservation(Reservation currentReservation) {
         this.currentReservation = currentReservation;
     }
-    
 
     private void initGuestsTable() {
-        
+
         guests = FXCollections.observableArrayList();
 
         tblGuests.setItems(guests);
@@ -162,13 +168,13 @@ public class BillingMenuController implements Initializable, SubMenu {
         tblGuests.setPlaceholder(msg);
 
         //Populate with data
-        updateCurrentGuests();
-        
+        updateGuests();
+
     }
 
     private void initChargesTable() {
         charges = FXCollections.observableArrayList();
-        
+
         tblCharges.setItems(charges);
 
         colCode.setCellValueFactory(
@@ -179,52 +185,67 @@ public class BillingMenuController implements Initializable, SubMenu {
                 new PropertyValueFactory<>("Date"));
         colAmount.setCellValueFactory(
                 new PropertyValueFactory<>("Amount"));
-        colAmount.setCellValueFactory( cellData ->
-            Bindings.format("%.2f", cellData.getValue().getAmount())
+        colAmount.setCellValueFactory(cellData
+                -> Bindings.format("%.2f", cellData.getValue().getAmount())
         );
 
         //Set Default Message
-        Label msg = new Label("Guests");
+        Label msg = new Label("Charges");
         msg.setFont(new Font(24));
         msg.setOpacity(.5);
         tblGuests.setPlaceholder(msg);
 
         //Populate with data
-        updateCurrentGuests();
+        updateGuests();
     }
-    
-    private void initTilePane() {
+
+    private void initItemPane() {
         
         items = FXCollections.observableArrayList();
-        
-        tilePane.setVgap(12.0);
-        tilePane.setHgap(12.0);
-        tilePane.setPrefColumns(4);
-        
-        for (int i = 0 ; i< 100; i++) {
-            Button btnTemp = new Button(" Item "+i+"\n");
-            btnTemp.setOnMouseEntered( e-> {
-                lblItem.textProperty().bind(btnTemp.textProperty());
-            });
-            btnTemp.setOnMouseDragOver( e-> {
-                
-            });
-            btnTemp.setOnMouseExited( e-> {
-                lblItem.textProperty().unbind();
-            });
-            btnTemp.setStyle("-fx-background-color: #ff4e50; -fx-font-size: 16px; -fx-text-fill: WHITE;");
-            tilePane.getChildren().add(btnTemp);
+ 
+        System.out.println("Retrieving list of Items from BillingMenuDAO");
+        try {
+            ObservableList result = dao.queryItems();
+            if (result != null) {
+                items = result;
+            }
+           
+        } catch (Exception e) {
+            System.out.println("Error getting current item list");
         }
+    
+     
+        for (Item item : items) {
+            
+            item.setOnMouseEntered(e -> {
+                lblItem.textProperty().bind(item.nameProperty());
+                lblDescription.textProperty().bind(item.descriptionProperty());
+                lblPrice.textProperty().bind(item.priceProperty().asString("$%4.2f"));
+            });
+            item.setOnMouseExited(e -> {
+                lblItem.textProperty().unbind();
+                lblDescription.textProperty().unbind();
+                lblPrice.textProperty().unbind();
+            });
+            itemPane.getChildren().add(item);
         
+        }
+      
     }
 
     private void handleSelectGuest() {
-        charges = dao.queryCharges(1234);
-        tblCharges.setItems(charges);
-        calculateTotals();
+        BillingMenuDTO selectedGuest = tblGuests.getSelectionModel().getSelectedItem();
+
+        if (selectedGuest == null) {
+            Alert alert = new Alert(AlertType.WARNING, "Please select a guest from the list");
+            alert.showAndWait();
+            return;
+        }
+
+        updateCharges(selectedGuest);
+
     }
-    
-    
+
     private void calculateTotals() {
         CurrencyStringConverter csc = new CurrencyStringConverter();
         double subtotal = 0, total = 0, taxes = 0;
@@ -236,14 +257,33 @@ public class BillingMenuController implements Initializable, SubMenu {
         lblSubTotal.setText(csc.toString(subtotal));
     }
 
-    private void updateCurrentGuests() {
-        
+    public void updateGuests() {
+        try {
+            System.out.println("Retrieving list of Guests from BillingMenuDAO");
+            guests = dao.queryCurrentGuests();
+        } catch (Exception e) {
+            System.out.println("Error getting current guest list");
+        }
     }
     
-    
-    
-   
 
-  
-    
+    private void updateCharges(BillingMenuDTO selectedGuest) {
+        try {
+            System.out.println("Retriving list of charges for guest: " 
+                    + selectedGuest.getConfirmation()
+                    + " "
+                    + selectedGuest.getFirstName()
+                    + " "
+                    + selectedGuest.getLastName()
+                    + " "
+                    + selectedGuest.getRoomNumber());
+            //charges = dao.queryCharges(1234);
+            charges = dao.queryCharges(selectedGuest.getConfirmation());
+            tblCharges.setItems(charges);
+            calculateTotals();
+        } catch (Exception e) {
+            System.out.println("Error retrieving current guest list");
+        }
+    }
+
 }
