@@ -1,6 +1,9 @@
+/**
+ * This data access object provides db access
+ * to the rooms menu
+ */
 package hms.model;
 
-import java.time.LocalDate;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -9,7 +12,8 @@ public class RoomsDAO {
     Connection c;
     Statement stmt;
     ResultSet rs;
-
+    
+    //Closes connections
     private void closeAll() {
         try {
             rs.close();
@@ -37,6 +41,7 @@ public class RoomsDAO {
         return totalRoomCount;
     }
     
+    //Return total room count
     public int getTotalRoomCount(){
         return getRoomCount("");
     }
@@ -62,6 +67,7 @@ public class RoomsDAO {
         return getRoomCount("where status like 'dirty'");
     }
 
+    //Returns conditional list of rooms
     public ArrayList<Integer> getRoomList(String condition) {
         ArrayList roomList = new ArrayList();
         try {
@@ -80,23 +86,28 @@ public class RoomsDAO {
         return roomList;
     }
     
+    //Returns total rooms list
     public ArrayList<Integer> getTotalRmList() {
         return getRoomList("");
     }
 
+    //Returns active rooms list
     public ArrayList<Integer> getActiveRmList() {
         return getRoomList("where status not like 'dirty' "
                 + "and status not like 'out' and occupied = 0");
     }
 
+    //Returns occupied rooms list
     public ArrayList<Integer> getOccupiedRmList() {
         return getRoomList("where occupied = 1");
     }
     
+    //Returns maintenance rooms list
     public ArrayList<Integer> getMaintRmList() {
         return getRoomList("where status like 'out'");
     }
-
+    
+    //Returns Housekeeping rooms list
     public ArrayList<Integer> getHkRmList() {
         return getRoomList("where status like 'dirty'");
     }

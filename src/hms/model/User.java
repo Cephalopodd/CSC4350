@@ -1,13 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * User object model
+ * 
+ * Represents users of the software and provides
+ * access rights and default settings
  */
 package hms.model;
 
 /**
  *
- * @author jgreene
+ * @author team slam
  */
 public class User {
 
