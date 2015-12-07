@@ -768,6 +768,5 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtPhoneNumber.setOnAction(e -> {
             handleSearch();
         });
-
     }
 }
