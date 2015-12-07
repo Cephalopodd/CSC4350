@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This interface is for creating sub menus
+ * It provides methods for injecting
+ * dependency links to main menu controller
+ * and to the current user
+ * 
  */
 package hms;
 
@@ -9,7 +11,7 @@ import hms.model.User;
 
 /**
  *
- * @author jgreene
+ * @author Team Slam
  */
 public interface SubMenu {
     

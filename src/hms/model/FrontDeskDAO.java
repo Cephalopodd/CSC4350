@@ -422,7 +422,7 @@ public class FrontDeskDAO {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:hms.db");
             stmt = c.createStatement();
-            rs = stmt.executeQuery("select r.id as r_id * from reservation r "
+            rs = stmt.executeQuery("select r.id as r_id, * from reservation r "
                 + "join guest g on r.g_id = g.id where r.id = " + resNo);
             if (rs.next()) {
                 res = parseReservation(rs);

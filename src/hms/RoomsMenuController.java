@@ -1,21 +1,19 @@
+/**
+ * This controller manages the Rooms Menu
+ */
 package hms;
 
 import hms.model.RoomsDAO;
 import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import java.util.HashMap;
 import java.util.ArrayList;
-import javafx.event.EventHandler;
 
 public class RoomsMenuController implements Initializable,SubMenu {
     

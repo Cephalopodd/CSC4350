@@ -324,7 +324,6 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         try {
             
             //validate phone number
-            System.out.println("Validating phone");
             if (validatePhoneNumber(txtPhoneNumber.getText())) {
                 markValid(txtPhoneNumber);
             } else {

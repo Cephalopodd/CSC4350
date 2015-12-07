@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Controller for the rooms reservation form
  */
 package hms;
 
@@ -35,7 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * FXML Controller class
+ * ReserveRoomFormController Class
  *
  * @author jgreene
  */
@@ -109,6 +107,11 @@ public class ReserveRoomFormController implements Initializable {
 
     }
 
+    /**
+     * Saves Reservations
+     *
+     * @param event
+     */
     @FXML
     private void onActionSave(ActionEvent event) {
 
@@ -124,7 +127,6 @@ public class ReserveRoomFormController implements Initializable {
 
         try {
             if (EDIT) {
-                System.out.println("1");
                 //Update Reservation
                 reservation.setCheckinDate(dateArrival.getValue().toString());
                 reservation.setCheckoutDate(dateDeparture.getValue().toString());
@@ -134,77 +136,54 @@ public class ReserveRoomFormController implements Initializable {
                 reservation.setRoomType(cbxRoomType.getValue());
                 reservation.setComments(txtNotes.getText());
 
-                System.out.println("2");
-                
                 //Send to DB
                 boolean result = dao.updateReservation(reservation);
-                if (result){
-                    System.out.println("3");
-                
+                if (result) {
                     SUCCESS = true;
                     newReservation = reservation;
                     System.out.println("Editing successful - setting new reservation");
-                    //Dont get update from db..
-                 //   newRoomNumber = room.getNumber();
-                 //   newReservationNumber = reservation.getConfirmation();
-                 //   newReservation = reservation;
-                 //   System.out.println("New Res: " + newReservation.getFirstName());
                 }
-                
+
             } else {
-                System.out.println("4");
-                
                 int resNo = dao.createReservation(profile, room, searchedArrival, searchedDeparture);
                 if (resNo > 0) {
-                    System.out.println("5");
                     System.out.println("The resNo returned: " + resNo);
-                
                     SUCCESS = true;
                     newRoomNumber = room.getNumber();
                     newReservationNumber = resNo;
+                    
                     newReservation = dao.getReservation(resNo);
                     System.out.println("New Res: " + newReservation.getFirstName());
                 }
             }
         } catch (Exception e) {
-                
+
             System.out.println("Error in DB creating");
         }
-        
-        System.out.print("1");
-                
-        //CLose window
         stage.close();
     }
 
+    /**
+     * Cancel Button click
+     * @param event 
+     */
     @FXML
     private void onActionCancel(ActionEvent event) {
         stage.close();
     }
 
+    /**
+     * Find Rooms Button click
+     * @param event 
+     */
     @FXML
     private void onClickFindRooms(ActionEvent event) {
-        //Checking input
-        if (!verifyInput()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Input not valid, please check the form"
-                    + "for errors");
-            alert.showAndWait();
-            return;
-        }
-        
-//        if (dateArrival.getValue().isBefore(LocalDate.now()))
-//        {
-//            System.out.println("time cannot flow backward");
-//        }
-//        if (dateArrival.getValue().isAfter(dateDeparture.getValue()) )
-//        {
-//           System.out.println("cannot checkout in the past");
-//        }
-        
         handleFindRoom();
     }
 
+    /**
+     * Initialize Choice boxes
+     */
     private void initChoiceBoxes() {
         roomTypes = FXCollections.observableArrayList(RoomType.getRoomTypes());
         numAdults = FXCollections.observableArrayList(1, 2, 3, 4);
@@ -220,6 +199,9 @@ public class ReserveRoomFormController implements Initializable {
 
     }
 
+    /**
+     * Initialize table columns
+     */
     private void initTableColumns() {
 
         tblRooms.setItems(roomList);
@@ -235,10 +217,17 @@ public class ReserveRoomFormController implements Initializable {
         );
     }
 
+    /**
+     * Inject link to main stage     
+    */
     void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Set the form as an edit or create form
+     * @param value 
+     */
     void setEditFlag(boolean value) {
         EDIT = value;
         if (EDIT) {
@@ -248,21 +237,19 @@ public class ReserveRoomFormController implements Initializable {
         }
     }
 
-    private boolean verifyInput() {
-        //set lblErrorMsg ...
-        return true;
-    }
-
+    /**
+     * Queries db for available rooms and updates the table
+     */
     private void handleFindRoom() {
 
         ObservableList<Room> results = FXCollections.observableArrayList();
 
         try {
-            //Remember search criteria...
             searchedArrival = dateArrival.getValue().toString();
             searchedDeparture = dateDeparture.getValue().toString();
 
             //Query Database
+            System.out.println("DB Query: avaialble rooms");
             results = dao.queryRoomAvailability(
                     cbxRoomType.getValue(),
                     searchedArrival,
@@ -275,15 +262,23 @@ public class ReserveRoomFormController implements Initializable {
         if (results != null) {
             tblRooms.setItems(results);
         }
-        
+
     }
 
+    /**
+     * Injects reservation information
+     * @param reservation 
+     */
     void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
-    
-    void setReservationInformation(Reservation reservation){
-        
+
+    /**
+     * Populates reservation information
+     * @param reservation 
+     */
+    void setReservationInformation(Reservation reservation) {
+
         cbxRoomType.setValue(reservation.getRoomType());
         cbxAdults.setValue(reservation.getNumberAdults());
         cbxChildren.setValue(reservation.getNumberChildren());
@@ -291,9 +286,7 @@ public class ReserveRoomFormController implements Initializable {
 
         lblGuestName.setText(reservation.getFirstName()
                 + " " + reservation.getLastName());
-        //No way to set Accessible
-
-        //Set Room Type?
+        
         System.out.println(reservation.getRoomType() + " roomtype");
         System.out.println(reservation.getCheckinDate());
         try {
@@ -304,9 +297,12 @@ public class ReserveRoomFormController implements Initializable {
             dateArrival.setValue(LocalDate.now());
             dateArrival.setValue(LocalDate.now());
         }
-
     }
 
+    /**
+     * Injects profile information
+     * @param profile 
+     */
     void setProfile(Profile profile) {
         this.profile = profile;
         lblGuestName.setText(profile.getFirstName()
@@ -314,127 +310,151 @@ public class ReserveRoomFormController implements Initializable {
 
     }
 
+    /**
+     * returns new reservation
+     * @return 
+     */
     int getNewReservationNumber() {
         return newReservationNumber;
     }
-    
+
+    /**
+     * returns success of create
+     * @return 
+     */
     boolean getSuccess() {
         return SUCCESS;
     }
-    
+
+    /**
+     * return new Room Number
+     * @return 
+     */
     int getNewRoomNumber() {
         return newRoomNumber;
     }
-    
-    public void setCheckInCalendar(){
+
+    /**
+     * Initializes date validation checking
+     */
+    public void setCheckInCalendar() {
         final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
-                
-		@Override
-		public DateCell call(final DatePicker datePicker) {
-			return new DateCell(){
-			
-				@Override
-				public void updateItem(LocalDate item, boolean empty){
-					
-					super.updateItem(item, empty);
-				   
-					if(item.isBefore(LocalDate.now())){
-							setDisable(true);
-							setStyle("-fx-background-color: #ffc0cb;");
-					}   
-				}	
-			};
-		}
+
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+
+                        super.updateItem(item, empty);
+
+                        if (item.isBefore(LocalDate.now())) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
         };
-        
+
         final Callback<DatePicker, DateCell> dayCellFactory2 = new Callback<DatePicker, DateCell>() {
-                
-		@Override
-		public DateCell call(final DatePicker datePicker) {
-			return new DateCell(){
-			
-				@Override
-				public void updateItem(LocalDate item, boolean empty){
-					
-					super.updateItem(item, empty);
-				   
-					if(item.isBefore(LocalDate.now().plusDays(1))){
-							setDisable(true);
-							setStyle("-fx-background-color: #ffc0cb;");
-					}   
-				}	
-			};
-		}
+
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+
+                        super.updateItem(item, empty);
+
+                        if (item.isBefore(LocalDate.now().plusDays(1))) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
         };
-        
+
         dateArrival.setDayCellFactory(dayCellFactory);
         dateDeparture.setDayCellFactory(dayCellFactory2);
     }
 
+    /**
+     * Sets validation checking on arrival date
+     * @param event 
+     */
     @FXML
     private void arrivalDateClick(ActionEvent event) {
-        
+
         final Callback<DatePicker, DateCell> dayCellFactory2 = new Callback<DatePicker, DateCell>() {
-                
-		@Override
-		public DateCell call(final DatePicker datePicker) {
-			return new DateCell(){
-			
-				@Override
-				public void updateItem(LocalDate item, boolean empty){
-					
-					super.updateItem(item, empty);
-				   
-					if(item.isBefore(dateArrival.getValue().plusDays(1))){
-							setDisable(true);
-							setStyle("-fx-background-color: #ffc0cb;");
-					}   
-				}	
-			};
-		}
+
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+
+                        super.updateItem(item, empty);
+
+                        if (item.isBefore(dateArrival.getValue().plusDays(1))) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
         };
-        
+
         dateDeparture.setDayCellFactory(dayCellFactory2);
     }
 
+    /**
+     * Sets validation checking on departure date
+     * @param event 
+     */
     @FXML
     private void deptDateClicked(ActionEvent event) {
-        
+
         final Callback<DatePicker, DateCell> dayCellFactory2 = new Callback<DatePicker, DateCell>() {
-                
-		@Override
-		public DateCell call(final DatePicker datePicker) {
-			return new DateCell(){
-			
-				@Override
-				public void updateItem(LocalDate item, boolean empty){
-					
-					super.updateItem(item, empty);
-				   
-					if(item.isAfter(dateDeparture.getValue())){
-							setDisable(true);
-							setStyle("-fx-background-color: #ffc0cb;");
-					}
-                                        
-                                        if(item.isBefore(LocalDate.now())){
-							setDisable(true);
-							setStyle("-fx-background-color: #ffc0cb;");
-					}
-                                        
-				}	
-			};
-		}
+
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+
+                        super.updateItem(item, empty);
+
+                        if (item.isAfter(dateDeparture.getValue())) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+
+                        if (item.isBefore(LocalDate.now())) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+
+                    }
+                };
+            }
         };
-        
+
         dateArrival.setDayCellFactory(dayCellFactory2);
-        
+
     }
 
+    /**
+     * returns new reservation
+     * @return 
+     */
     public Reservation getNewReservation() {
         return newReservation;
     }
 
-    boolean getResult() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
