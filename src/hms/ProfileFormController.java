@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Controller for the profile form
  */
 package hms;
 
@@ -29,15 +27,15 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
- * FXML Controller class
+ * ProfileFormController class
  *
- * @author jgreene
+ * @author Team Slam
  */
 public class ProfileFormController implements Initializable {
-    
+
     public static String HEADING_NEW = "Create Guest Profile";
     public static String HEADING_EDIT = "Edit Guest Profile";
-    
+
     @FXML
     private Text lblHeading;
     @FXML
@@ -46,15 +44,12 @@ public class ProfileFormController implements Initializable {
     private TextField txtLastName;
     @FXML
     private Label lblErrorMsg;
-    
     @FXML
     private TextField txtStreet;
-
     @FXML
     private TextField txtEmail;
     @FXML
     private TextField txtPhoneNumber;
-
     @FXML
     private ChoiceBox<String> cbxTitles;
     @FXML
@@ -81,21 +76,18 @@ public class ProfileFormController implements Initializable {
     private Label emailLabel;
     @FXML
     private Label zipLabel;
-    
-    
+
     private Stage stage;
     private FrontDeskDAO dao;
-    
+    private Profile profile;        //selected profile
+    private Profile newProfile;     //newly created profile
+
     private boolean RESULT = false;
     private boolean EDIT = false;
-    private Profile profile;
-    private Profile newProfile;
-    
+
     private ObservableList<String> states;
     private ObservableList<String> titles;
-    
-    
-    
+
     /**
      * Initializes the controller class.
      */
@@ -103,8 +95,14 @@ public class ProfileFormController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         dao = new FrontDeskDAO();
         initChoiceBoxes();
-    }    
+    }
 
+    /**
+     * All of these methods set the action on the enter key for the field so
+     * that it goes to the next field.
+     *
+     * @param event
+     */
     @FXML
     private void onActionFirstName(ActionEvent event) {
         txtLastName.requestFocus();
@@ -119,12 +117,12 @@ public class ProfileFormController implements Initializable {
     private void onActionPhoneNumber(ActionEvent event) {
         txtEmail.requestFocus();
     }
-    
+
     @FXML
     private void onActionEmail(ActionEvent event) {
         txtStreet.requestFocus();
     }
-    
+
     @FXML
     private void onActionStreet(ActionEvent event) {
         txtApt.requestFocus();
@@ -134,7 +132,7 @@ public class ProfileFormController implements Initializable {
     private void onActionApt(ActionEvent event) {
         txtCity.requestFocus();
     }
-    
+
     @FXML
     private void onActionCity(ActionEvent event) {
         txtZip.requestFocus();
@@ -151,23 +149,28 @@ public class ProfileFormController implements Initializable {
     @FXML
     private void onActionNotes(MouseEvent event) {
     }
+
     @FXML
-    private void onActionZip(ActionEvent event){
+    private void onActionZip(ActionEvent event) {
         cbxStates.requestFocus();
     }
 
+    /**
+     * Save Button click
+     *
+     * @param event
+     */
     @FXML
-    private void onActionSave(ActionEvent event) {        
-       
-       try {
+    private void onActionSave(ActionEvent event) {
+
+        try {
             if (!validateFields()) {
                 return;
             }
-       } catch (Exception e) {
-           System.out.println("Error Validating Fields");
-       } 
-       
-        
+        } catch (Exception e) {
+            System.out.println("Error Validating Fields");
+        }
+
         // Edit or Create
         if (EDIT) {
             handleSaveEditProfile();
@@ -176,37 +179,53 @@ public class ProfileFormController implements Initializable {
         }
     }
 
+    /**
+     * Cancel button click
+     *
+     * @param event
+     */
     @FXML
     private void onActionCancel(ActionEvent event) {
         RESULT = false;
         stage.close();
     }
 
-    
+    /**
+     * Injects the stage information
+     *
+     * @param stage
+     */
     void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Injectts the profile information and populates the form
+     *
+     * @param p
+     */
     void setProfileInformation(Profile p) {
-      System.out.println("Setting profile info");
-            txtFirstName.setText(p.getFirstName());
-            txtLastName.setText(p.getLastName());
-            txtPhoneNumber.setText(p.getPhoneNumber());
-            txtEmail.setText(p.getEmail());
-            txtNotes.setText(p.getNotes());
-            cbxTitles.setValue(p.getTitle());
-            cbxStates.setValue(p.getState());
-            chkVIP.setSelected(p.isVIP());
-            txtStreet.setText(p.getStreet());
-            txtApt.setText(p.getApt());
-            txtCity.setText(p.getCity());
-            txtZip.setText(p.getZip());
-            txtCountry.setText(p.getCountry());
-            
-            System.out.println("p:" + p.getFirstName());
+        System.out.println("Setting profile info");
+        txtFirstName.setText(p.getFirstName());
+        txtLastName.setText(p.getLastName());
+        txtPhoneNumber.setText(p.getPhoneNumber());
+        txtEmail.setText(p.getEmail());
+        txtNotes.setText(p.getNotes());
+        cbxTitles.setValue(p.getTitle());
+        cbxStates.setValue(p.getState());
+        chkVIP.setSelected(p.isVIP());
+        txtStreet.setText(p.getStreet());
+        txtApt.setText(p.getApt());
+        txtCity.setText(p.getCity());
+        txtZip.setText(p.getZip());
+        txtCountry.setText(p.getCountry());
+
+        System.out.println("p:" + p.getFirstName());
     }
 
-   
+    /**
+     * Initializes the choice boxes
+     */
     private void initChoiceBoxes() {
         states = FXCollections.observableArrayList();
         titles = FXCollections.observableArrayList();
@@ -218,74 +237,98 @@ public class ProfileFormController implements Initializable {
         cbxTitles.setValue("");
     }
 
+    /**
+     * Validates the fields
+     *
+     * @return
+     */
     private boolean validateFields() {
-        
+
         boolean valid = true;
-        
+
         //RESET LABELS
         phoneLabel.setText("");
         emailLabel.setText("");
         zipLabel.setText("");
         lblErrorMsg.setText("");
-        
-        if (txtPhoneNumber.getText().isEmpty() ){
+
+        if (txtPhoneNumber.getText().isEmpty()) {
             phoneLabel.setText("Please enter your phone number");
             valid = false;
-        } else if (!validatePhoneNumber(txtPhoneNumber.getText()) ){
+        } else if (!validatePhoneNumber(txtPhoneNumber.getText())) {
             phoneLabel.setText("Please enter correct phone number");
             valid = false;
         }
-        
-        if (txtEmail.getText().isEmpty() ){
+
+        if (txtEmail.getText().isEmpty()) {
             emailLabel.setText("Please enter your email");
             valid = false;
-        } else if (!isEmailValid(txtEmail.getText())){
+        } else if (!isEmailValid(txtEmail.getText())) {
             emailLabel.setText("Please enter correct email");
             valid = false;
         }
-        
+
         String zipCodePattern = "\\d{5}(-\\d{4})?";
-        if (txtZip.getText().isEmpty() ){
+        if (txtZip.getText().isEmpty()) {
             zipLabel.setText("Please enter your ZIP code");
             valid = false;
-        } else if (!txtZip.getText().matches(zipCodePattern)){
+        } else if (!txtZip.getText().matches(zipCodePattern)) {
             zipLabel.setText("Please enter correct ZIP code");
             valid = false;
         }
-        if (txtFirstName.getText().isEmpty() ||
-                txtLastName.getText().isEmpty() ||
-                txtStreet.getText().isEmpty() ||
-                txtCity.getText().isEmpty() ||
-                cbxStates.getValue().isEmpty() ) {
-                
-                lblErrorMsg.setText("Please fill out Name and Address Fields");
-                valid = false;
+        if (txtFirstName.getText().isEmpty()
+                || txtLastName.getText().isEmpty()
+                || txtStreet.getText().isEmpty()
+                || txtCity.getText().isEmpty()
+                || cbxStates.getValue().isEmpty()) {
+
+            lblErrorMsg.setText("Please fill out Name and Address Fields");
+            valid = false;
         }
-        
+
         return valid;
     }
 
+    /**
+     * Returns new Profile
+     *
+     * @return
+     */
     boolean getResult() {
-        //Used by caller to check status
         return RESULT;
     }
-    
+
+    /**
+     * Sets the form as an edit form
+     *
+     * @param value
+     */
     void setEditFlag(boolean value) {
         this.EDIT = value;
-        if (EDIT){
+        if (EDIT) {
             lblHeading.setText(HEADING_EDIT);
         } else {
             lblHeading.setText(HEADING_NEW);
         }
     }
- 
+
+    /**
+     * Injects the initial profile informatin
+     *
+     * @param profile
+     */
     void setProfile(Profile profile) {
         this.profile = profile;
     }
 
+    /**
+     * Handles saving the profile on edit
+     */
     private void handleSaveEditProfile() {
         try {
             boolean result = false;
+
+            //Create profile
             Profile p = new ProfileBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
@@ -301,38 +344,40 @@ public class ProfileFormController implements Initializable {
                     .setNotes(txtNotes.getText())
                     .setTitle(cbxTitles.getValue())
                     .createProfile();
-            
-            System.out.println("VIP:" + p.isVIP());
-            
+
             //Restore Profile ID
             p.setMemberID(profile.getMemberID());
-            
-            if ( p == null ) {
+
+            if (p == null) {
                 RESULT = false;
                 stage.close();
             }
 
+            //Update database
+            System.out.println("Updating profile");
             result = dao.updateProfile(p);
-            
+
             if (result) {
                 newProfile = p;
                 RESULT = true;
             }
-        
+
         } catch (Exception e) {
             System.out.println("DB Error");
         }
-    
+
         stage.close();
     }
-    
+
+    /**
+     * Handles the Creation of new Profile
+     */
     private void handleSaveNewProfile() {
-         try {
+        try {
             boolean result = false;
             int profileID = 0;
-            System.out.println("Handling SaveNewProfile");
-            
-            System.out.println("Creating profile from fields");
+
+            //Build profile
             Profile p = new ProfileBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
@@ -348,57 +393,61 @@ public class ProfileFormController implements Initializable {
                     .setNotes(txtNotes.getText())
                     .setTitle(cbxTitles.getValue())
                     .createProfile();
-           
-            System.out.println("VIP:" + p.isVIP());
-            
-            
-            System.out.println("Checking null p");
-            if ( p == null ) {
-                
-            System.out.println("P could not be created by the form fields");
+
+            //Checking for null profile
+            if (p == null) {
+                System.out.println("Profile could not be created by the form fields");
                 RESULT = false;
                 stage.close();
             }
-            
-            System.out.println("Sending p to db" + p.getFirstName() + p.getLastName());
+
+            //Accessing DB
+            System.out.println("Update db create: " + p.getFirstName()
+                    + " " + p.getLastName());
             profileID = dao.createProfile(p);
-            
             System.out.println("Result" + result);
+            
+            //Check result and update table
             if (profileID > 0) {
-                
-            System.out.println("If DB result true, save and set p");
-            System.out.println("");
+                System.out.println("Updating table");
                 p.setMemberID(profileID);
                 newProfile = p;
                 RESULT = true;
             } else {
-                
-            System.out.println("New Profile not pass db..");
+                System.out.println("New Profile not pass db..");
             }
-        
+
         } catch (Exception e) {
             System.out.println("DB Error");
         }
-    
+
         stage.close();
     }
-    
-    //Checks phone number for validity
-    private boolean validatePhoneNumber(String phoneNo) {
-        //validate phone numbers of format "1234567890"
-        if (phoneNo.matches("\\d{10}")) {
-            convertPhoneNumber(phoneNo);
-            return true;
-        }     
-        //validating phone number with extension length from 3 to 5
-        else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}")) {
-            return true;
-        }
-        //return false if nothing matches the input
-        else return false;
 
+    /**
+     * Validates a phone number
+     * @param phoneNo
+     * @return 
+     */
+    private boolean validatePhoneNumber(String phoneNo) {
+        
+        //returns true if there is no phone number in the field.
+        if (phoneNo.matches("")) {
+            return true;
+        // returns true if phone number is correct     
+        } else if (phoneNo.matches("\\d{3}[-]\\d{3}[-]\\d{4}")) {
+            return true;
+        } //return false if nothing matches the input
+        else {
+            return false;
+        }
     }
-    //Checks email for validity
+
+    /**
+     * Validates email address
+     * @param email
+     * @return 
+     */
     public boolean isEmailValid(String email) {
         boolean isValid = false;
 
@@ -412,11 +461,11 @@ public class ProfileFormController implements Initializable {
         }
         return isValid;
     }
-    public String convertPhoneNumber(String num)
-    {        
-           return num.substring(0, 3) + "-" + num.substring(3, 6) + "-" + num.substring(6);
-    }
     
+    /**
+     * Returns new profile
+     * @return 
+     */
     public Profile getNewProfile() {
         return newProfile;
     }

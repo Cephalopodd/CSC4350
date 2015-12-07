@@ -525,7 +525,6 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         else {
             return false;
         }
-
     }
     
     /**

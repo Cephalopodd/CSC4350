@@ -7,7 +7,7 @@
  * or non-smoking, and what type of beds the room has.
  * 
  */
-package hms.model;
+package hms.unused;
 
 /**
  *

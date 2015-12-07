@@ -6,7 +6,7 @@
  * in billing for the room.
  * 
  */
-package hms.model;
+package hms.unused;
 
 /**
  *

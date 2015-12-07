@@ -8,7 +8,7 @@
  * or out of service.
  *
  */
-package hms.model;
+package hms.unused;
 
 /**
  *

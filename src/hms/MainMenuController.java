@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Controller for the main menu bar
  */
 package hms;
 
@@ -24,20 +22,17 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 /**
- * FXML Controller class
+ * MainMenuController class
  *
- * @author jgreene
+ * @author team slam
  */
 public class MainMenuController implements Initializable {
     
-
     private HMS HMSapp;
     private User user;
     private final HashMap<Enum, Node> subMenus = new HashMap<>();
     private final HashMap<Enum, SubMenu> subMenuControllers = new HashMap<>();
-    //private BillingMenuController bmc;
-            
-
+      
     @FXML
     private BorderPane mainMenuPane;
     @FXML
@@ -57,20 +52,27 @@ public class MainMenuController implements Initializable {
     @FXML
     private StackPane displayPane;
     
-
-    /**
+     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //
+        // not used
     }
 
+    /**
+     * Reservation button click
+     * @param event 
+     */
     @FXML
     private void onClickReservations(ActionEvent event) {
         displaySubMenu(MenuType.RESERVATIONS);
     }
 
+    /**
+     * Front Desk button click
+     * @param event 
+     */
     @FXML
     private void onClickFrontDesk(ActionEvent event) {
         FrontDeskMenuController c =
@@ -79,6 +81,10 @@ public class MainMenuController implements Initializable {
         displaySubMenu(MenuType.FRONTDESK);
     }
 
+    /**
+     * Rooms button click
+     * @param event 
+     */
     @FXML
     private void onClickRooms(ActionEvent event) {
         RoomsMenuController c = 
@@ -87,6 +93,10 @@ public class MainMenuController implements Initializable {
         displaySubMenu(MenuType.ROOMS);
     }
 
+    /**
+     * Billing button click
+     * @param event 
+     */
     @FXML
     private void onClickBilling(ActionEvent event) {
         BillingMenuController c =
@@ -95,20 +105,36 @@ public class MainMenuController implements Initializable {
         displaySubMenu(MenuType.BILLING);
     }
 
+    /**
+     * Admin button click
+     * @param event 
+     */
     @FXML
     private void onClickAdmin(ActionEvent event) {
         displaySubMenu(MenuType.ADMIN);
     }
 
+    /**
+     * Exit button click
+     * @param event 
+     */
     @FXML
     private void onClickExit(ActionEvent event) {
         HMSapp.doLogout();
     }
 
+    /**
+     * Injects link to HMS app
+     * @param app 
+     */
     void setHMSApp(HMS app) {
         this.HMSapp = app;
     }
 
+    /**
+     * Injects link to current user and sets access rights
+     * @param user 
+     */
     void setUser(User user) {
         
         //Set logged in User
@@ -125,21 +151,27 @@ public class MainMenuController implements Initializable {
         btnReservations.setDisable(!user.hasReservationsAccess());
     }
 
+    /**
+     * Loads the sub menus
+     */
     public void loadSubMenus(){
         try {
             addSubMenu(MenuType.FRONTDESK, "FrontDeskMenu.fxml");
             addSubMenu(MenuType.BILLING, "BillingMenu.fxml");
-          //  addSubMenu(MenuType.RESERVATIONS, "ReservationsMenu.fxml");
-              addSubMenu(MenuType.RESERVATIONS, "ReservationsProfileMenu.fxml");
+            addSubMenu(MenuType.RESERVATIONS, "ReservationsProfileMenu.fxml");
             addSubMenu(MenuType.ROOMS, "RoomsMenu.fxml");
             addSubMenu(MenuType.ADMIN, "AdminMenu.fxml");
             addSubMenu(MenuType.PROFILE, "ProfileMenu.fxml");
-          //  addSubMenu(MenuType.INVOICE, "Invoice.fxml");
         } catch (Exception e) {
             System.out.println("Error loading menus:" + e.getMessage());
         }
     }
     
+    /**
+     * Creates the sub menus
+     * @param menu
+     * @param fxml 
+     */
     private void addSubMenu(MenuType menu, String fxml) {
         Parent loadScreen;
         SubMenu submenu = null;
@@ -161,6 +193,9 @@ public class MainMenuController implements Initializable {
         
     }
     
+    /**
+     * Sets the default menu on login
+     */
     public void setDefaultSubMenu(){
         
         switch (user.getDefaultMenu()) {
@@ -183,15 +218,16 @@ public class MainMenuController implements Initializable {
             case RESERVATIONS:
                 btnReservations.fire();
                 btnReservations.requestFocus();
-       //     case INVOICE:
-       //         bmc.btnMakePay.fire();
-       //         bmc.btnMakePay.requestFocus();
                 break;
             default :
                 break;
         }
     }
     
+    /**
+     * Adds fade transition to menu switches
+     * @param subMenu 
+     */
     public void displaySubMenu(MenuType subMenu){
         FadeTransition ft0 = new FadeTransition(Duration.millis(250), displayPane);
         ft0.setFromValue(1.0);

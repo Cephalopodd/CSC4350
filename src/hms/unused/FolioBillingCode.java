@@ -6,7 +6,7 @@
  * categorize charges that are posted to guest folios.
  *
  */
-package hms.model;
+package hms.unused;
 
 /**
  *
