@@ -124,7 +124,7 @@ public class ReserveRoomFormController implements Initializable {
 
         try {
             if (EDIT) {
-                System.out.print("1");
+                System.out.println("1");
                 //Update Reservation
                 reservation.setCheckinDate(dateArrival.getValue().toString());
                 reservation.setCheckoutDate(dateDeparture.getValue().toString());
@@ -134,12 +134,12 @@ public class ReserveRoomFormController implements Initializable {
                 reservation.setRoomType(cbxRoomType.getValue());
                 reservation.setComments(txtNotes.getText());
 
-                System.out.print("2");
+                System.out.println("2");
                 
                 //Send to DB
                 boolean result = dao.updateReservation(reservation);
                 if (result){
-                    System.out.print("3");
+                    System.out.println("3");
                 
                     SUCCESS = true;
                     newReservation = reservation;
@@ -152,12 +152,12 @@ public class ReserveRoomFormController implements Initializable {
                 }
                 
             } else {
-                System.out.print("4");
+                System.out.println("4");
                 
                 int resNo = dao.createReservation(profile, room, searchedArrival, searchedDeparture);
                 if (resNo > 0) {
-                    System.out.print("5");
-                    System.out.print("The resNo returned: " + resNo);
+                    System.out.println("5");
+                    System.out.println("The resNo returned: " + resNo);
                 
                     SUCCESS = true;
                     newRoomNumber = room.getNumber();

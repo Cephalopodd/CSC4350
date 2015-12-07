@@ -1,23 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * The class is the controller for the billing menu view
  */
+
 package hms;
 
 import hms.model.BillingCode;
 import hms.model.BillingMenuDAO;
 import hms.model.BillingMenuDTO;
 import hms.model.FolioCharge;
-import hms.model.FrontDeskDAO;
 import hms.model.Item;
 import hms.model.Reservation;
 import hms.model.User;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -25,10 +21,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Orientation;
-import javafx.print.PageLayout;
-import javafx.print.Printer;
-import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -38,19 +30,17 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.util.converter.CurrencyStringConverter;
 
 /**
- * FXML Controller class
+ * BillingMenuController class
  *
- * @author jgreene
+ * @author Team Slam
  */
 public class BillingMenuController implements Initializable, SubMenu {
 
@@ -115,13 +105,19 @@ public class BillingMenuController implements Initializable, SubMenu {
     private User user;
     private Reservation currentReservation;
     private BillingMenuDAO dao;
-    private double taxRate = .08;
 
     private ObservableList<FolioCharge> charges;
     private ObservableList<BillingMenuDTO> guests;
     private ObservableList<Item> items;
+    
+    private final double TAXRATE = .08;
     private double total;
 
+    /**
+     * Initializes the view
+     * @param url
+     * @param rb 
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -131,6 +127,10 @@ public class BillingMenuController implements Initializable, SubMenu {
         initItemPane();
     }
 
+    /**
+     * Handles the click event on Cash Payment button
+     * @param event 
+     */
     @FXML
     private void onClickCashPayment(ActionEvent event) {
         try {
@@ -154,6 +154,10 @@ public class BillingMenuController implements Initializable, SubMenu {
         }
     }
 
+    /**
+     * Handles the click event on Delete Button
+     * @param event 
+     */
     @FXML
     private void onClickDeleteCharge(ActionEvent event) {
         FolioCharge charge = tblCharges.getSelectionModel().getSelectedItem();
@@ -169,6 +173,10 @@ public class BillingMenuController implements Initializable, SubMenu {
         handleSelectGuest();
     }
 
+    /**
+     * Handles the click event on the select guest button
+     * @param event 
+     */
     @FXML
     private void onClickSelectGuest(ActionEvent event) {
         charges.clear();
@@ -180,6 +188,10 @@ public class BillingMenuController implements Initializable, SubMenu {
         handleSelectGuest();
     }
 
+    /**
+     * Handles the click event on the print folio button
+     * @param event 
+     */
     @FXML
     private void onClickPrintFolio(ActionEvent event) {
 
@@ -190,11 +202,20 @@ public class BillingMenuController implements Initializable, SubMenu {
 //        printerJob.showPrintDialog(HMS.stage);
     }
 
+    /**
+     * Handles the click event on the click checkout button
+     * @param event 
+     */
     @FXML
     private void onClickCheckOut(ActionEvent event) {
         handleCheckOut();
     }
 
+    /**
+     * Handles the selection event on the radio button to select
+     * active guests.
+     * @param event 
+     */
     @FXML
     private void onSelectRadioActive(ActionEvent event) {
         charges.clear();
@@ -207,6 +228,11 @@ public class BillingMenuController implements Initializable, SubMenu {
         updateActiveGuests();
     }
 
+    /**
+     * Handles the selection event on the radio button to select
+     * past guests.
+     * @param event 
+     */
     @FXML
     private void onSelectRadioPast(ActionEvent event) {
         charges.clear();
@@ -219,26 +245,41 @@ public class BillingMenuController implements Initializable, SubMenu {
         updatePastGuests();
     }
 
+    /**
+     * Method to inject a link to the main menu controller
+     * @param main 
+     */
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
     }
 
+    /**
+     * Method to inject the link to the current logged in user account
+     * @param user 
+     */
     @Override
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Method to inject the link to the current reservation
+     * @param currentReservation 
+     */
     public void setCurrentReservation(Reservation currentReservation) {
         this.currentReservation = currentReservation;
     }
 
+    /**
+     * Initializes the guests table
+     */
     private void initGuestsTable() {
 
         guests = FXCollections.observableArrayList();
-
         tblGuests.setItems(guests);
 
+        //Set Column Values
         colFirst.setCellValueFactory(
                 new PropertyValueFactory<>("FirstName"));
         colLast.setCellValueFactory(
@@ -256,12 +297,16 @@ public class BillingMenuController implements Initializable, SubMenu {
         updateActiveGuests();
 
     }
-
+    
+    /**
+     * Initializes the charges table
+     */
     private void initChargesTable() {
+        
         charges = FXCollections.observableArrayList();
-
         tblCharges.setItems(charges);
 
+        //Set Column Values
         colCode.setCellValueFactory(
                 new PropertyValueFactory<>("Code"));
         colDescription.setCellValueFactory(
@@ -282,23 +327,27 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     }
 
+    /**
+     * Initializes the items pane
+     */
     private void initItemPane() {
 
         items = FXCollections.observableArrayList();
 
+        //Retrieves list of items from BillingMenuDAO
         System.out.println("Retrieving list of Items from BillingMenuDAO");
         try {
             ObservableList result = dao.queryItems();
             if (result != null) {
                 items = result;
             }
-
+        
         } catch (Exception e) {
             System.out.println("Error getting current item list");
         }
 
+        //Adds items to item pane
         for (Item item : items) {
-
             item.setOnMouseEntered(e -> {
                 lblItem.textProperty().bind(item.nameProperty());
                 lblDescription.textProperty().bind(item.descriptionProperty());
@@ -313,11 +362,12 @@ public class BillingMenuController implements Initializable, SubMenu {
                 addCharge(item);
             });
             itemPane.getChildren().add(item);
-
-        }
-
+         }
     }
 
+    /**
+     * Handles the select guest event
+     */
     private void handleSelectGuest() {
         BillingMenuDTO selectedGuest = tblGuests.getSelectionModel().getSelectedItem();
 
@@ -333,18 +383,24 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     }
 
+    /**
+     * Calculates the folio totals
+     */
     private void calculateTotals() {
         CurrencyStringConverter csc = new CurrencyStringConverter();
         total = 0;
         double subtotal = 0, taxes = 0;
         subtotal = tblCharges.getItems().stream().mapToDouble(FolioCharge::getAmount).sum();
-        taxes = subtotal * taxRate;
+        taxes = subtotal * TAXRATE;
         total = subtotal + taxes;
         lblTotal.setText(csc.toString(total));
         lblTaxes.setText(csc.toString(taxes));
         lblSubTotal.setText(csc.toString(subtotal));
     }
 
+    /**
+     * Refreshes the tables to display active guests only
+     */
     public void updateActiveGuests() {
         try {
             guests.clear();
@@ -360,9 +416,11 @@ public class BillingMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Error getting current guest list");
         }
+     }
 
-    }
-
+    /**
+     * Refreshes the tables to display past guests only
+     */
     public void updatePastGuests() {
         guests.clear();
         try {
@@ -380,11 +438,17 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     }
 
+    /**
+     * Updates the charges in the charges table
+     * @param selectedGuest 
+     */
     private void updateCharges(BillingMenuDTO selectedGuest) {
         try {
             
+            //First calculate the room charges for the guest dynamically
             postRoomCharges(selectedGuest);
 
+            //Next grab the line items for the guest from the dao
             System.out.println("Retriving list of charges for guest: "
                     + selectedGuest.getConfirmation()
                     + " "
@@ -393,7 +457,6 @@ public class BillingMenuController implements Initializable, SubMenu {
                     + selectedGuest.getLastName()
                     + " "
                     + selectedGuest.getRoomNumber());
-            //charges = dao.queryCharges(1234);
             charges = dao.queryCharges(selectedGuest.getConfirmation());
             tblCharges.setItems(charges);
             calculateTotals();
@@ -404,6 +467,10 @@ public class BillingMenuController implements Initializable, SubMenu {
             postRoomCharges(selectedGuest);
     }
 
+    /**
+     * Adds a charge for the guest to the database
+     * @param item 
+     */
     private void addCharge(Item item) {
         try {
 
@@ -426,9 +493,14 @@ public class BillingMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Error adding Charge");
         }
+        //Refresh the tables
         handleSelectGuest();
     }
 
+    /**
+     * Calculate and post the room charges
+     * @param guest 
+     */
     private void postRoomCharges(BillingMenuDTO guest) {
         try {
             
@@ -479,15 +551,19 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     }
 
+    /**
+     * Handle the guest checkout 
+     */
     private void handleCheckOut() {
         BillingMenuDTO guest = tblGuests.getSelectionModel().getSelectedItem();
         if (guest == null) {
             return;
         }
         
-        //Populate Charges
+        //Make sure the table calculates the current values
         handleSelectGuest();
         
+        //Call database to checkout the guset
         boolean result = false;
         try {
             System.out.println("Checking Out Guest");

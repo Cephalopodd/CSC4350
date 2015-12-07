@@ -1,12 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This file is used as a base to launch the forms used in the application
  */
 package hms;
 
-import hms.model.CreditCard;
-import hms.model.FrontDeskDAO;
 import hms.model.Profile;
 import hms.model.Reservation;
 import java.io.IOException;
@@ -22,54 +18,16 @@ import javafx.stage.StageStyle;
 
 /**
  *
- * @author jgreene
+ * @author Team Slam
  */
 class Forms {
     
-
-    static boolean displayOriginalCheckInForm(MainMenuController main, int roomNum, CreditCard cc, FrontDeskDAO dao, Reservation r) {
-        boolean result = false;
-        try {
-            Stage stage = new Stage(StageStyle.UNDECORATED);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(HMS.stage);
-            stage.setAlwaysOnTop(true);
-            stage.centerOnScreen();
-            
-            //Inject Link to HMSapp into Login And Main Menu Screen
-            FXMLLoader checkInFormLoader = new FXMLLoader(main.getClass().getResource("CheckInForm.fxml"));
-            Parent checkInFormView = (Parent) checkInFormLoader.load();
-            CheckInFormController checkInFormController = ((CheckInFormController) checkInFormLoader.getController());
-            
-            checkInFormController.setStage(stage);
-          //  checkInFormController.setCreditCard(cc);
-           // checkInFormController.setRoomNumber(roomNum);
-            
-            //Create Login and MainMenu Scene
-            Scene scene = new Scene(checkInFormView);
-            stage.setScene(scene);
-            stage.showAndWait();
-            
-            //Get Result
-            try {
-                CreditCard verifiedCC = checkInFormController.getCreditCard();
-                result = checkInFormController.getResult();
-                if (result) {
-                    //Send new CC information to DB
-                    System.out.println("Sending new CC to DB: " + verifiedCC.getName());
-                    dao.setCreditCard(r.getConfirmation(), verifiedCC);
-                }
-            } catch (Exception e) {
-                System.out.println("Error reading form return");
-            }
-      
-        } catch (IOException ex) {
-            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return result;
-        
-    }
-    
+    /**
+     * This displays the Profile form in edit mode
+     * @param main
+     * @param p
+     * @return 
+     */
     static Profile displayEditProfileForm(MainMenuController main, Profile p) {
         boolean result = false;
         try {
@@ -113,84 +71,10 @@ class Forms {
         return p;
     }
 
-    //Update Reservation
-    static boolean displayReserveRoomForm(MainMenuController main, Reservation reservation) {
-        boolean success = false;
-           try {
-            Stage stage = new Stage(StageStyle.UNDECORATED);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(HMS.stage);
-            
-            //Inject Link to HMSapp into Login And Main Menu Screen
-            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReserveRoomForm.fxml"));
-            Parent parent = (Parent) loader.load();
-            
-            ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
-            controller.setStage(stage);
-            controller.setReservation(reservation);
-            controller.setReservationInformation(reservation);
-            controller.setEditFlag(true);
-            
-            //Create Login and MainMenu Scene
-            Scene scene = new Scene(parent);
-            
-            stage.setScene(scene);
-            stage.showAndWait();
-            
-            //Check Success
-            if (controller.getSuccess()) {
-                success = true;
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "Your Reservation was successful completed\n"
-                        + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
-                        + "Room Number: " + controller.getNewRoomNumber()
-                );
-                
-                alert.showAndWait();
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return success;
-    }
-    
-    static void displayReserveRoomForm(MainMenuController main, Profile profile) {
-           try {
-            Stage stage = new Stage(StageStyle.UNDECORATED);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(HMS.stage);
-            
-            //Inject Link to HMSapp into Login And Main Menu Screen
-            FXMLLoader loader = new FXMLLoader(main.getClass().getResource("ReserveRoomForm.fxml"));
-            Parent parent = (Parent) loader.load();
-            
-            ReserveRoomFormController controller = ((ReserveRoomFormController) loader.getController());
-            controller.setStage(stage);
-            controller.setProfile(profile);
-            controller.setEditFlag(false);
-            
-            //Create Login and MainMenu Scene
-            Scene scene = new Scene(parent);
-            
-            stage.setScene(scene);
-            stage.showAndWait();
-            
-             //Check Success
-            if (controller.getSuccess()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "Your new reservation was successfully created\n"
-                        + "Confirmation Number: " + controller.getNewReservationNumber() + "\n"
-                        + "Room Number: " + controller.getNewRoomNumber()
-                );
-                alert.showAndWait();
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+    /**
+     * This displays the Add New User form
+     * @param main 
+     */
     static void displayAddNewUser(MainMenuController main) {
            try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -214,6 +98,11 @@ class Forms {
         }
     }
     
+    /**
+     * This displays the profile creation form
+     * @param main
+     * @return 
+     */
     static Profile displayCreateProfileForm(MainMenuController main) {
         boolean result = false;
         Profile newProfile = null;
@@ -246,14 +135,7 @@ class Forms {
                 "Your Profile was successful created");
                 alert.showAndWait();
             } 
-            
-            // Commented out alert on error
-//            else {
-//                Alert alert = new Alert(Alert.AlertType.ERROR,
-//                "Your profile could not be created");
-//                alert.showAndWait();
-//            }
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -261,6 +143,10 @@ class Forms {
         return newProfile;
     }
 
+    /**
+     * This displays the Reset Password form
+     * @param main 
+     */
     static void displayResetPassword(MainMenuController main) {
         try {
             Stage stage = new Stage(StageStyle.UNDECORATED);
@@ -285,6 +171,12 @@ class Forms {
         }
     }
 
+    /**
+     * This displays the Reservation form in create mode
+     * @param main
+     * @param p
+     * @return 
+     */
     static Reservation displayCreateReservationForm(MainMenuController main, Profile p) {
         
         Reservation newReservation = null;
@@ -319,14 +211,7 @@ class Forms {
                 alert.showAndWait();
                 newReservation = controller.getNewReservation();
             }
-            
-            // Commented out alert on error
-//            else {
-//                Alert alert = new Alert(Alert.AlertType.ERROR,
-//                "Your profile could not be created");
-//                alert.showAndWait();
-//            }
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Forms.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -334,6 +219,12 @@ class Forms {
         return newReservation;
     }
 
+    /**
+     * This displays the reservation form in edit mode
+     * @param main
+     * @param reservation
+     * @return 
+     */
     static Reservation displayEditReservationForm(MainMenuController main, Reservation reservation) {
         
         try {
@@ -376,6 +267,12 @@ class Forms {
         return reservation;
     }
 
+    /**
+     * This displays the check in form
+     * @param main
+     * @param reservation
+     * @return 
+     */
     static boolean displayCheckInForm(MainMenuController main, Reservation reservation) {
         
         //boolean to see if CC verify was a success
