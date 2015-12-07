@@ -1,13 +1,13 @@
+/**
+ * Controller for the initial login screen
+ */
 package hms;
 
-import hms.model.User;
 import hms.model.LoginDAO;
 import hms.model.NewUserDAO;
 import hms.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.animation.FadeTransition;
-import javafx.animation.SequentialTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,10 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
 
-//FXML controller class. ..
+/**
+ * LoginController Class
+ * @author Team Slam
+ */
 public class LoginController implements Initializable {
 
     HMS HMSapp;
@@ -88,6 +89,10 @@ public class LoginController implements Initializable {
         lblLoginError.setText(" ");
     }
     
+    /**
+     * Verifies that the login credentials are valid
+     * @return 
+     */
     private boolean isValid(){
         
         userCheck = new NewUserDAO();
@@ -120,10 +125,7 @@ public class LoginController implements Initializable {
             passedValidation = false;
         }
         
-        
         return passedValidation;
     }
-    
-    
-    
+
 }

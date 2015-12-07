@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Controller for the Reservations Profile view
  */
 package hms;
 
@@ -18,6 +16,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,7 +38,7 @@ import javafx.scene.text.Font;
 /**
  * FXML Controller class
  *
- * @author jgreene
+ * @author Team SLAM
  */
 public class ReservationsProfileMenuController implements Initializable, SubMenu {
 
@@ -149,74 +148,136 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     }
 
+    /**
+     * Clear Button
+     *
+     * @param event
+     */
     @FXML
     private void onClickClear(ActionEvent event) {
         handleClear();
     }
 
-
+    /**
+     * New Reservation button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickNewReservation(ActionEvent event) {
         handleNewReservation();
     }
 
+    /**
+     * Edit Reservation button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickEditReservation(ActionEvent event) {
         handleEditReservation();
     }
 
+    /**
+     * Cancel Reservation button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickCancelReservation(ActionEvent event) {
         handleCancelReservation();
 
     }
 
+    /**
+     * New Profile button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickNewProfile(ActionEvent event) {
         handleNewProfile();
     }
 
+    /**
+     * Edit Profile button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickEditProfile(ActionEvent event) {
         handleEditProfile();
     }
 
+    /**
+     * Delete profile button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickDeleteProfile(ActionEvent event) {
         handleDeleteProfile();
     }
 
+    /**
+     * Search Profile button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickSearchProfiles(ActionEvent event) {
         reservations.clear();
         profiles.clear();
         handleSearchProfiles();
     }
-    
+
+    /**
+     * Search reservations button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickSearchReservations(ActionEvent event) {
         reservations.clear();
         profiles.clear();
         handleSearchReservations();
     }
-    
+
+    /**
+     * Search button click
+     *
+     * @param event
+     */
     @FXML
     private void onClickSearch(ActionEvent event) {
         reservations.clear();
         profiles.clear();
         handleSearch();
     }
-    
+
+    /**
+     * injects link to main menu controller
+     *
+     * @param main
+     */
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
     }
 
+    /**
+     * injects link to current user
+     *
+     * @param e
+     */
     @Override
     public void setUser(User e) {
         this.user = user;
     }
 
+    /**
+     * initializes the reservations table
+     */
     private void setupReservationsTable() {
 
         reservations = FXCollections.observableArrayList();
@@ -253,6 +314,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         tblReservations.setPlaceholder(msg);
     }
 
+    /**
+     * Initializes the profiles table
+     */
     private void setupProfilesTable() {
 
         profiles = FXCollections.observableArrayList();
@@ -279,6 +343,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         tblProfiles.setPlaceholder(msg);
     }
 
+    /**
+     * Clear button click
+     */
     private void handleClear() {
 
         handleClearReservations();
@@ -286,6 +353,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     }
 
+    /**
+     * Handles clearing the reservations table
+     */
     private void handleClearReservations() {
 
         //Clear Garbage Text from Date Field
@@ -302,6 +372,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         dateDeparture.setValue(null);
     }
 
+    /**
+     * Handles clearing the profiles table
+     */
     private void handleClearProfiles() {
         //Clear Profiles
         profiles.clear();
@@ -310,10 +383,14 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         txtMemberID.setText("");
     }
 
+    /**
+     * Handles searching for reservations
+     */
     private void handleSearchReservations() {
 
+        //validate fields
         if (!validateReservationFields()) {
-            System.out.println("error validatiting fields");
+            System.out.println("Error validating reservation fields");
             return;
         }
 
@@ -324,21 +401,20 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             String arriveDate;
             String departDate;
 
-            System.out.println("1");
+            //Check dates and convert to string
             try {
                 arriveDate = dateArrival.getValue().toString();
             } catch (Exception ex) {
                 arriveDate = "";
             }
 
-            System.out.println("2");
             try {
                 departDate = dateDeparture.getValue().toString();
             } catch (Exception e) {
                 departDate = "";
             }
 
-            System.out.println("3");
+            //Build frontdeskarrivals DTO
             FrontDeskArrivalsDTO dto
                     = new FrontDeskArrivalsDTOBuilder()
                     .setFirstName(txtFirstName.getText())
@@ -351,19 +427,21 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                     .setDepartureDate(departDate)
                     .createQueryArrivalsDTO();
 
-            System.out.println("3.5");
+            //Query database
+            System.out.println("Query arrivals");
             result = dao.queryArrivals(dto);
 
-            System.out.println("4");
             if (result != null) {
                 reservations.setAll(result);
             }
-            System.out.println("5");
         } catch (Exception e) {
             System.out.println("Error processing query");
         }
     }
 
+    /**
+     * Handles creating a new reservation
+     */
     private void handleNewReservation() {
         Profile p = tblProfiles.getSelectionModel().getSelectedItem();
 
@@ -384,6 +462,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
     }
 
+    /**
+     * handles canceling a reservation
+     */
     private void handleCancelReservation() {
 
         Alert alert;
@@ -438,6 +519,9 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
 
     }
 
+    /**
+     * handles editing a reservation
+     */
     private void handleEditReservation() {
 
         //Get Selected Reservation
@@ -460,8 +544,7 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
             return;
         }
 
-        //Forms.displayReserveRoomForm(main, r);
-        //Forms.displayReserveRoomForm(main, r);
+        //Launch reservation edit form
         Reservation newReservation = Forms.displayEditReservationForm(main, r);
         if (newReservation != null) {
             System.out.println("Not null, replacing in table");
@@ -472,22 +555,22 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
     }
 
+    /**
+     * handles searching for profiles
+     */
     private void handleSearchProfiles() {
 
         try {
 
-            System.out.println("1");
+            //Validate fields
             if (!validateProfileFields()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR,
-                        "error validatiting fields");
-                alert.showAndWait();
+                System.out.println("Error validating profile fields");
                 return;
             }
 
-            System.out.println("2");
             ObservableList<Profile> result;
 
-            System.out.println("3");
+            //Build DTO
             ProfileSearchDTO dto = new ProfileSearchDTOBuilder()
                     .setFirstName(txtFirstName.getText())
                     .setLastName(txtLastName.getText())
@@ -496,24 +579,22 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
                     .setPhoneNumber(txtPhoneNumber.getText())
                     .createProfileSearchDTO();
 
-            System.out.println("4");
+            //Query Database
+            System.out.println("Query Profiles");
             result = dao.queryProfiles(dto);
 
-            System.out.println("5");
             if (result != null) {
-
-                System.out.println("6");
                 profiles.setAll(result);
-
-                System.out.println("7");
             }
 
-            System.out.println("8");
         } catch (Exception e) {
             System.out.println("Error processing query");
         }
     }
 
+    /**
+     * Displays the create new profile form
+     */
     private void handleNewProfile() {
         Profile newProfile = Forms.displayCreateProfileForm(main);
         if (newProfile != null) {
@@ -521,10 +602,16 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
     }
 
+    /**
+     * Deletes a profile
+     */
     private void handleDeleteProfile() {
         //TO BE IMPLEMENTED - Shouldn't delete with Checked in guest....
     }
 
+    /**
+     * Displays the edit profile form
+     */
     private void handleEditProfile() {
         Profile p = tblProfiles.getSelectionModel().getSelectedItem();
 
@@ -541,37 +628,120 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         }
     }
 
+    /**
+     * Validates reservation fields
+     * @return 
+     */
     private boolean validateReservationFields() {
         boolean valid = true;
 
-        //Check From Data < To Date
-        //Check First Name
-        //Check Last Name
-        //Check Confirm Number
+        try {
+
+            //validate phone number
+            System.out.println("Validating phone");
+            if (validatePhoneNumber(txtPhoneNumber.getText())) {
+                markValid(txtPhoneNumber);
+            } else {
+                markInvalid(txtPhoneNumber);
+                valid = false;
+            }
+
+            //validate date field
+            if (dateArrival.getValue().isAfter(dateDeparture.getValue())) {
+                dateArrival.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+                dateDeparture.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+                valid = false;
+            } else {
+                dateArrival.setStyle("");
+                dateDeparture.setStyle("");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error Validating Fields");
+        }
+
         return valid;
+
     }
 
+    /**
+     * Validates Profile Fields
+     * @return 
+     */
     private boolean validateProfileFields() {
         boolean valid = true;
 
-        //Check email
-        //Check PhoneNumber
-        //Check MemberID
-        //Check FirstName
-        //Check LastName
+        try {
+
+            //validate phone number
+            System.out.println("Validating phone");
+            if (validatePhoneNumber(txtPhoneNumber.getText())) {
+                markValid(txtPhoneNumber);
+            } else {
+                markInvalid(txtPhoneNumber);
+                valid = false;
+            }
+            
+            //validate email
+            final Pattern p = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+            if (txtEmail.getText().equals("")) {
+                markValid(txtEmail);
+            }
+            else if (p.matcher(txtEmail.getText()).matches()) {
+                markValid(txtEmail);
+            } else {
+                markInvalid(txtEmail);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error Validating Fields");
+        }
+
         return valid;
     }
 
-    private void markInvalid(TextField t) {
-        t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+    /**
+     * Helper method to validate a phone number
+     *
+     * @param phoneNo
+     * @return
+     */
+    private boolean validatePhoneNumber(String phoneNo) {
+
+        //returns true if there is no phone number in the field.
+        if (phoneNo.matches("")) {
+            return true;
+            // returns true if phone number is correct     
+        } else if (phoneNo.matches("\\d{3}[-]\\d{3}[-]\\d{4}")) {
+            return true;
+        } //return false if nothing matches the input
+        else {
+            return false;
+        }
 
     }
 
+    /**
+     * Helper method to mark a field invalid
+     * @param t 
+     */
+    private void markInvalid(TextField t) {
+        t.setStyle("-fx-border-color: red ; -fx-border-width: 3px ;");
+
+    }
+
+    /**
+     * Helper method to mark a field valid
+     * @param t 
+     */
     private void markValid(TextField t) {
         t.setStyle("");
 
     }
 
+    /**
+     * Handles search for both reservations and profiles
+     */
     private void handleSearch() {
         reservations.clear();
         profiles.clear();
@@ -579,8 +749,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearchReservations();
     }
 
+    /**
+     * sets up fields to search the correct criteria on enter
+     */
     private void initAutoSearch() {
-        txtFirstName.setOnAction( e-> { 
+        txtFirstName.setOnAction(e -> {
             handleSearch();
         });
         txtLastName.setOnAction(e -> {

@@ -3,7 +3,6 @@
  */
 package hms;
 
-import com.sun.prism.paint.Color;
 import hms.model.User;
 import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskDAO;
@@ -334,6 +333,7 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
             }
             
             //validate date field
+            
             if (dateArrival.getValue().isAfter(dateDeparture.getValue())) {
                 dateArrival.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
                 dateDeparture.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
