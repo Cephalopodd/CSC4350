@@ -1,7 +1,6 @@
 /**
  * The class is the controller for the billing menu view
  */
-
 package hms;
 
 import hms.model.BillingCode;
@@ -109,14 +108,15 @@ public class BillingMenuController implements Initializable, SubMenu {
     private ObservableList<FolioCharge> charges;
     private ObservableList<BillingMenuDTO> guests;
     private ObservableList<Item> items;
-    
+
     private final double TAXRATE = .08;
     private double total;
 
     /**
      * Initializes the view
+     *
      * @param url
-     * @param rb 
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -129,26 +129,28 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Handles the click event on Cash Payment button
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void onClickCashPayment(ActionEvent event) {
         try {
             System.out.println("Starting cash payment");
-            
+
             double cashAmount = Double.parseDouble(txtAmount.getText());
             double owedAmount = total;
-            
+
             System.out.println("cashAmount:" + cashAmount);
             System.out.println("owedAmount:" + owedAmount);
-            
-            if (cashAmount>owedAmount)
+
+            if (cashAmount > owedAmount) {
                 return;
-            
-            Item item = new Item("Cash", "Cash Deposit", BillingCode.OTHER, cashAmount*-1);
-            
+            }
+
+            Item item = new Item("Cash", "Cash Deposit", BillingCode.OTHER, cashAmount * -1);
+
             addCharge(item);
-            
+
         } catch (Exception e) {
             System.out.println("Error processing cash payment");
         }
@@ -156,7 +158,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Handles the click event on Delete Button
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void onClickDeleteCharge(ActionEvent event) {
@@ -175,7 +178,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Handles the click event on the select guest button
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void onClickSelectGuest(ActionEvent event) {
@@ -190,7 +194,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Handles the click event on the print folio button
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void onClickPrintFolio(ActionEvent event) {
@@ -204,7 +209,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Handles the click event on the click checkout button
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void onClickCheckOut(ActionEvent event) {
@@ -212,9 +218,9 @@ public class BillingMenuController implements Initializable, SubMenu {
     }
 
     /**
-     * Handles the selection event on the radio button to select
-     * active guests.
-     * @param event 
+     * Handles the selection event on the radio button to select active guests.
+     *
+     * @param event
      */
     @FXML
     private void onSelectRadioActive(ActionEvent event) {
@@ -229,9 +235,9 @@ public class BillingMenuController implements Initializable, SubMenu {
     }
 
     /**
-     * Handles the selection event on the radio button to select
-     * past guests.
-     * @param event 
+     * Handles the selection event on the radio button to select past guests.
+     *
+     * @param event
      */
     @FXML
     private void onSelectRadioPast(ActionEvent event) {
@@ -247,7 +253,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Method to inject a link to the main menu controller
-     * @param main 
+     *
+     * @param main
      */
     @Override
     public void setSubMenuParent(MainMenuController main) {
@@ -256,7 +263,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Method to inject the link to the current logged in user account
-     * @param user 
+     *
+     * @param user
      */
     @Override
     public void setUser(User user) {
@@ -265,7 +273,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Method to inject the link to the current reservation
-     * @param currentReservation 
+     *
+     * @param currentReservation
      */
     public void setCurrentReservation(Reservation currentReservation) {
         this.currentReservation = currentReservation;
@@ -293,16 +302,24 @@ public class BillingMenuController implements Initializable, SubMenu {
         msg.setOpacity(.5);
         tblGuests.setPlaceholder(msg);
 
+        //Add Listener
+        tblGuests.setOnMouseClicked(e -> {
+            BillingMenuDTO selectedGuest = tblGuests.getSelectionModel().getSelectedItem();
+            if (selectedGuest != null) {
+                lblGuestName.setText(selectedGuest.getLastName() + ", " + selectedGuest.getFirstName());
+                updateCharges(selectedGuest);
+            }
+        });
+
         //Populate with data
         updateActiveGuests();
-
     }
-    
+
     /**
      * Initializes the charges table
      */
     private void initChargesTable() {
-        
+
         charges = FXCollections.observableArrayList();
         tblCharges.setItems(charges);
 
@@ -341,7 +358,7 @@ public class BillingMenuController implements Initializable, SubMenu {
             if (result != null) {
                 items = result;
             }
-        
+
         } catch (Exception e) {
             System.out.println("Error getting current item list");
         }
@@ -362,7 +379,7 @@ public class BillingMenuController implements Initializable, SubMenu {
                 addCharge(item);
             });
             itemPane.getChildren().add(item);
-         }
+        }
     }
 
     /**
@@ -380,7 +397,6 @@ public class BillingMenuController implements Initializable, SubMenu {
 
         lblGuestName.setText(selectedGuest.getLastName() + ", " + selectedGuest.getFirstName());
         updateCharges(selectedGuest);
-
     }
 
     /**
@@ -416,7 +432,7 @@ public class BillingMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Error getting current guest list");
         }
-     }
+    }
 
     /**
      * Refreshes the tables to display past guests only
@@ -440,11 +456,12 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Updates the charges in the charges table
-     * @param selectedGuest 
+     *
+     * @param selectedGuest
      */
     private void updateCharges(BillingMenuDTO selectedGuest) {
         try {
-            
+
             //First calculate the room charges for the guest dynamically
             postRoomCharges(selectedGuest);
 
@@ -463,13 +480,15 @@ public class BillingMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Error retrieving current guest list");
         }
-        if (radioActive.isSelected())
+        if (radioActive.isSelected()) {
             postRoomCharges(selectedGuest);
+        }
     }
 
     /**
      * Adds a charge for the guest to the database
-     * @param item 
+     *
+     * @param item
      */
     private void addCharge(Item item) {
         try {
@@ -499,49 +518,50 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     /**
      * Calculate and post the room charges
-     * @param guest 
+     *
+     * @param guest
      */
     private void postRoomCharges(BillingMenuDTO guest) {
         try {
-            
-        //Delete Old Room Charges
-        System.out.println("Deleting old Room Charges...");
-        dao.deleteRoomDays(guest.getConfirmation());
-        
-        //Get Cost of Room
-        System.out.println("Getting Cost of the room");
-        double rate = dao.getRoomRate(guest.getRoomtype(),guest.getRatecode());
-        if (rate == 0) {
-            rate = 201.00;
-        }
-        
-        //Add Room Charges from start of reservation to todays date
-        LocalDate today = LocalDate.now();
-        LocalDate start = LocalDate.parse(guest.getArrivalDate());
-        long x = ChronoUnit.DAYS.between(start, today);
-        
-        for (; x >= 0; x--) {
-            String tmpDate = start.toString();
-            
-            //Create Charge 
-            FolioCharge charge = new FolioCharge(
-                    0,
-                    BillingCode.ROOM,
-                    "Room#"+guest.getRoomNumber(),
-                    tmpDate,
-                    rate);
-            
-            System.out.println("Posting charge for : " + tmpDate);
-            dao.addCharge(guest.getConfirmation(), charge);
-            
-            //Increment the day
-            start = start.plusDays(1);
-        }
-        
+
+            //Delete Old Room Charges
+            System.out.println("Deleting old Room Charges...");
+            dao.deleteRoomDays(guest.getConfirmation());
+
+            //Get Cost of Room
+            System.out.println("Getting Cost of the room");
+            double rate = dao.getRoomRate(guest.getRoomtype(), guest.getRatecode());
+            if (rate == 0) {
+                rate = 201.00;
+            }
+
+            //Add Room Charges from start of reservation to todays date
+            LocalDate today = LocalDate.now();
+            LocalDate start = LocalDate.parse(guest.getArrivalDate());
+            long x = ChronoUnit.DAYS.between(start, today);
+
+            for (; x >= 0; x--) {
+                String tmpDate = start.toString();
+
+                //Create Charge 
+                FolioCharge charge = new FolioCharge(
+                        0,
+                        BillingCode.ROOM,
+                        "Room#" + guest.getRoomNumber(),
+                        tmpDate,
+                        rate);
+
+                System.out.println("Posting charge for : " + tmpDate);
+                dao.addCharge(guest.getConfirmation(), charge);
+
+                //Increment the day
+                start = start.plusDays(1);
+            }
+
         } catch (Exception e) {
             System.out.println("Error posting room transactions");
         }
-        
+
         //Re-Enable the button
         Label msg = new Label("Guest Charges");
         msg.setFont(new Font(24));
@@ -552,17 +572,17 @@ public class BillingMenuController implements Initializable, SubMenu {
     }
 
     /**
-     * Handle the guest checkout 
+     * Handle the guest checkout
      */
     private void handleCheckOut() {
         BillingMenuDTO guest = tblGuests.getSelectionModel().getSelectedItem();
         if (guest == null) {
             return;
         }
-        
+
         //Make sure the table calculates the current values
         handleSelectGuest();
-        
+
         //Call database to checkout the guset
         boolean result = false;
         try {
@@ -579,15 +599,15 @@ public class BillingMenuController implements Initializable, SubMenu {
             Alert alert = new Alert(AlertType.INFORMATION,
                     String.format(
                             "You are checked out of room %s\nYour "
-                                    + "credit card ending in %s\n"
-                                    + "has been billed $%.2f",
+                            + "credit card ending in %s\n"
+                            + "has been billed $%.2f",
                             guest.getRoomNumber(),
                             guest.getCc_last4(),
                             total));
             alert.showAndWait();
         } else {
             Alert alert = new Alert(AlertType.ERROR,
-                "You're checkout could not be processed at this time");
+                    "You're checkout could not be processed at this time");
             alert.showAndWait();
         }
     }
