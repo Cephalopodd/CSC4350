@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This object represents a sellable item on the billing menu
  */
 package hms.model;
 
@@ -13,7 +11,7 @@ import javafx.scene.control.Button;
 
 /**
  *
- * @author jgreene
+ * @author team slam
  */
 public class Item extends Button {
 

@@ -1,16 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This Data Access Object is used by the login menu
+ * to query the database on login
  */
 package hms.model;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 /**
  *
- * @author jgreene
+ * @author team slam
  */
 public class LoginDAO {
     
@@ -59,6 +57,9 @@ public class LoginDAO {
         return authenticatedUser;
     }
 
+    /**
+     * Closes DB connections
+     */
     private void closeAll() {
         try {
             rs.close();
@@ -69,7 +70,12 @@ public class LoginDAO {
         }
     }
     
-    //Can I please get a query that will return the user password.
+   /**
+    * Returns a match on user name and user password
+    * @param userName
+    * @param pwHash
+    * @return 
+    */
     public boolean matchPassword(String userName, Integer pwHash){
         
         User authenticatedUser = null;

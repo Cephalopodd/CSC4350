@@ -1,3 +1,7 @@
+/**
+ * This Data Access Object is used by the admin menu
+ * to create new users
+ */
 package hms.model;
 
 import java.sql.*;
