@@ -96,16 +96,15 @@ public class CheckInFormController implements Initializable {
     @FXML
     private void onClickOK(ActionEvent event) {
 
-        creditCard = getCreditCard();
-
-        System.out.println("ProfileID: " + reservation.getProfileID());
-        System.out.println("FirstName:" + reservation.getFirstName());
-
         //Exit if Credit Card Field Data is not Valid
         if (!validateFields()) {
             System.out.println("Error Validating CC");
             return;
         }
+        
+        creditCard = getCreditCard();
+        System.out.println("ProfileID: " + reservation.getProfileID());
+        System.out.println("FirstName:" + reservation.getFirstName());
 
         //Procede with Check In
         try {
@@ -187,6 +186,8 @@ public class CheckInFormController implements Initializable {
     private boolean validateFields() {
         try {
             if (txtNameOnCC.getText().equalsIgnoreCase("test")) {
+                txtCCNumber.setText("1234123412341234");
+                txtCCID.setText("1234");
                 return true;
             }
 
