@@ -101,6 +101,7 @@ public class MainMenuController implements Initializable {
     private void onClickBilling(ActionEvent event) {
         BillingMenuController c =
                 (BillingMenuController) subMenuControllers.get(MenuType.BILLING);
+        c.radioActive.setSelected(true);
         c.updateActiveGuests();
         displaySubMenu(MenuType.BILLING);
     }

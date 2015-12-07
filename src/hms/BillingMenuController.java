@@ -96,7 +96,7 @@ public class BillingMenuController implements Initializable, SubMenu {
     @FXML
     private GridPane chargesPane;
     @FXML
-    private RadioButton radioActive;
+    public RadioButton radioActive;
     @FXML
     private RadioButton radioPast;
 
@@ -111,6 +111,7 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     private final double TAXRATE = .08;
     private double total;
+    private double taxes;
 
     /**
      * Initializes the view
@@ -223,7 +224,7 @@ public class BillingMenuController implements Initializable, SubMenu {
      * @param event
      */
     @FXML
-    private void onSelectRadioActive(ActionEvent event) {
+    public void onSelectRadioActive(ActionEvent event) {
         charges.clear();
         btnCheckOut.setDisable(false);
         btnDeleteCharge.setDisable(false);
@@ -231,6 +232,8 @@ public class BillingMenuController implements Initializable, SubMenu {
         txtAmount.setDisable(false);
         spItems.setVisible(true);
         itemDetailPane.setVisible(true);
+        calculateTotals();
+        lblGuestName.setText("");
         updateActiveGuests();
     }
 
@@ -248,6 +251,8 @@ public class BillingMenuController implements Initializable, SubMenu {
         txtAmount.setDisable(true);
         spItems.setVisible(false);
         itemDetailPane.setVisible(false);
+        lblGuestName.setText("");
+        calculateTotals();
         updatePastGuests();
     }
 
@@ -405,9 +410,14 @@ public class BillingMenuController implements Initializable, SubMenu {
     private void calculateTotals() {
         CurrencyStringConverter csc = new CurrencyStringConverter();
         total = 0;
-        double subtotal = 0, taxes = 0;
+        taxes = 0;
+        double subtotal = 0;
+        
         subtotal = tblCharges.getItems().stream().mapToDouble(FolioCharge::getAmount).sum();
         taxes = subtotal * TAXRATE;
+        if (radioPast.isSelected()){
+            taxes = 0;
+        }
         total = subtotal + taxes;
         lblTotal.setText(csc.toString(total));
         lblTaxes.setText(csc.toString(taxes));
@@ -585,12 +595,18 @@ public class BillingMenuController implements Initializable, SubMenu {
 
         //Call database to checkout the guset
         boolean result = false;
+        double billedTax = taxes;
+        double billedTotal = total;
         try {
             System.out.println("Checking Out Guest");
             result = dao.checkOutGuest(guest.getConfirmation(),
                     guest.getRoomNumber(),
-                    total,
+                    billedTotal,
                     guest.getCc_last4());
+            
+            //Add Billing for tax
+            Item tax = new Item("Taxes", "Tax", BillingCode.OTHER, billedTax);
+            addCharge(tax);
         } catch (Exception e) {
             System.out.println("Error while checking out the guest");
         }
@@ -603,13 +619,16 @@ public class BillingMenuController implements Initializable, SubMenu {
                             + "has been billed $%.2f",
                             guest.getRoomNumber(),
                             guest.getCc_last4(),
-                            total));
+                            billedTotal));
             alert.showAndWait();
         } else {
             Alert alert = new Alert(AlertType.ERROR,
                     "You're checkout could not be processed at this time");
             alert.showAndWait();
         }
+        
+        calculateTotals();
+        lblGuestName.setText("");
     }
 
 }
