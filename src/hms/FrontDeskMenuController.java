@@ -1,16 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Controls the Front Desk Menu View
  */
 package hms;
 
-import hms.model.CreditCard;
+import com.sun.prism.paint.Color;
 import hms.model.User;
 import hms.model.FrontDeskArrivalsDTO;
 import hms.model.FrontDeskDAO;
 import hms.model.FrontDeskArrivalsDTOBuilder;
-import hms.model.MenuType;
 import hms.model.Profile;
 import hms.model.Reservation;
 import hms.model.ReservationStatus;
@@ -18,7 +15,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,12 +31,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 
 /**
- * FXML Controller class
+ * FrontDeskMenuController class
  *
- * @author jgreene
+ * @author TeamSlam
  */
 public class FrontDeskMenuController implements Initializable, SubMenu {
 
@@ -112,6 +107,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     }
 
+    /**
+     * Handles the click on Departures button
+     * @param event 
+     */
     @FXML
     private void onClickDepartures(ActionEvent event) {
         handleClear();
@@ -119,6 +118,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         handleSearch();
     }
     
+    /**
+     * Handles the click on the Arrivals button
+     * @param event 
+     */
     @FXML
     public void onClickArrivals(ActionEvent event) {
         handleClear();
@@ -126,56 +129,99 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         handleSearch();
     }
 
+    /**
+     * Handles the click on the HouseGuests Button
+     * @param event 
+     */
     @FXML
     private void onClickInHouseGuests(ActionEvent event) {
         //Todo Create IN House Guests menu
     }
 
+    /**
+     * Click on Search Button
+     * @param event 
+     */
     @FXML
     private void onClickSearch(ActionEvent event) {
         handleSearch();
     }
 
+    /**
+     * Click on Clear Button
+     * @param event 
+     */
     @FXML
     private void onClickClear(ActionEvent event) {
         handleClear();
     }
 
+    /**
+     * Click on WalkIns button
+     * @param event 
+     */
     @FXML
     private void onClickWalkIn(ActionEvent event) {
         // TODO
     }
 
+    /**
+     * Click on Reservations button
+     * @param event 
+     */
     @FXML
     private void onClickEditReservation(ActionEvent event) {
         handleEditReservation();
     }
 
+    /**
+     * Click on Edit Profile Button
+     * @param event 
+     */
     @FXML
     private void onClickEditProfile(ActionEvent event) {
         handleEditProfile();
     }
 
+    /**
+     * Click on Cancel reservation button
+     * @param event 
+     */
     @FXML
     private void onClickCancelReservation(ActionEvent event) {
         handleCancel();
     }
 
+    /**
+     * Click on checkin button
+     * @param event 
+     */
     @FXML
     private void onClickCheckIn(ActionEvent event) {
         handleCheckIn();
     }
 
+    /**
+     * Injects link to main menu controller
+     * @param main 
+     */
     @Override
     public void setSubMenuParent(MainMenuController main) {
         this.main = main;
     }
 
+    /**
+     * Injects link to current logged in user
+     * @param user 
+     */
     @Override
     public void setUser(User user) {
         currentUser = user;
     }
 
+    /**
+     * Initializes the front desk table
+     */
     private void setupTable() {
 
         data = FXCollections.observableArrayList();
@@ -217,39 +263,36 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         handleSearch();
     }
 
+    /**
+     * handles searching for guests that match the criteria
+     */
     private void handleSearch() {
 
-        //Commented out. Adding phone check.
-        /*if (!validateFields()) {
-         System.out.println("error validatiting fields");
-         return;
-         }*/
-        System.out.println("Validating phone");
-        if (validatePhoneNumber(txtPhoneNumber.getText())) {
-            markValid(txtPhoneNumber);
-        } else {
-            markInvalid(txtPhoneNumber);
+        //Validate the fields
+        if (!validateFields()) {
+            System.out.println("Error validatting fields");
+            return;
         }
 
+
+        //Build FrontDeskDAO and query database
         ObservableList<Reservation> result;
             String arriveDate;
             String departDate;
 
-            System.out.println("1");
             try {
                 arriveDate = dateArrival.getValue().toString();
             } catch (Exception ex) {
                 arriveDate = "";
             }
 
-            System.out.println("2");
             try {
                 departDate = dateDeparture.getValue().toString();
             } catch (Exception e) {
                 departDate = "";
             }
         
-        System.out.println("Building DAO");
+        System.out.println("Building FrontDeskArrivals DTO");
         FrontDeskArrivalsDTO dto
                 = new FrontDeskArrivalsDTOBuilder()
                 .setFirstName(txtFirstName.getText())
@@ -262,36 +305,54 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
                 .setDepartureDate(departDate)
                 .createQueryArrivalsDTO();
 
-        System.out.println("Fetching Result");
+        System.out.println("Fetching reservations from db");
         result = dao.queryArrivals(dto);
         
-        System.out.println("Setting Result");
         if (result != null) {
+            System.out.println("Setting Result");
             data.setAll(result);
         }
 
     }
 
+    /**
+     * Validate the user fields
+     * @return 
+     */
     private boolean validateFields() {
         boolean valid = true;
-//      try {
-//          if (dateArrival.getValue().isBefore(LocalDate.now())){
-//            return false;
-//          } else if (dateArrival.getValue().isAfter(dateDeparture.getValue()) ) {
-//       
-//           return false;
-//        }else{
-//            return true;
-//        }  
-//    } catch (Exception e) {
-//        
-//        System.out.println("Exceptoin in searhc..");
-//        return true;
-//    }
-//   
+            
+        try {
+            
+            //validate phone number
+            System.out.println("Validating phone");
+            if (validatePhoneNumber(txtPhoneNumber.getText())) {
+                markValid(txtPhoneNumber);
+            } else {
+                markInvalid(txtPhoneNumber);
+                valid = false;
+            }
+            
+            //validate date field
+            if (dateArrival.getValue().isAfter(dateDeparture.getValue())) {
+                dateArrival.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+                dateDeparture.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+                valid = false;
+            } else {
+                dateArrival.setStyle("");
+                dateDeparture.setStyle("");
+            }
+                    
+        } catch (Exception e) {
+            System.out.println("Error Validating Fields");
+        }
+
         return valid;
     }
 
+    /**
+     * Handles the cancel reservation
+     */
     private void handleCancel() {
 
         Alert alert;
@@ -344,78 +405,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     }
 
-    private void handleCheckInOriginal() {
-        try {
-            Alert alert;
-            Optional<ButtonType> response;
-
-            //Get Selected Reservation
-            Reservation r = tblFrontDesk.getSelectionModel().getSelectedItem();
-
-            //If reservation is null, display message and return
-            if (r == null) {
-                alert = new Alert(Alert.AlertType.ERROR,
-                        "Reservation not Selected");
-                alert.showAndWait();
-                return;
-            }
-
-            //Check to make sure that the status is pending
-            if (!r.getStatus().equals(ReservationStatus.PENDING)) {
-                alert = new Alert(Alert.AlertType.ERROR,
-                        "Only reservations that are PENDING \n"
-                        + "can be CheckedIn");
-                alert.showAndWait();
-                return;
-            }
-
-            //Check to make sure that the checkIn Date is today
-            if (!r.getCheckinDate().equals(LocalDate.now().toString())) {
-                alert = new Alert(Alert.AlertType.ERROR,
-                        "Only reservations with today's arrival \n"
-                        + "date can be CheckedIn");
-                alert.showAndWait();
-                return;
-            }
-
-            //Get Credit Card information from DB
-            //CreditCard cc = dao.getCreditCard(r.getConfirmation());
-            //Send Information to Rooms Form
-            boolean result = false;
-            try {
-                //result = Forms.displayOriginalCheckInForm(main, r.getRoomNumber(), cc, dao, r);
-                if (result) {
-                    dao.updateReservation(r);
-                    r.setStatus(ReservationStatus.CHECKEDIN);
-                }
-            } catch (Exception e) {
-                System.out.println("Error updating reservation");
-                result = false;
-            }
-
-            if (result) {
-                String msg = "Guest was successfully Checked in.\n\n"
-                        + "Name: " + r.getFirstName() + " " + r.getLastName() + "\n"
-                        + "Room: " + r.getRoomNumber() + "   " + "RoomType: " + r.getRoomType() + "\n"
-                        + "Arrival Date: " + r.getCheckinDate() + "\n"
-                        + "Departure Date: " + r.getCheckoutDate() + "\n\n"
-                        + "Enjoy your stay!";
-
-                alert = new Alert(Alert.AlertType.INFORMATION, msg);
-            } else {
-                alert = new Alert(Alert.AlertType.ERROR,
-                        "Guest could not be checked in at this time");
-            }
-            alert.showAndWait();
-
-            //Print Results
-            System.out.println("Result:" + result);
-        } catch (Exception e) {
-            System.out.println("Error Handling CheckIn");
-        }
-    }
-
-    //Waiting on DB Connectivity
+    /**
+     * Handles the Edit Profile Event
+     */
     private void handleEditProfile() {
         Alert alert;
         Optional<ButtonType> response;
@@ -456,6 +448,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
 
     }
 
+    /**
+     * Handle edit reservation event
+     */
     private void handleEditReservation() {
 
         //Get Selected Reservation
@@ -478,9 +473,11 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         } else {
             System.out.println("Null. not changing table");
         }
-
     }
 
+    /**
+     * Handle clear table event
+     */
     private void handleClear() {
         data.clear();
         txtFirstName.setText("");
@@ -493,52 +490,36 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         dateDeparture.setValue(null);
     }
 
-    private boolean validateReservationFields() {
-        boolean valid = true;
-
-        try {
-            //Mark All Valid
-            markValid(txtFirstName);
-            markValid(txtLastName);
-            markValid(txtConfirmation);
-
-        //Check First Name
-        //Check Last Name
-        //Check Confirm Number
-            //Check From Data < To Date
-        } catch (Exception e) {
-            System.out.println("Error Validating Fields");
-        }
-
-        return valid;
-    }
-
+    /**
+     * Helper method to mark a field invalid
+     * @param t 
+     */
     private void markInvalid(TextField t) {
-        t.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        t.setStyle("-fx-border-color: red ; -fx-border-width: 3px ;");
 
     }
 
+    /**
+     * Helper method to mark field valid
+     * @param t 
+     */
     private void markValid(TextField t) {
         t.setStyle("");
 
     }
 
+    /**
+     * Helper method to validate a phone number
+     * @param phoneNo
+     * @return 
+     */
     private boolean validatePhoneNumber(String phoneNo) {
+        
         //returns true if there is no phone number in the field.
         if (phoneNo.matches("")) {
             return true;
-        }
-        //validate phone numbers of format "1234567890"
-        if (phoneNo.matches("\\d{10}")) {
-            return true;
-        } //validating phone number with -, . or spaces
-        else if (phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) {
-            return true;
-        } //validating phone number with extension length from 3 to 5
-        else if (phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) {
-            return true;
-        } //validating phone number where area code is in braces ()
-        else if (phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
+        // returns true if phone number is correct     
+        } else if (phoneNo.matches("\\d{3}[-]\\d{3}[-]\\d{4}")) {
             return true;
         } //return false if nothing matches the input
         else {
@@ -546,7 +527,10 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         }
 
     }
-
+    
+    /**
+     * Handle check in event
+     */
     private void handleCheckIn() {
         Alert alert;
         Optional<ButtonType> response;
@@ -601,6 +585,9 @@ public class FrontDeskMenuController implements Initializable, SubMenu {
         btnArrivals.fire();
     }
 
+    /**
+     * Initialize front desk table with current date values
+     */
     private void initTableValues() {
         dateArrival.setValue(LocalDate.now());
         this.btnSearch.fire();
