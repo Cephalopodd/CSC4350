@@ -9,6 +9,7 @@ import hms.model.BillingCode;
 import hms.model.BillingMenuDAO;
 import hms.model.BillingMenuDTO;
 import hms.model.FolioCharge;
+import hms.model.FrontDeskDAO;
 import hms.model.Item;
 import hms.model.Reservation;
 import hms.model.User;
@@ -191,6 +192,7 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickCheckOut(ActionEvent event) {
+        handleCheckOut();
     }
 
     @FXML
@@ -397,7 +399,8 @@ public class BillingMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Error retrieving current guest list");
         }
-        postRoomCharges(selectedGuest);
+        if (radioActive.isSelected())
+            postRoomCharges(selectedGuest);
     }
 
     private void addCharge(Item item) {
@@ -466,6 +469,37 @@ public class BillingMenuController implements Initializable, SubMenu {
         tblCharges.setPlaceholder(msg);
         btnSelectGuest.setDisable(false);
 
+    }
+
+    private void handleCheckOut() {
+        BillingMenuDTO guest = tblGuests.getSelectionModel().getSelectedItem();
+        if (guest == null) {
+            return;
+        }
+        
+        //Populate Charges
+        handleSelectGuest();
+        
+        boolean result = false;
+        try {
+            System.out.println("Checking Out Guest");
+            result = dao.checkOutGuest(guest.getConfirmation(),guest.getRoomNumber(), total);
+        } catch (Exception e) {
+            System.out.println("Error while checking out the guest");
+        }
+        if (result) {
+            updateActiveGuests();
+            Alert alert = new Alert(AlertType.INFORMATION,
+                    String.format(
+                            "You are checked out of room %s\nYour "
+                            + "credit card has been billed $%.2f"
+                            ,guest.getRoomNumber(),total));
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(AlertType.ERROR,
+                "You're checkout could not be processed at this time");
+            alert.showAndWait();
+        }
     }
 
 }

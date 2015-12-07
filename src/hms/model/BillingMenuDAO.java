@@ -248,4 +248,25 @@ public class BillingMenuDAO {
         return (rowsDeleted > 0);
 
     }
+
+    public boolean checkOutGuest(int confirmation, int roomNumber, double amount) {
+        boolean result = false;
+        FrontDeskDAO fdDao = new FrontDeskDAO();
+        
+        try {
+        FolioCharge charge = new FolioCharge(0, 
+                BillingCode.OTHER,
+                "Account settled to CC on file",
+                LocalDate.now().toString(),
+                amount * -1);
+        
+        
+        result = addCharge(confirmation,charge);
+        result = fdDao.setRoomUnOccupied(roomNumber);
+        result = fdDao.updateReservationStatus(confirmation, ReservationStatus.CHECKEDOUT);
+        } catch (Exception e) {
+            System.out.println("Error checking out the guest");
+        }
+        return result;
+    }
 }
