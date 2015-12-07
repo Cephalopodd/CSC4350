@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -193,7 +192,7 @@ public class MainMenuController implements Initializable {
         }
     }
     
-    void displaySubMenu(MenuType subMenu){
+    public void displaySubMenu(MenuType subMenu){
         FadeTransition ft0 = new FadeTransition(Duration.millis(250), displayPane);
         ft0.setFromValue(1.0);
         ft0.setToValue(0.0);
