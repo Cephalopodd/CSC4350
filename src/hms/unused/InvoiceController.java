@@ -9,7 +9,6 @@ import hms.MainMenuController;
 import hms.SubMenu;
 import hms.model.BillingMenuDAO;
 import hms.model.FolioCharge;
-import hms.model.InvoiceDAO;
 import hms.model.Reservation;
 import hms.model.User;
 import java.net.URL;

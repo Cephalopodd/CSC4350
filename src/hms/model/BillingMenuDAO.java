@@ -1,20 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This Data access object is used by
+ * the billing menu to access the database
  */
+
 package hms.model;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
  *
- * @author admin
+ * @author team slam
  */
 public class BillingMenuDAO {
 
@@ -22,6 +21,9 @@ public class BillingMenuDAO {
     Statement stmt;
     ResultSet rs;
 
+    /**
+     * Closes all db connections
+     */
     private void closeAll() {
         try {
             rs.close();
@@ -32,6 +34,11 @@ public class BillingMenuDAO {
         }
     }
 
+    /**
+     * Retrieves all charges for a guest
+     * @param confirmation
+     * @return 
+     */
     public ObservableList<FolioCharge> queryCharges(int confirmation) {
 
         //Receive Reservation confirmation number
@@ -59,6 +66,10 @@ public class BillingMenuDAO {
         return result;
     }
 
+    /**
+     * Retrieves current guests at property
+     * @return 
+     */
     public ObservableList<BillingMenuDTO> queryCurrentGuests() {
 
         ObservableList<BillingMenuDTO> result = FXCollections.observableArrayList();
@@ -95,6 +106,10 @@ public class BillingMenuDAO {
         return result;
     }
 
+    /**
+     * Retrieves list of guests who have checked out
+     * @return 
+     */
     public ObservableList<BillingMenuDTO> queryPastGuests() {
 
         ObservableList<BillingMenuDTO> result = FXCollections.observableArrayList();
@@ -131,6 +146,10 @@ public class BillingMenuDAO {
         return result;
     }
 
+    /**
+     * Retrieves list of items to sell
+     * @return 
+     */
     public ObservableList<Item> queryItems() {
 
         ObservableList result = FXCollections.observableArrayList();
@@ -168,6 +187,12 @@ public class BillingMenuDAO {
         return result;
     }
 
+    /**
+     * Adds a charge to a guest folio
+     * @param confirmationNumber
+     * @param dto
+     * @return 
+     */
     public boolean addCharge(int confirmationNumber, FolioCharge dto) {
         boolean result = false;
 
@@ -202,6 +227,11 @@ public class BillingMenuDAO {
 
     }
 
+    /**
+     * Deletes a charge from a guestfolio
+     * @param chargeId
+     * @return 
+     */
     public boolean delCharge(int chargeId) {
         int rowsDeleted = 0;
 
@@ -229,6 +259,11 @@ public class BillingMenuDAO {
 
     }
 
+    /**
+     * Deletes room charges from a guest folio
+     * @param confirmation
+     * @return 
+     */
     public boolean deleteRoomDays(int confirmation) {
         int rowsDeleted = 0;
 
@@ -255,6 +290,14 @@ public class BillingMenuDAO {
 
     }
 
+    /**
+     * Processes checkout of a guest
+     * @param confirmation
+     * @param roomNumber
+     * @param amount
+     * @param cc_last4
+     * @return 
+     */
     public boolean checkOutGuest(int confirmation, int roomNumber, double amount, String cc_last4) {
         boolean result = false;
         FrontDeskDAO fdDao = new FrontDeskDAO();
@@ -275,6 +318,12 @@ public class BillingMenuDAO {
         return result;
     }
 
+    /**
+     * Retrieves a room rate
+     * @param roomtype
+     * @param ratecode
+     * @return 
+     */
     public double getRoomRate(String roomtype, String ratecode) {
 
         double rate = 0;

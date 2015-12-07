@@ -1,15 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This Data transfer object is 
+ * used in front desk menu
+ * to encapsulate datebase queries
+ * used to populate the front desk table
  */
 package hms.model;
 
-import java.time.LocalDate;
-
 /**
  *
- * @author jgreene
+ * @author team slam
  */
 public class FrontDeskArrivalsDTO {
 
@@ -26,7 +25,9 @@ public class FrontDeskArrivalsDTO {
         this("","","","","","","","");
     }
     
-    public FrontDeskArrivalsDTO(String firstName, String lastName, String companyName, String groupName, String confirmation, String phoneNumber, String arrivalDate, String departureDate) {
+    public FrontDeskArrivalsDTO(String firstName, String lastName, 
+            String companyName, String groupName, String confirmation,
+            String phoneNumber, String arrivalDate, String departureDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;

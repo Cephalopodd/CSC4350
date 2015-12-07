@@ -1,3 +1,8 @@
+/**
+ * This data access object provides
+ * database access for the admin menu
+ */
+
 package hms.model;
 
 import java.time.LocalDate;
@@ -76,6 +81,7 @@ public class AdminDAO {
         return sales;
     }
     
+    //Closes connections
     private void closeAll() {
         try {
             rs.close();

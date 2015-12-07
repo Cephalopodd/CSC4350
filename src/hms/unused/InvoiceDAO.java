@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hms.model;
+package hms.unused;
 
+import hms.model.FolioCharge;
 import java.sql.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
