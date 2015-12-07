@@ -324,6 +324,7 @@ public class BillingMenuController implements Initializable, SubMenu {
         if (selectedGuest == null) {
             Alert alert = new Alert(AlertType.WARNING, "Please select a guest from the list");
             alert.showAndWait();
+            btnSelectGuest.setDisable(false);
             return;
         }
 
@@ -434,7 +435,14 @@ public class BillingMenuController implements Initializable, SubMenu {
         //Delete Old Room Charges
         System.out.println("Deleting old Room Charges...");
         dao.deleteRoomDays(guest.getConfirmation());
-
+        
+        //Get Cost of Room
+        System.out.println("Getting Cost of the room");
+        double rate = dao.getRoomRate(guest.getRoomtype(),guest.getRatecode());
+        if (rate == 0) {
+            rate = 201.00;
+        }
+        
         //Add Room Charges from start of reservation to todays date
         LocalDate today = LocalDate.now();
         LocalDate start = LocalDate.parse(guest.getArrivalDate());
@@ -449,7 +457,7 @@ public class BillingMenuController implements Initializable, SubMenu {
                     BillingCode.ROOM,
                     "Room#"+guest.getRoomNumber(),
                     tmpDate,
-                    150.00);
+                    rate);
             
             System.out.println("Posting charge for : " + tmpDate);
             dao.addCharge(guest.getConfirmation(), charge);
@@ -483,7 +491,10 @@ public class BillingMenuController implements Initializable, SubMenu {
         boolean result = false;
         try {
             System.out.println("Checking Out Guest");
-            result = dao.checkOutGuest(guest.getConfirmation(),guest.getRoomNumber(), total);
+            result = dao.checkOutGuest(guest.getConfirmation(),
+                    guest.getRoomNumber(),
+                    total,
+                    guest.getCc_last4());
         } catch (Exception e) {
             System.out.println("Error while checking out the guest");
         }
@@ -492,8 +503,11 @@ public class BillingMenuController implements Initializable, SubMenu {
             Alert alert = new Alert(AlertType.INFORMATION,
                     String.format(
                             "You are checked out of room %s\nYour "
-                            + "credit card has been billed $%.2f"
-                            ,guest.getRoomNumber(),total));
+                                    + "credit card ending in %s\n"
+                                    + "has been billed $%.2f",
+                            guest.getRoomNumber(),
+                            guest.getCc_last4(),
+                            total));
             alert.showAndWait();
         } else {
             Alert alert = new Alert(AlertType.ERROR,

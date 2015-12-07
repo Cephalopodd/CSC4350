@@ -62,7 +62,8 @@ public class BillingMenuDAO {
     public ObservableList<BillingMenuDTO> queryCurrentGuests() {
 
         ObservableList<BillingMenuDTO> result = FXCollections.observableArrayList();
-        String sql = "select r.id, g.fname, g.lname, r.rm_num, r.arr, r.dep from guest as g, "
+        String sql = "select r.id, g.fname, g.lname, r.rm_num, r.arr, r.dep,"
+                + " r.cc_last4, r.roomtype, r.ratecode from guest as g, "
                 + "reservation as r where g.id=r.g_id and r.status like 'CHECKEDIN'";
 
         System.out.println(sql);
@@ -79,7 +80,10 @@ public class BillingMenuDAO {
                         rs.getString(3),
                         rs.getInt(4),
                         rs.getString(5),
-                        rs.getString(6))
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9))
                 );
             }
 
@@ -94,7 +98,8 @@ public class BillingMenuDAO {
     public ObservableList<BillingMenuDTO> queryPastGuests() {
 
         ObservableList<BillingMenuDTO> result = FXCollections.observableArrayList();
-        String sql = "select r.id, g.fname, g.lname, r.rm_num, r.arr, r.dep from guest as g, "
+        String sql = "select r.id, g.fname, g.lname, r.rm_num, r.arr, r.dep,"
+                + " r.cc_last4, r.roomtype, r.ratecode from guest as g, "
                 + "reservation as r where g.id=r.g_id and r.status like 'CHECKEDOUT'";
 
         System.out.println(sql);
@@ -111,7 +116,10 @@ public class BillingMenuDAO {
                         rs.getString(3),
                         rs.getInt(4),
                         rs.getString(5),
-                        rs.getString(6))
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9))
                 );
             }
 
@@ -128,30 +136,28 @@ public class BillingMenuDAO {
         ObservableList result = FXCollections.observableArrayList();
 
         ArrayList<String> itemList = new ArrayList();
-        itemList.add("Parking,Valet Parking is available 24 hrs a day,PARKING,25.00");
         itemList.add("Spa1,Spa package 30 minutes,SPA,50.00");
         itemList.add("Spa2,Spa package 60 minutes,SPA,100.00");
         itemList.add("Spa3,Spa package 120 minutes,SPA,125.00");
-        itemList.add("Continental Breakfast,Plain breakfast served up daily from 7:00 to 9:00,FOOD,10.00");
-        itemList.add("Deluxe Breakfast,Deluxe breakfast,FOOD,15.00");
+        itemList.add("Meeting Room A, 10000 sq. ft of meeting space,OTHER,800.00");
+        itemList.add("Meeting Room B, 1000 sq. ft of meeting space,OTHER,400.00");
+        itemList.add("Meeting Room C, 500 sq. ft of meeting space,OTHER,100.00");
         itemList.add("Parking,Valet Parking is available 24 hrs a day,PARKING,25.00");
-        itemList.add("Spa1,Spa package 30 minutes,SPA,50.00");
-        itemList.add("Spa2,Spa package 60 minutes,SPA,100.00");
-        itemList.add("Spa3,Spa package 120 minutes,SPA,125.00");
+        
+        itemList.add("Printing Services,Print to our business center printer,OTHER, 5.00");
+        itemList.add("Internet,Internet access code,SPA,5.00");
+        itemList.add("Resort Fee,Standard Fee for gusets,RESORTFEE,15.00");
+        itemList.add("Movie,In room movie,MOVIE,10.00");
+
         itemList.add("Continental Breakfast,Plain breakfast served up daily from 7:00 to 9:00,FOOD,10.00");
         itemList.add("Deluxe Breakfast,Deluxe breakfast,FOOD,15.00");
-        itemList.add("Parking,Valet Parking is available 24 hrs a day,PARKING,25.00");
-        itemList.add("Spa1,Spa package 30 minutes,SPA,50.00");
-        itemList.add("Spa2,Spa package 60 minutes,SPA,100.00");
-        itemList.add("Spa3,Spa package 120 minutes,SPA,125.00");
-        itemList.add("Continental Breakfast,Plain breakfast served up daily from 7:00 to 9:00,FOOD,10.00");
-        itemList.add("Deluxe Breakfast,Deluxe breakfast,FOOD,15.00");
-        itemList.add("Parking,Valet Parking is available 24 hrs a day,PARKING,25.00");
-        itemList.add("Spa1,Spa package 30 minutes,SPA,50.00");
-        itemList.add("Spa2,Spa package 60 minutes,SPA,100.00");
-        itemList.add("Spa3,Spa package 120 minutes,SPA,125.00");
-        itemList.add("Continental Breakfast,Plain breakfast served up daily from 7:00 to 9:00,FOOD,10.00");
-        itemList.add("Deluxe Breakfast,Deluxe breakfast,FOOD,15.00");
+        itemList.add("Coke,Can of soda,FOOD,2.00");
+        itemList.add("Diet-Coke,Can of soda,FOOD,2.00");
+        itemList.add("Sprite,Can of soda,FOOD,2.00");
+
+        itemList.add("Wall Street Journal,Newspaper,GIFTSHOP,1.00");
+        itemList.add("New York Times,Newspaper,GIFTSHOP,1.00");
+        itemList.add("Brush/Comb,Toiletries,GIFTSHOP,4.00");
 
         for (String s : itemList) {
             String[] sa = s.split(",");
@@ -249,24 +255,50 @@ public class BillingMenuDAO {
 
     }
 
-    public boolean checkOutGuest(int confirmation, int roomNumber, double amount) {
+    public boolean checkOutGuest(int confirmation, int roomNumber, double amount, String cc_last4) {
         boolean result = false;
         FrontDeskDAO fdDao = new FrontDeskDAO();
-        
+
         try {
-        FolioCharge charge = new FolioCharge(0, 
-                BillingCode.OTHER,
-                "Account settled to CC on file",
-                LocalDate.now().toString(),
-                amount * -1);
-        
-        
-        result = addCharge(confirmation,charge);
-        result = fdDao.setRoomUnOccupied(roomNumber);
-        result = fdDao.updateReservationStatus(confirmation, ReservationStatus.CHECKEDOUT);
+            FolioCharge charge = new FolioCharge(0,
+                    BillingCode.OTHER,
+                    "Billed to CC ending in " + cc_last4,
+                    LocalDate.now().toString(),
+                    amount * -1);
+
+            result = addCharge(confirmation, charge);
+            result = fdDao.setRoomUnOccupied(roomNumber);
+            result = fdDao.updateReservationStatus(confirmation, ReservationStatus.CHECKEDOUT);
         } catch (Exception e) {
             System.out.println("Error checking out the guest");
         }
         return result;
+    }
+
+    public double getRoomRate(String roomtype, String ratecode) {
+
+        double rate = 0;
+        String sql = String.format(
+                "select rate.rate from rate,roomtype where rate.roomtype "
+                + "like roomtype.beds and "
+                + "rate.ratecode like '%s' and "
+                + "roomtype.type like '%s'", ratecode, roomtype);
+        System.out.println(sql);
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            stmt = c.createStatement();
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                rate = rs.getFloat(1);
+            }
+            System.out.println("Rate:" + rate);
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeAll();
+        }
+        return rate;
     }
 }

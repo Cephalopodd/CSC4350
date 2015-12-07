@@ -33,7 +33,7 @@ public class FrontDeskDAO {
         }
     }
         
-    public ObservableList queryArrivals(FrontDeskArrivalsDTO dto) {
+    public ObservableList<Reservation> queryArrivals(FrontDeskArrivalsDTO dto) {
         
         ObservableList<Reservation> result = FXCollections.observableArrayList();
         String sql = "select g.fname, g.lname, r.rm_num, r.roomtype, r2.rate, "

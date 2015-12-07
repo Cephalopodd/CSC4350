@@ -16,16 +16,23 @@ public class BillingMenuDTO {
     int roomNumber;
     String arrivalDate;
     String departureDate;
+    String cc_last4;
+    String roomtype;
+    String ratecode;
 
     public BillingMenuDTO(int confirmation, String firstName, 
             String lastName, int roomNumber, String arrivalDate, 
-            String departureDate) {
+            String departureDate, String cc_last4, 
+            String roomtype, String ratecode) {
         this.confirmation = confirmation;
         this.firstName = firstName;
         this.lastName = lastName;
         this.roomNumber = roomNumber;
         this.arrivalDate = arrivalDate;
         this.departureDate = departureDate;
+        this.cc_last4 = cc_last4;
+        this.roomtype = roomtype;
+        this.ratecode = ratecode;
     }
 
     public int getConfirmation() {
@@ -74,6 +81,30 @@ public class BillingMenuDTO {
     
     public void setDepartureDate(String departureDate) {
         this.departureDate = departureDate;
+    }
+    
+    public String getCc_last4() {
+        return cc_last4;
+    }
+    
+    public void setCc_last4(String cc_last4) {
+        this.cc_last4 = cc_last4;
+    }
+
+    public String getRoomtype() {
+        return roomtype;
+    }
+
+    public void setRoomtype(String roomtype) {
+        this.roomtype = roomtype;
+    }
+
+    public String getRatecode() {
+        return ratecode;
+    }
+
+    public void setRatecode(String ratecode) {
+        this.ratecode = ratecode;
     }
     
     @Override
