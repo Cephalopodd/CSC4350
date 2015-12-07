@@ -153,7 +153,8 @@ public class ReserveRoomFormController implements Initializable {
                     newReservationNumber = resNo;
                     
                     newReservation = dao.getReservation(resNo);
-                    System.out.println("New Res: " + newReservation.getFirstName());
+                    //Does not populate room number...
+                    newReservation.setRoomNumber(room.getNumber());
                 }
             }
         } catch (Exception e) {

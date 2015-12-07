@@ -210,6 +210,7 @@ class Forms {
                 );
                 alert.showAndWait();
                 newReservation = controller.getNewReservation();
+                System.out.println("Room is: " + newReservation.getRoomNumber());
             }
 
         } catch (IOException ex) {

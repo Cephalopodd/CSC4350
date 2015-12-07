@@ -361,7 +361,6 @@ public class FrontDeskDAO {
      * @return 
      */
     public ObservableList queryProfiles(ProfileSearchDTO dto) {
-        System.out.println("querying profiles");
         ObservableList<Profile> profiles = FXCollections.observableArrayList();
         try {
             Class.forName("org.sqlite.JDBC");
@@ -371,31 +370,24 @@ public class FrontDeskDAO {
             if (!dto.getMemberID().equals("")) {
                 filters.append(" AND id = " + Integer.parseInt(dto.getMemberID()));
             }
-            System.out.println("member id");
             if (!dto.getFirstName().equals("")) {
                 filters.append(" AND fname like '" + dto.getFirstName() + "'");
             }
-            System.out.println("first");
             if (!dto.getLastName().equals("")) {
                 filters.append(" AND lname like '" + dto.getLastName() + "'");
             }
-            System.out.println("last");
             if (!dto.getPhoneNumber().equals("")) {
                 filters.append(" AND phone like '" + dto.getPhoneNumber() + "'");
             }
-            System.out.println("phone");
             if (!dto.getEmail().equals("")) {
                 filters.append(" AND email like '" + dto.getEmail() + "'");
             }
-            System.out.println("email");
             if (filters.length() > 0) {
                 filters.replace(0, 4, " WHERE");
             }
-            System.out.println("where");
-            System.out.println(filters);
-
-            rs = stmt.executeQuery("select * from guest " + filters);
-            System.out.println("test 4");
+            String sql = "select * from guest " + filters;
+            System.out.println(sql);
+            rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 profiles.add(parseProfile(rs));
             }

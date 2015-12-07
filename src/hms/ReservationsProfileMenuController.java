@@ -145,7 +145,6 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         handleSearch();
 
         initAutoSearch();
-
     }
 
     /**
@@ -456,7 +455,11 @@ public class ReservationsProfileMenuController implements Initializable, SubMenu
         //Forms.displayReserveRoomForm(main, p);
         Reservation newReservation = Forms.displayCreateReservationForm(main, p);
         if (newReservation != null) {
-            tblReservations.getItems().add(newReservation);
+            //tblReservations.getItems().add(newReservation);
+            reservations.clear();
+            txtConfirmation.setText(newReservation.getConfirmation() + "");
+            btnSearch.fire();
+            txtConfirmation.setText("");
         } else {
             System.out.println("It was null");
         }
