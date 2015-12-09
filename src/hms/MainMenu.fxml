@@ -11,21 +11,21 @@
       <HBox id="mainMenuBar" alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1014.0" stylesheets="@../resource/styling/Login.css">
          <children>
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="20.0" />
-            <Button fx:id="btnReservations" mnemonicParsing="false" onAction="#onClickReservations" prefHeight="45.0" prefWidth="102.0" text="Reservations" />
+            <Button fx:id="btnReservations" mnemonicParsing="false" onAction="#onClickReservations" prefHeight="45.0" prefWidth="120.0" text="Reservations" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="20.0" />
             <Button fx:id="btnFrontDesk" mnemonicParsing="false" onAction="#onClickFrontDesk" prefHeight="45.0" prefWidth="100.0" text="Front Desk" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="20.0" />
-            <Button fx:id="btnRooms" mnemonicParsing="false" onAction="#onClickRooms" prefHeight="45.0" text="Rooms Management" />
+            <Button fx:id="btnRooms" mnemonicParsing="false" onAction="#onClickRooms" prefHeight="45.0" prefWidth="170.0" text="Rooms Management" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="20.0" />
             <Button fx:id="btnBilling" mnemonicParsing="false" onAction="#onClickBilling" prefHeight="45.0" prefWidth="100.0" text="Billing" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="20.0" />
             <Button fx:id="btnAdmin" mnemonicParsing="false" onAction="#onClickAdmin" prefHeight="45.0" prefWidth="100.0" text="Admin" />
-            <Region prefHeight="65.0" prefWidth="46.0" HBox.hgrow="ALWAYS" />
-            <Label prefHeight="17.0" prefWidth="103.0" text="Logged In As:" />
+            <Region prefHeight="70.0" prefWidth="20.0" HBox.hgrow="ALWAYS" />
+            <Label prefHeight="19.0" prefWidth="111.0" text="Logged In As:" visible="false" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="4.0" />
             <Label fx:id="lblLoggedInUser" prefHeight="17.0" prefWidth="93.0" text="USERNAME" />
-            <Separator opacity="0.0" prefHeight="30.0" prefWidth="30.0" />
-            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#onClickExit" prefHeight="30.0" text="Log Out" />
+            <Separator opacity="0.0" prefHeight="30.0" prefWidth="7.0" />
+            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#onClickExit" prefHeight="30.0" prefWidth="82.0" text="Log Out" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="20.0" />
          </children>
          <BorderPane.margin>

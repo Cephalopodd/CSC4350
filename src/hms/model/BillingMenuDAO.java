@@ -62,7 +62,7 @@ public class BillingMenuDAO {
     public ObservableList<BillingMenuDTO> queryCurrentGuests() {
 
         ObservableList<BillingMenuDTO> result = FXCollections.observableArrayList();
-        String sql = "select r.id, g.fname, g.lname, r.rm_num from guest as g, "
+        String sql = "select r.id, g.fname, g.lname, r.rm_num, r.arr, r.dep from guest as g, "
                 + "reservation as r where g.id=r.g_id and r.status like 'CHECKEDIN'";
 
         System.out.println(sql);
@@ -77,7 +77,9 @@ public class BillingMenuDAO {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getInt(4))
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getString(6))
                 );
             }
 
@@ -92,7 +94,7 @@ public class BillingMenuDAO {
     public ObservableList<BillingMenuDTO> queryPastGuests() {
 
         ObservableList<BillingMenuDTO> result = FXCollections.observableArrayList();
-        String sql = "select r.id, g.fname, g.lname, r.rm_num from guest as g, "
+        String sql = "select r.id, g.fname, g.lname, r.rm_num, r.arr, r.dep from guest as g, "
                 + "reservation as r where g.id=r.g_id and r.status like 'CHECKEDOUT'";
 
         System.out.println(sql);
@@ -107,7 +109,9 @@ public class BillingMenuDAO {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getInt(4))
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getString(6))
                 );
             }
 
@@ -191,9 +195,9 @@ public class BillingMenuDAO {
         }
 
     }
-    
+
     public boolean delCharge(int chargeId) {
-        int rowsDeleted=0;
+        int rowsDeleted = 0;
 
         try {
             Class.forName("org.sqlite.JDBC");
@@ -204,17 +208,44 @@ public class BillingMenuDAO {
                     "delete from charge where id=%d", chargeId);
 
             System.out.println(sql);
-            
+
             rowsDeleted = stmt.executeUpdate(sql);
-            
+
             c.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
             closeAll();
 
-            return (rowsDeleted>0);
         }
+
+        return (rowsDeleted > 0);
+
+    }
+
+    public boolean deleteRoomDays(int confirmation) {
+        int rowsDeleted = 0;
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:hms.db");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+            String sql = String.format(
+                    "delete from charge where r_id=%d and code like '%s'",
+                    confirmation, BillingCode.ROOM);
+
+            System.out.println(sql);
+
+            rowsDeleted = stmt.executeUpdate(sql);
+            System.out.println("Deleted " + rowsDeleted + "rows");
+            c.commit();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeAll();
+        }
+        return (rowsDeleted > 0);
 
     }
 }

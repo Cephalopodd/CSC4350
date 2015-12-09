@@ -14,12 +14,18 @@ public class BillingMenuDTO {
     String firstName;
     String lastName;
     int roomNumber;
+    String arrivalDate;
+    String departureDate;
 
-    public BillingMenuDTO(int confirmation, String firstName, String lastName, int roomNumber) {
+    public BillingMenuDTO(int confirmation, String firstName, 
+            String lastName, int roomNumber, String arrivalDate, 
+            String departureDate) {
         this.confirmation = confirmation;
         this.firstName = firstName;
         this.lastName = lastName;
         this.roomNumber = roomNumber;
+        this.arrivalDate = arrivalDate;
+        this.departureDate = departureDate;
     }
 
     public int getConfirmation() {
@@ -54,9 +60,26 @@ public class BillingMenuDTO {
         this.roomNumber = roomNumber;
     }
     
+    public String getArrivalDate() {
+        return arrivalDate;
+    }
+    
+    public void setArrivalDate(String arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+    
+    public String getDepartureDate() {
+        return departureDate;
+    }
+    
+    public void setDepartureDate(String departureDate) {
+        this.departureDate = departureDate;
+    }
+    
     @Override
     public String toString() {
-        return confirmation + firstName + " " + lastName + " " + roomNumber;
+        return confirmation + firstName + " " + lastName + " " + roomNumber
+                + " " + arrivalDate + " " + departureDate;
     }
     
     
