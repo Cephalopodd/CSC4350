@@ -21,7 +21,7 @@
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="20.0" />
             <Button fx:id="btnAdmin" mnemonicParsing="false" onAction="#onClickAdmin" prefHeight="45.0" prefWidth="100.0" text="Admin" />
             <Region prefHeight="70.0" prefWidth="20.0" HBox.hgrow="ALWAYS" />
-            <Label prefHeight="19.0" prefWidth="111.0" text="Logged In As:" visible="false" />
+            <Label prefHeight="19.0" prefWidth="111.0" text="Logged In As:" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="4.0" />
             <Label fx:id="lblLoggedInUser" prefHeight="17.0" prefWidth="93.0" text="USERNAME" />
             <Separator opacity="0.0" prefHeight="30.0" prefWidth="7.0" />

@@ -119,6 +119,7 @@ public class BillingMenuController implements Initializable, SubMenu {
     private ObservableList<FolioCharge> charges;
     private ObservableList<BillingMenuDTO> guests;
     private ObservableList<Item> items;
+    private double total;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -131,6 +132,25 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickCashPayment(ActionEvent event) {
+        try {
+            System.out.println("Starting cash payment");
+            
+            double cashAmount = Double.parseDouble(txtAmount.getText());
+            double owedAmount = total;
+            
+            System.out.println("cashAmount:" + cashAmount);
+            System.out.println("owedAmount:" + owedAmount);
+            
+            if (cashAmount>owedAmount)
+                return;
+            
+            Item item = new Item("Cash", "Cash Deposit", BillingCode.OTHER, cashAmount*-1);
+            
+            addCharge(item);
+            
+        } catch (Exception e) {
+            System.out.println("Error processing cash payment");
+        }
     }
 
     @FXML
@@ -150,6 +170,12 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     @FXML
     private void onClickSelectGuest(ActionEvent event) {
+        charges.clear();
+        Label msg = new Label("Loading Guest Folio...");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblCharges.setPlaceholder(msg);
+        btnSelectGuest.setDisable(true);
         handleSelectGuest();
     }
 
@@ -306,7 +332,8 @@ public class BillingMenuController implements Initializable, SubMenu {
 
     private void calculateTotals() {
         CurrencyStringConverter csc = new CurrencyStringConverter();
-        double subtotal = 0, total = 0, taxes = 0;
+        total = 0;
+        double subtotal = 0, taxes = 0;
         subtotal = tblCharges.getItems().stream().mapToDouble(FolioCharge::getAmount).sum();
         taxes = subtotal * taxRate;
         total = subtotal + taxes;
@@ -318,6 +345,7 @@ public class BillingMenuController implements Initializable, SubMenu {
     public void updateActiveGuests() {
         try {
             guests.clear();
+            charges.clear();
             System.out.println("Retrieving list of Active Guests from BillingMenuDAO");
             ObservableList<BillingMenuDTO> result = dao.queryCurrentGuests();
             if (result != null) {
@@ -430,6 +458,13 @@ public class BillingMenuController implements Initializable, SubMenu {
         } catch (Exception e) {
             System.out.println("Error posting room transactions");
         }
+        
+        //Re-Enable the button
+        Label msg = new Label("Guest Charges");
+        msg.setFont(new Font(24));
+        msg.setOpacity(.5);
+        tblCharges.setPlaceholder(msg);
+        btnSelectGuest.setDisable(false);
 
     }
 
